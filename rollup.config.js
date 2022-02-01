@@ -94,6 +94,7 @@ const baseConfig = {
       })
     ],
     replace: {
+        preventAssignment: true,
       "process.env.NODE_ENV": JSON.stringify("production"),
       __VUE_OPTIONS_API__: JSON.stringify(true),
       __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
@@ -140,11 +141,11 @@ const components = fs
   );
 
 const entriespath = {
-  index: "./src/index.ts"/* ,
+  index: "./src/index.ts",
   ...components.reduce((obj, name) => {
     obj[name] = baseFolder + componentsFolder + name + "/index.ts";
     return obj;
-  }, {}) */
+  }, {})
 };
 
 const capitalize = s => {
