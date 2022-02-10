@@ -1,20 +1,12 @@
 <template>
-<Scroller orientation="horizontal" 
-          :cellwidth="200" 
-          :numcols="4" 
-          :numrows="4" 
-          :contentpadding="30" 
-          :wheelscrollspeed="20" 
-          :data="scrollerdata" 
-          :cellsquared="true" 
-          @on-scroll="OnScroll" 
-          @on-update-data-next="onUpdateDataNext" 
-          @on-update-data-previous="onUpdateDataPrevious">
+<h1>Chronocarft Library Test Playground</h1>
+<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
 </Scroller>
 </template>
 
 <script>
-import Scroller from './components/scroller/Scroller.vue';
+
+import Scroller from './components/Scroller/Scroller.vue';
 
 export default {
     name: 'App',
@@ -41,7 +33,7 @@ export default {
                 });
             }
 
-            this.lastid = this.lastid+20;
+            this.lastid = this.lastid + 20;
 
             done(newdata);
         },
@@ -71,13 +63,54 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Advent Pro', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+}
+
+h1 {
+    font-weight: 400 !important;
+}
+
+.widget-container {
+    border: 0px solid;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+    text-indent: 10px;
+    font-size: 16pt;
+    padding: 20px;
+    margin: 0px auto;
+    max-width: 50%;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.widget-container h3 {
+    margin-top: 10px;
+    font-family: 'Advent Pro', sans-serif;
+    font-weight: 300 !important;
+}
+
+.madewith {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12pt;
+}
+
+@media screen and (max-width: 600px) {
+    .widget-container {
+        max-width: 90%;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .widget-container {
+        max-width: 70%;
+    }
 }
 </style>

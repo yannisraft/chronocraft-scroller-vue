@@ -1,3 +1,14 @@
+---
+home: true 
+heroText: Chronocraft Scroller for Vue3.0
+heroImage: /img/dummy200.jpg
+tagline: Dynamic and Versatile High Performance Infinite Scroller Component
+actions: 
+    - text: Get Started
+      link: /getstarted
+      type: primary
+---
+
 # A Vue 3 Dynamic and Versatile High Performance Infinite Scroller Component
 
 The Chronocraft Scroller is a Vue 3 flexible scroller library infinite scroling support created for Vue3.

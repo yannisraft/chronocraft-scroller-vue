@@ -1,7 +1,4 @@
-module.exports = {
-  pluginOptions: {
-    webpackBundleAnalyzer: {
-      analyzerMode: "disabled"
-    }
-  },
-};
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true
+})
