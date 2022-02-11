@@ -1,15 +1,20 @@
 <template>
-<div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]">
-    <div :class="['scroller-container', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container' ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
-        <slot name="content">
+<div class="scroller-container" :style="[{ 'height': height + 'px'}]">
+    <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}]">
+        <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container' ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
+            <slot name="content">
 
-            <div v-for="datacell in cellsdata" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW}">
-                <slot name="cell">
-                    <span class="cell-text">{{ datacell.id }}</span>
-                </slot>
-            </div>
+                <div v-for="datacell in cellsdata" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW}">
+                    <slot name="cell">
+                        <span class="cell-text">{{ datacell.id }}</span>
+                    </slot>
+                </div>
 
-        </slot>
+            </slot>
+        </div>
+    </div>
+    <div class="alert-overlay" v-if="alertvisible">
+        <h3>{{ alerttext }}</h3>
     </div>
 </div>
 </template>
@@ -19,7 +24,8 @@ import {
     defineComponent,
     ref,
     reactive,
-    onMounted
+    onMounted,
+    onUpdated
 } from "vue";
 
 export default defineComponent({
@@ -35,6 +41,10 @@ export default defineComponent({
         orientation: {
             type: String,
             default: "vertical",
+        },
+        height: {
+            type: Number,
+            default: 400
         },
         numcols: {
             type: Number,
@@ -66,7 +76,11 @@ export default defineComponent({
         },
         wheelscrollspeed: {
             type: Number,
-            default: 12
+            default: 6
+        },
+        newcellslength: {
+            type: Number,
+            default: 10
         }
     },
     setup(props, context) {
@@ -90,6 +104,8 @@ export default defineComponent({
         let justLoaded = false;
         let scrollLoadingOffset = 200;
         let loadingCells = false;
+        let alertvisible = ref(false);
+        let alerttext = ref("");
 
         let cellsdata = ref(props.data);
 
@@ -256,6 +272,38 @@ export default defineComponent({
             }
         }
 
+        function GetTotalVisibleCells() {
+            let cell = document.querySelector(".scroller-cell");
+            let cellheight = cell.offsetHeight + props.gap;
+            let cellwidth = cell.offsetWidth + props.gap;
+            scroller = document.querySelector(".scroller");
+
+            var totalVisibleCells = 0;
+            if (props.orientation === 'vertical') {
+                var totalH = scroller.offsetHeight;
+                var totalCellsAtY = totalH / cellheight;
+                totalVisibleCells = parseInt(Math.round(totalCellsAtY) * props.numcols);
+            } else {
+                // Calculate the total visible cells
+                var totalW = scroller.offsetWidth;
+                var totalCellsAtX = totalW / cellwidth;
+                totalVisibleCells = parseInt(Math.round(totalCellsAtX) * props.numrows);
+            }
+
+            var minimumRequiredInitialCells = totalVisibleCells + 3 * props.newcellslength;
+
+            // The Minimum Initial Loading Cells should Be:
+            // The ( Total visible cells ) + ( New cells added each time) * 3
+            // Otherwise the scrolling will not be working correctly
+
+            if (minimumRequiredInitialCells > cellsdata.value.length) {
+                console.log("Error: Minimum Cells Required to load at start should be: ", minimumRequiredInitialCells);
+
+                alertvisible.value = true;
+                alerttext.value = "Error: Minimum Cells Required to load at start should be: " + minimumRequiredInitialCells + ". This value is relevant to the scroller width and to the number of new cells added each time.";
+            }
+        }
+
         function Initialize() {
             console.log('Initialize');
             scroller = document.querySelector(".scroller");
@@ -286,7 +334,7 @@ export default defineComponent({
                 newCellH = (scroller.offsetHeight - totalgap - props.contentpadding * 2) / props.numrows;
 
                 //var newCellFlexBasis = ((100 - totalgappercent) / props.numrows);
-                var newCellFlexBasis =  (scroller.offsetHeight - totalgap - props.contentpadding * 2) / props.numrows;
+                var newCellFlexBasis = (scroller.offsetHeight - totalgap - props.contentpadding * 2) / props.numrows;
 
                 cellH.value = String(newCellH + 'px');
                 //cellFlexBasis.value = String(newCellFlexBasis + '%');
@@ -405,8 +453,6 @@ export default defineComponent({
 
                 context.emit("on-scroll");
                 beginMomentumTracking();
-
-                //UpdateCurrentMonth();
             });
 
             scroller.addEventListener("scroll", (e) => {
@@ -438,6 +484,10 @@ export default defineComponent({
             Initialize();
         });
 
+        onUpdated(() => {
+            GetTotalVisibleCells();
+        });
+
         return {
             cellW,
             cellH,
@@ -453,16 +503,20 @@ export default defineComponent({
             scrollbarWidth,
             justLoaded,
             scrollLoadingOffset,
-            cellsdata
+            cellsdata,
+            alertvisible,
+            alerttext
         };
     }
 });
 </script>
 
 <style lang="css" scoped>
+@import "./scroller.css";
+
 .scroller {
-    height: 500px;
     background: #eaeaea;
+    position: relative;
 }
 
 .vertical-scroller {
@@ -475,11 +529,11 @@ export default defineComponent({
     overflow-x: auto;
 }
 
-.scroller-container {
+.scroller-content {
     align-content: flex-start;
     flex-direction: row;
-    flex-wrap: wrap;    
-}   
+    flex-wrap: wrap;
+}
 
 .vertical-container {
     display: flex;

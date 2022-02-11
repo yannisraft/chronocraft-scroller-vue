@@ -1,11 +1,10 @@
 <template>
-<h1>Chronocarft Library Test Playground</h1>
-<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+<h1>Chronocraft Library Test Playground</h1>
+<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
 </Scroller>
 </template>
 
 <script>
-
 import Scroller from './components/Scroller/Scroller.vue';
 
 export default {
@@ -16,7 +15,9 @@ export default {
     data: function () {
         return {
             scrollerdata: [],
-            lastid: 10000
+            lastid: 10000,
+            total: 120,
+            newcellslength: 20
         }
     },
     methods: {
@@ -27,9 +28,12 @@ export default {
             console.log('update-next');
 
             var newdata = [];
-            for (var f = this.lastid; f < this.lastid + 20; f++) {
+            for (var f = this.lastid; f < this.lastid + this.newcellslength; f++) {
+                var _debug = false;
+                if(f % 10 === 0) _debug = true;
                 newdata.push({
-                    id: f + 1
+                    id: f + 1,
+                    debug: _debug
                 });
             }
 
@@ -41,9 +45,12 @@ export default {
             console.log('update-previous');
 
             var newdata = [];
-            for (var f = this.lastid; f < this.lastid + 20; f++) {
+            for (var f = this.lastid; f < this.lastid + this.newcellslength; f++) {
+                var _debug = false;
+                if(f % 10 === 0) _debug = true;
                 newdata.push({
-                    id: f + 1
+                    id: f + 1,
+                    debug: _debug
                 });
             }
 
@@ -53,9 +60,12 @@ export default {
         }
     },
     mounted() {
-        for (var f = this.lastid; f < this.lastid + 60; f++) {
+        for (var f = this.lastid; f < this.lastid + this.total; f++) {
+            var _debug = false;
+            if(f % 10 === 0) _debug = true;
             this.scrollerdata.push({
-                id: f + 1
+                id: f + 1,
+                debug: _debug
             });
         }
         this.lastid = this.lastid + 120;
