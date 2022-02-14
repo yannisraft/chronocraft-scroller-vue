@@ -4,6 +4,10 @@ The Chronocraft Scroller is a Vue 3 flexible scroller library infinite scroling 
 It supports both vertical and horizontal orientations
 It provides smooth infinite scrolling with drag and mouse wheel navigation
 
+## Demo
+Here is a working Demo of the component
+Demo: [Chronocraft Scroller Demo](https://codesandbox.io/s/chronocraft-vue3-infinite-scroller-demo-gvmb2?file=/src/App.vue){:target="_blank"}
+
 ### Features
 - Vuejs 3.0 Based Code
 - Infinite Scroller

@@ -16,7 +16,7 @@ export default {
         return {
             scrollerdata: [],
             lastid: 10000,
-            total: 120,
+            total: 180,
             newcellslength: 20
         }
     },
@@ -29,11 +29,9 @@ export default {
 
             var newdata = [];
             for (var f = this.lastid; f < this.lastid + this.newcellslength; f++) {
-                var _debug = false;
-                if(f % 10 === 0) _debug = true;
+                
                 newdata.push({
-                    id: f + 1,
-                    debug: _debug
+                    id: f + 1
                 });
             }
 
@@ -46,11 +44,8 @@ export default {
 
             var newdata = [];
             for (var f = this.lastid; f < this.lastid + this.newcellslength; f++) {
-                var _debug = false;
-                if(f % 10 === 0) _debug = true;
                 newdata.push({
-                    id: f + 1,
-                    debug: _debug
+                    id: f + 1
                 });
             }
 
@@ -61,14 +56,11 @@ export default {
     },
     mounted() {
         for (var f = this.lastid; f < this.lastid + this.total; f++) {
-            var _debug = false;
-            if(f % 10 === 0) _debug = true;
             this.scrollerdata.push({
-                id: f + 1,
-                debug: _debug
+                id: f + 1
             });
         }
-        this.lastid = this.lastid + 120;
+        this.lastid = this.lastid + this.total;
     }
 };
 </script>

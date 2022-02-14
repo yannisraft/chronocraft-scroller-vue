@@ -23,7 +23,6 @@
 import {
     defineComponent,
     ref,
-    reactive,
     onMounted,
     onUpdated
 } from "vue";
@@ -561,6 +560,13 @@ export default defineComponent({
     /* box-shadow: 2px 2px 2px 2px rgb(221 221 221 / 60%); */
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     border-radius: 5px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .vertical-cell {
@@ -582,5 +588,12 @@ export default defineComponent({
     width: 100%;
     text-align: center;
     font-size: 18pt;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 </style>
