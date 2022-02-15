@@ -5,7 +5,7 @@
             <slot name="content">
 
                 <div v-for="datacell in cellsdata" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW}">
-                    <slot name="cell">
+                    <slot name="cell" :data="datacell">
                         <span class="cell-text">{{ datacell.id }}</span>
                     </slot>
                 </div>

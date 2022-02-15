@@ -1,6 +1,9 @@
 <template>
 <h1>Chronocraft Library Test Playground</h1>
 <Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+    <!-- <template v-slot:cell="slotProps">
+        <span>{{ slotProps.data.id }}</span>
+    </template> -->
 </Scroller>
 </template>
 

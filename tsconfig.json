@@ -3,6 +3,8 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
+    "composite": true,
+    "declarationMap": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -11,15 +13,16 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "types": [
       "webpack-env",
       "jest"
     ],
     "paths": {
-      "@/*": [
+      /* "@/*": [
         "src/*"
-      ]
+      ] */
+      "*" : ["src/@t`ypes/*"]
     },
     "lib": [
       "esnext",

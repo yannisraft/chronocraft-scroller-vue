@@ -1,11 +1,12 @@
 {
   "name": "chronocraft-scroller-vue",
-  "buildname": "chronoscrollervue",
-  "version": "0.0.16",
+  "buildname": "chronocraftscrollervue",
+  "version": "0.0.21",
   "description": "A Vue 3 Dynamic and Versatile High Performance Infinite Scroller Component",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "unpkg": "dist/chronocraft-scroller-vue.min.js",
+  "types": "types/index.d.ts",
   "keywords": [
     "scroller",
     "smooth",
@@ -24,7 +25,8 @@
   "homepage": "https://github.com/yannisraft/chronocraft-scroller-vue",
   "files": [
     "dist/*",
-    "src"
+    "src",
+    "types/*.d.ts"
   ],
   "sideEffects": [
     "*.css",
@@ -34,6 +36,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "build:types": "tsc --build tsconfigtypes.json",
     "build:css": "cross-env NODE_ENV=production SEP_CSS=true rollup -c rollup.config.js",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",

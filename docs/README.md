@@ -48,3 +48,18 @@ components:{
 Scroller
 }
 ```
+
+#### Example of Component
+```html
+<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious"/>
+```
+
+#### Example using Cell Slot
+```html
+<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+    <template v-slot:cell="slotProps">
+        <span>{{ slotProps.data.id }}</span>
+    </template>
+</Scroller>
+```
+

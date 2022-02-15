@@ -38,6 +38,21 @@ Scroller
 }
 ```
 
+
+#### Example of Component
+```html
+<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious"/>
+```
+
+#### Example using Cell Slot
+```html
+<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+    <template v-slot:cell="slotProps">
+        <span>{{ slotProps.data.id }}</span>
+    </template>
+</Scroller>
+```
+
 ### Important Notice
 To achive a smooth scrolling result without shaking or weird movement, the number of data cells loaded at initialization is relevant
 to the width of the scroller as well as the total new cell data added each time it receives new data.
