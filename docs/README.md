@@ -17,7 +17,7 @@ It provides smooth infinite scrolling with drag and mouse wheel navigation
 
 ## Demo
 Here is a working Demo of the component
-Demo: [Chronocraft Scroller Demo](https://codesandbox.io/s/chronocraft-vue3-infinite-scroller-demo-gvmb2?file=/src/App.vue){:target="_blank"}
+Demo: [Chronocraft Scroller Demo](https://codesandbox.io/s/chronocraft-vue3-infinite-scroller-demo-gvmb2?file=/src/App.vue)
 
 ### Features
 - Vuejs 3.0 Based Code
@@ -62,4 +62,22 @@ Scroller
     </template>
 </Scroller>
 ```
+
+### Component properties
+
+|  Name  | Type  | Description  |
+|---|---|---|
+|  orientation  |  String  |  Defines the orientation of the scroller. The possible values are **horizontal** or **vertical**  |
+|  cellwidth    |  Number  |  Defines the base of the cellwidth on the vertical scroller |
+|  cellheight    |  Number  |  Defines the base of the cellheight on the horizontal scroller  |
+|  numcols  |  Number  |  The total number of columns on the vertical scroller  |
+|  numcols  |  Number  |  The total number of columns on the horizontal scroller  |
+|  contentpadding  |  Number  |  The size of padding between the scroller cells  |
+|  wheelscrollspeed  |  Number  |  Defines the mouse wheel scroll speed  |
+|  newcellslength  |  Number  |  The total number of new cells that will be loaded when scrolling forward or backwards  |
+|  data  |  Array  |  The actual data passed into the scroller. These data are reactive by using ref() |
+|  cellsquared  |  Boolean  |  Sets the cell to be squared. (width will have the same size as the height)  |
+|  @on-scroll  |  Function   | Event fired when the user has scrolled    |
+|  @on-update-data-next  |  Function  |  Event fired when the user has reached at the end of the scroller and new data might be required to load |
+|  @on-update-data-previous  |  Function  | Event fired when the user has reached at the start of the scroller and new data might be required to load  |
 
