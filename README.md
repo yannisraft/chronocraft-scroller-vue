@@ -53,6 +53,26 @@ Scroller
 </Scroller>
 ```
 
+
+### Component properties
+
+|  Name  | Type  | Description  |
+|---|---|---|
+|  orientation  |  String  |  Defines the orientation of the scroller. The possible values are **horizontal** or **vertical**  |
+|  cellwidth    |  Number  |  Defines the base of the cellwidth on the vertical scroller |
+|  cellheight    |  Number  |  Defines the base of the cellheight on the horizontal scroller  |
+|  numcols  |  Number  |  The total number of columns on the vertical scroller  |
+|  numcols  |  Number  |  The total number of columns on the horizontal scroller  |
+|  contentpadding  |  Number  |  The size of padding between the scroller cells  |
+|  wheelscrollspeed  |  Number  |  Defines the mouse wheel scroll speed  |
+|  newcellslength  |  Number  |  The total number of new cells that will be loaded when scrolling forward or backwards  |
+|  data  |  Array  |  The actual data passed into the scroller. These data are reactive by using ref() |
+|  cellsquared  |  Boolean  |  Sets the cell to be squared. (width will have the same size as the height)  |
+|  @on-scroll  |  Function   | Event fired when the user has scrolled    |
+|  @on-update-data-next  |  Function  |  Event fired when the user has reached at the end of the scroller and new data might be required to load |
+|  @on-update-data-previous  |  Function  | Event fired when the user has reached at the start of the scroller and new data might be required to load  |
+
+
 ### Important Notice
 To achive a smooth scrolling result without shaking or weird movement, the number of data cells loaded at initialization is relevant
 to the width of the scroller as well as the total new cell data added each time it receives new data.
