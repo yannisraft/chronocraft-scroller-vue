@@ -80,7 +80,11 @@ export default defineComponent({
         newcellslength: {
             type: Number,
             default: 10
-        }
+        },
+        manualmode: {
+            type: Boolean,
+            default: false,
+        }        
     },
     setup(props, context) {
         let cellW = ref(props.cellwidth + "px");
@@ -175,7 +179,7 @@ export default defineComponent({
 
             setTimeout(() => {
                 loadingCells = false;
-            }, 100);
+            }, 400);
         }
 
         function GeneratePreviousData(newdata) {
@@ -194,8 +198,15 @@ export default defineComponent({
             var diff = 0;
             var targetPosition = 0;
             if (props.orientation === 'vertical') {
-                var colsloaded = parseInt(newdata.length / props.numcols);
+                /* var colsloaded = parseInt(newdata.length / props.numcols);
                 targetPosition = previousScrollPos; // - (cellheight * colsloaded);
+                scroller.scrollTop = targetPosition;
+
+                diff = previousScrollPos - movescrollPos;
+                movescrollPos = targetPosition - diff; */
+                var colsloaded = Math.floor(newdata.length / props.numcols);
+
+                targetPosition = previousScrollPos;// - (cellheight * colsloaded);
                 scroller.scrollTop = targetPosition;
 
                 diff = previousScrollPos - movescrollPos;
@@ -212,7 +223,7 @@ export default defineComponent({
 
             setTimeout(() => {
                 loadingCells = false;
-            }, 100);
+            }, 400);
         }
 
         async function detectScrollEdges(sign, dragging, e) {
@@ -222,11 +233,15 @@ export default defineComponent({
                 if (props.orientation === 'vertical') {
                     if (scroller.scrollTop + scroller.offsetHeight >=
                         scroller.scrollHeight - scrollLoadingOffset) {
+
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
+                            var firstid = cellsdata.value[0].id;
+                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
                             context.emit("on-update-data-next", (newdata) => {
+                                console.log("on-update-data-next");
                                 GenerateNextData(newdata);
-                            });
+                            }, firstid, lastid);
                         }
                     }
                 } else {
@@ -234,11 +249,13 @@ export default defineComponent({
                         scroller.scrollWidth - scrollLoadingOffset || scroller.scrollLeft === (scroller.scrollWidth - scroller.clientWidth)) {
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
+                            var firstid = cellsdata.value[0].id;
+                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
                             context.emit("on-update-data-next", (newdata) => {
                                 setTimeout(() => {
                                     GenerateNextData(newdata);
                                 }, 10);
-                            });
+                            }, firstid, lastid);
                         }
                     }
                 }
@@ -249,22 +266,26 @@ export default defineComponent({
                     if (scroller.scrollTop < scrollLoadingOffset) {
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
+                            var firstid = cellsdata.value[0].id;
+                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
                             context.emit("on-update-data-previous", (newdata) => {
                                 // done
                                 GeneratePreviousData(newdata);
-                            });
+                            }, firstid, lastid);
                         }
                     }
                 } else {
                     if (scroller.scrollLeft < scrollLoadingOffset) {
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
+                            var firstid = cellsdata.value[0].id;
+                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
                             context.emit("on-update-data-previous", (newdata) => {
                                 // done
                                 setTimeout(() => {
                                     GeneratePreviousData(newdata);
                                 }, 10);
-                            });
+                            }, firstid, lastid);
                         }
                     }
                 }
@@ -273,34 +294,38 @@ export default defineComponent({
 
         function GetTotalVisibleCells() {
             let cell = document.querySelector(".scroller-cell");
-            let cellheight = cell.offsetHeight + props.gap;
-            let cellwidth = cell.offsetWidth + props.gap;
-            scroller = document.querySelector(".scroller");
 
-            var totalVisibleCells = 0;
-            if (props.orientation === 'vertical') {
-                var totalH = scroller.offsetHeight;
-                var totalCellsAtY = totalH / cellheight;
-                totalVisibleCells = parseInt(Math.round(totalCellsAtY) * props.numcols);
-            } else {
-                // Calculate the total visible cells
-                var totalW = scroller.offsetWidth;
-                var totalCellsAtX = totalW / cellwidth;
-                totalVisibleCells = parseInt(Math.round(totalCellsAtX) * props.numrows);
+            if (cell) {
+                let cellheight = cell.offsetHeight + props.gap;
+                let cellwidth = cell.offsetWidth + props.gap;
+                scroller = document.querySelector(".scroller");
+
+                var totalVisibleCells = 0;
+                if (props.orientation === 'vertical') {
+                    var totalH = scroller.offsetHeight;
+                    var totalCellsAtY = totalH / cellheight;
+                    totalVisibleCells = parseInt(Math.round(totalCellsAtY) * props.numcols);
+                } else {
+                    // Calculate the total visible cells
+                    var totalW = scroller.offsetWidth;
+                    var totalCellsAtX = totalW / cellwidth;
+                    totalVisibleCells = parseInt(Math.round(totalCellsAtX) * props.numrows);
+                }
+
+                var minimumRequiredInitialCells = totalVisibleCells + 3 * props.newcellslength;
+
+                // The Minimum Initial Loading Cells should Be:
+                // The ( Total visible cells ) + ( New cells added each time) * 3
+                // Otherwise the scrolling will not be working correctly
+
+                if (minimumRequiredInitialCells > cellsdata.value.length) {
+                    console.log("Error: Minimum Cells Required to load at start should be: ", minimumRequiredInitialCells);
+
+                    alertvisible.value = true;
+                    alerttext.value = "Error: Minimum Cells Required to load at start should be: " + minimumRequiredInitialCells + ". This value is relevant to the scroller width and to the number of new cells added each time.";
+                }
             }
 
-            var minimumRequiredInitialCells = totalVisibleCells + 3 * props.newcellslength;
-
-            // The Minimum Initial Loading Cells should Be:
-            // The ( Total visible cells ) + ( New cells added each time) * 3
-            // Otherwise the scrolling will not be working correctly
-
-            if (minimumRequiredInitialCells > cellsdata.value.length) {
-                console.log("Error: Minimum Cells Required to load at start should be: ", minimumRequiredInitialCells);
-
-                alertvisible.value = true;
-                alerttext.value = "Error: Minimum Cells Required to load at start should be: " + minimumRequiredInitialCells + ". This value is relevant to the scroller width and to the number of new cells added each time.";
-            }
         }
 
         function Initialize() {
@@ -439,8 +464,6 @@ export default defineComponent({
                     scroller.scrollLeft += walk;
                     veloc = scroller.scrollLeft - prevscrollLeft;
 
-                    //console.log("scroller.scrollLeft: ", scroller.scrollLeft);
-                    //console.log("scroller.scrollWidth: ", scroller.scrollWidth - scroller.clientWidth);
                     if (scroller.scrollLeft === (scroller.scrollWidth - scroller.clientWidth)) {
                         console.log("detectScrollEdges");
                         var dirsign = 1;

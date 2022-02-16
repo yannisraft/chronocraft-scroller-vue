@@ -1,6 +1,6 @@
 <template>
 <h1>Chronocraft Library Test Playground</h1>
-<Scroller orientation="horizontal" :cellwidth="200" :numcols="4" :numrows="4" :contentpadding="30" :wheelscrollspeed="20" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+<Scroller orientation="vertical" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
     <!-- <template v-slot:cell="slotProps">
         <span>{{ slotProps.data.id }}</span>
     </template> -->
@@ -18,52 +18,46 @@ export default {
     data: function () {
         return {
             scrollerdata: [],
+            firstid: 10000,
             lastid: 10000,
             total: 180,
-            newcellslength: 20
+            newcellslength: 28
         }
     },
     methods: {
         OnScroll() {
             //
         },
-        onUpdateDataNext(done) {
-            console.log('update-next');
-
+        onUpdateDataNext(done, _firstid, _lastid) {
             var newdata = [];
-            for (var f = this.lastid; f < this.lastid + this.newcellslength; f++) {
+            for (var f = _lastid; f < _lastid + this.newcellslength; f++) {
                 
                 newdata.push({
-                    id: f + 1
+                    id: f+1
                 });
             }
-
-            this.lastid = this.lastid + 20;
 
             done(newdata);
         },
-        onUpdateDataPrevious(done) {
-            console.log('update-previous');
+        onUpdateDataPrevious(done, _firstid, _lastid) {
 
             var newdata = [];
-            for (var f = this.lastid; f < this.lastid + this.newcellslength; f++) {
+            for (var f = _firstid - this.newcellslength; f < _firstid; f++) {
                 newdata.push({
-                    id: f + 1
+                    id: f
                 });
             }
-
-            this.lastid = this.lastid + 20;
 
             done(newdata);
         }
     },
     mounted() {
-        for (var f = this.lastid; f < this.lastid + this.total; f++) {
+        this.lastid += this.total;
+        for (var f = this.firstid; f < this.lastid; f++) {
             this.scrollerdata.push({
-                id: f + 1
+                id: f
             });
-        }
-        this.lastid = this.lastid + this.total;
+        }        
     }
 };
 </script>

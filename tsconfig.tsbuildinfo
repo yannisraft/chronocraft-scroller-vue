@@ -1,0 +1,819 @@
+{
+  "program": {
+    "fileInfos": {
+      "./node_modules/typescript/lib/lib.es5.d.ts": {
+        "version": "9622e8bd7cc72a7dab819a8011ecbf81d443638082e5cb99ecf2e75ff56ffc9d",
+        "signature": "9622e8bd7cc72a7dab819a8011ecbf81d443638082e5cb99ecf2e75ff56ffc9d",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.d.ts": {
+        "version": "dc47c4fa66b9b9890cf076304de2a9c5201e94b740cffdf09f87296d877d71f6",
+        "signature": "dc47c4fa66b9b9890cf076304de2a9c5201e94b740cffdf09f87296d877d71f6",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2016.d.ts": {
+        "version": "7a387c58583dfca701b6c85e0adaf43fb17d590fb16d5b2dc0a2fbd89f35c467",
+        "signature": "7a387c58583dfca701b6c85e0adaf43fb17d590fb16d5b2dc0a2fbd89f35c467",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2017.d.ts": {
+        "version": "8a12173c586e95f4433e0c6dc446bc88346be73ffe9ca6eec7aa63c8f3dca7f9",
+        "signature": "8a12173c586e95f4433e0c6dc446bc88346be73ffe9ca6eec7aa63c8f3dca7f9",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2018.d.ts": {
+        "version": "5f4e733ced4e129482ae2186aae29fde948ab7182844c3a5a51dd346182c7b06",
+        "signature": "5f4e733ced4e129482ae2186aae29fde948ab7182844c3a5a51dd346182c7b06",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2019.d.ts": {
+        "version": "e6b724280c694a9f588847f754198fb96c43d805f065c3a5b28bbc9594541c84",
+        "signature": "e6b724280c694a9f588847f754198fb96c43d805f065c3a5b28bbc9594541c84",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2020.d.ts": {
+        "version": "e21c071ca3e1b4a815d5f04a7475adcaeea5d64367e840dd0154096d705c3940",
+        "signature": "e21c071ca3e1b4a815d5f04a7475adcaeea5d64367e840dd0154096d705c3940",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.esnext.d.ts": {
+        "version": "fc7a21dd3ee27fd0a9ff1c46534efcd9c3cec51a445b479bb326d871c0aa8302",
+        "signature": "fc7a21dd3ee27fd0a9ff1c46534efcd9c3cec51a445b479bb326d871c0aa8302",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.dom.d.ts": {
+        "version": "abadddbf660adeec27e9a56584907d52fa1d6e1e1dc49f639a921baa951b7a84",
+        "signature": "abadddbf660adeec27e9a56584907d52fa1d6e1e1dc49f639a921baa951b7a84",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.dom.iterable.d.ts": {
+        "version": "d42f4141bd9ce82b4e2902f26acb00c183e321be19a38bbc0e76a922c1724c94",
+        "signature": "d42f4141bd9ce82b4e2902f26acb00c183e321be19a38bbc0e76a922c1724c94",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.scripthost.d.ts": {
+        "version": "097a57355ded99c68e6df1b738990448e0bf170e606707df5a7c0481ff2427cd",
+        "signature": "097a57355ded99c68e6df1b738990448e0bf170e606707df5a7c0481ff2427cd",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.core.d.ts": {
+        "version": "46ee15e9fefa913333b61eaf6b18885900b139867d89832a515059b62cf16a17",
+        "signature": "46ee15e9fefa913333b61eaf6b18885900b139867d89832a515059b62cf16a17",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.collection.d.ts": {
+        "version": "43fb1d932e4966a39a41b464a12a81899d9ae5f2c829063f5571b6b87e6d2f9c",
+        "signature": "43fb1d932e4966a39a41b464a12a81899d9ae5f2c829063f5571b6b87e6d2f9c",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.generator.d.ts": {
+        "version": "cdccba9a388c2ee3fd6ad4018c640a471a6c060e96f1232062223063b0a5ac6a",
+        "signature": "cdccba9a388c2ee3fd6ad4018c640a471a6c060e96f1232062223063b0a5ac6a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.iterable.d.ts": {
+        "version": "8b2a5df1ce95f78f6b74f1a555ccdb6baab0486b42d8345e0871dd82811f9b9a",
+        "signature": "8b2a5df1ce95f78f6b74f1a555ccdb6baab0486b42d8345e0871dd82811f9b9a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.promise.d.ts": {
+        "version": "2bb4b3927299434052b37851a47bf5c39764f2ba88a888a107b32262e9292b7c",
+        "signature": "2bb4b3927299434052b37851a47bf5c39764f2ba88a888a107b32262e9292b7c",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.proxy.d.ts": {
+        "version": "7207e317a2cb07a177e7d963ab7b8c0e85dde7f9ddb50351f830239bf597569e",
+        "signature": "7207e317a2cb07a177e7d963ab7b8c0e85dde7f9ddb50351f830239bf597569e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.reflect.d.ts": {
+        "version": "cb609802a8698aa28b9c56331d4b53f590ca3c1c3a255350304ae3d06017779d",
+        "signature": "cb609802a8698aa28b9c56331d4b53f590ca3c1c3a255350304ae3d06017779d",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.symbol.d.ts": {
+        "version": "3013574108c36fd3aaca79764002b3717da09725a36a6fc02eac386593110f93",
+        "signature": "3013574108c36fd3aaca79764002b3717da09725a36a6fc02eac386593110f93",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts": {
+        "version": "9d122b7e8c1a5c72506eea50c0973cba55b92b5532d5cafa8a6ce2c547d57551",
+        "signature": "9d122b7e8c1a5c72506eea50c0973cba55b92b5532d5cafa8a6ce2c547d57551",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2016.array.include.d.ts": {
+        "version": "3be5a1453daa63e031d266bf342f3943603873d890ab8b9ada95e22389389006",
+        "signature": "3be5a1453daa63e031d266bf342f3943603873d890ab8b9ada95e22389389006",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.object.d.ts": {
+        "version": "17bb1fc99591b00515502d264fa55dc8370c45c5298f4a5c2083557dccba5a2a",
+        "signature": "17bb1fc99591b00515502d264fa55dc8370c45c5298f4a5c2083557dccba5a2a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts": {
+        "version": "7ce9f0bde3307ca1f944119f6365f2d776d281a393b576a18a2f2893a2d75c98",
+        "signature": "7ce9f0bde3307ca1f944119f6365f2d776d281a393b576a18a2f2893a2d75c98",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.string.d.ts": {
+        "version": "6a6b173e739a6a99629a8594bfb294cc7329bfb7b227f12e1f7c11bc163b8577",
+        "signature": "6a6b173e739a6a99629a8594bfb294cc7329bfb7b227f12e1f7c11bc163b8577",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.intl.d.ts": {
+        "version": "12a310447c5d23c7d0d5ca2af606e3bd08afda69100166730ab92c62999ebb9d",
+        "signature": "12a310447c5d23c7d0d5ca2af606e3bd08afda69100166730ab92c62999ebb9d",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.typedarrays.d.ts": {
+        "version": "b0124885ef82641903d232172577f2ceb5d3e60aed4da1153bab4221e1f6dd4e",
+        "signature": "b0124885ef82641903d232172577f2ceb5d3e60aed4da1153bab4221e1f6dd4e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts": {
+        "version": "0eb85d6c590b0d577919a79e0084fa1744c1beba6fd0d4e951432fa1ede5510a",
+        "signature": "0eb85d6c590b0d577919a79e0084fa1744c1beba6fd0d4e951432fa1ede5510a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.asynciterable.d.ts": {
+        "version": "a40c4d82bf13fcded295ac29f354eb7d40249613c15e07b53f2fc75e45e16359",
+        "signature": "a40c4d82bf13fcded295ac29f354eb7d40249613c15e07b53f2fc75e45e16359",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.intl.d.ts": {
+        "version": "df9c8a72ca8b0ed62f5470b41208a0587f0f73f0a7db28e5a1272cf92537518e",
+        "signature": "df9c8a72ca8b0ed62f5470b41208a0587f0f73f0a7db28e5a1272cf92537518e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.promise.d.ts": {
+        "version": "bb2d3fb05a1d2ffbca947cc7cbc95d23e1d053d6595391bd325deb265a18d36c",
+        "signature": "bb2d3fb05a1d2ffbca947cc7cbc95d23e1d053d6595391bd325deb265a18d36c",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.regexp.d.ts": {
+        "version": "c80df75850fea5caa2afe43b9949338ce4e2de086f91713e9af1a06f973872b8",
+        "signature": "c80df75850fea5caa2afe43b9949338ce4e2de086f91713e9af1a06f973872b8",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.array.d.ts": {
+        "version": "9d57b2b5d15838ed094aa9ff1299eecef40b190722eb619bac4616657a05f951",
+        "signature": "9d57b2b5d15838ed094aa9ff1299eecef40b190722eb619bac4616657a05f951",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.object.d.ts": {
+        "version": "6c51b5dd26a2c31dbf37f00cfc32b2aa6a92e19c995aefb5b97a3a64f1ac99de",
+        "signature": "6c51b5dd26a2c31dbf37f00cfc32b2aa6a92e19c995aefb5b97a3a64f1ac99de",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.string.d.ts": {
+        "version": "93544ca2f26a48716c1b6c5091842cad63129daac422dfa4bc52460465f22bb1",
+        "signature": "93544ca2f26a48716c1b6c5091842cad63129daac422dfa4bc52460465f22bb1",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.symbol.d.ts": {
+        "version": "2ad234885a4240522efccd77de6c7d99eecf9b4de0914adb9a35c0c22433f993",
+        "signature": "2ad234885a4240522efccd77de6c7d99eecf9b4de0914adb9a35c0c22433f993",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.bigint.d.ts": {
+        "version": "7b5a10e3c897fabece5a51aa85b4111727d7adb53c2734b5d37230ff96802a09",
+        "signature": "7b5a10e3c897fabece5a51aa85b4111727d7adb53c2734b5d37230ff96802a09",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.promise.d.ts": {
+        "version": "7435b75fdf3509622e79622dbe5091cf4b09688410ee2034e4fc17d0c99d0862",
+        "signature": "7435b75fdf3509622e79622dbe5091cf4b09688410ee2034e4fc17d0c99d0862",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.sharedmemory.d.ts": {
+        "version": "e7e8e1d368290e9295ef18ca23f405cf40d5456fa9f20db6373a61ca45f75f40",
+        "signature": "e7e8e1d368290e9295ef18ca23f405cf40d5456fa9f20db6373a61ca45f75f40",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.string.d.ts": {
+        "version": "faf0221ae0465363c842ce6aa8a0cbda5d9296940a8e26c86e04cc4081eea21e",
+        "signature": "faf0221ae0465363c842ce6aa8a0cbda5d9296940a8e26c86e04cc4081eea21e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts": {
+        "version": "936d7d2e8851af9ccfa5333b15e877a824417d352b1d7fd06388639dc69ef80a",
+        "signature": "936d7d2e8851af9ccfa5333b15e877a824417d352b1d7fd06388639dc69ef80a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.intl.d.ts": {
+        "version": "31e8df2398e328077079c17ea4f1664bad0a34adf8b0608837e504e310e329a1",
+        "signature": "31e8df2398e328077079c17ea4f1664bad0a34adf8b0608837e504e310e329a1",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.esnext.intl.d.ts": {
+        "version": "89bf2b7a601b73ea4311eda9c41f86a58994fec1bee3b87c4a14d68d9adcdcbd",
+        "signature": "89bf2b7a601b73ea4311eda9c41f86a58994fec1bee3b87c4a14d68d9adcdcbd",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.esnext.string.d.ts": {
+        "version": "fb4416144c1bf0323ccbc9afb0ab289c07312214e8820ad17d709498c865a3fe",
+        "signature": "fb4416144c1bf0323ccbc9afb0ab289c07312214e8820ad17d709498c865a3fe",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.esnext.promise.d.ts": {
+        "version": "cd6efb9467a8b6338ece2e2855e37765700f2cd061ca54b01b33878cf5c7677e",
+        "signature": "cd6efb9467a8b6338ece2e2855e37765700f2cd061ca54b01b33878cf5c7677e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.esnext.weakref.d.ts": {
+        "version": "1e61418f41d404e744b6536af9f8c6f6674dd4d54c12335cd0c4f7eded69cf3f",
+        "signature": "1e61418f41d404e744b6536af9f8c6f6674dd4d54c12335cd0c4f7eded69cf3f",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/@babel/types/lib/index.d.ts": {
+        "version": "2ff9995137f3e5d68971388ec58af0c79721626323884513f9f5e2e996ac1fdd",
+        "signature": "2ff9995137f3e5d68971388ec58af0c79721626323884513f9f5e2e996ac1fdd",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/shared/dist/shared.d.ts": {
+        "version": "f3712c8b8fdec0410b73e08cb26a4eec2765f9609a09343767992b506928c4f5",
+        "signature": "f3712c8b8fdec0410b73e08cb26a4eec2765f9609a09343767992b506928c4f5",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@babel/parser/typings/babel-parser.d.ts": {
+        "version": "29afd3970c68fdcbf3168de0f855d7cd84135c436050793b0584e1a904affe2d",
+        "signature": "29afd3970c68fdcbf3168de0f855d7cd84135c436050793b0584e1a904affe2d",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/compiler-core/node_modules/source-map/source-map.d.ts": {
+        "version": "2887592574fcdfd087647c539dcb0fbe5af2521270dad4a37f9d17c16190d579",
+        "signature": "2887592574fcdfd087647c539dcb0fbe5af2521270dad4a37f9d17c16190d579",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/compiler-core/dist/compiler-core.d.ts": {
+        "version": "84636840c94ba2d5c86641f07f1145b2965b042531915ce81836f2f3661b0a84",
+        "signature": "84636840c94ba2d5c86641f07f1145b2965b042531915ce81836f2f3661b0a84",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/compiler-dom/dist/compiler-dom.d.ts": {
+        "version": "3c342f3dd1f05c3e1e8981ec1b7943806a5cadcaef0e2a4a79d399a40fc1eadc",
+        "signature": "3c342f3dd1f05c3e1e8981ec1b7943806a5cadcaef0e2a4a79d399a40fc1eadc",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/reactivity/dist/reactivity.d.ts": {
+        "version": "0cdf51f2b66b9171849deae7e1d0e36e41ad56c417eff3d89b5f27f20c197b14",
+        "signature": "0cdf51f2b66b9171849deae7e1d0e36e41ad56c417eff3d89b5f27f20c197b14",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts": {
+        "version": "9a36c8b2e9a45acc706e5fa5547282bcbe19db468c98ba8eb07a12dcb8d02e71",
+        "signature": "9a36c8b2e9a45acc706e5fa5547282bcbe19db468c98ba8eb07a12dcb8d02e71",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/csstype/index.d.ts": {
+        "version": "070e7b8102575a21c0b9aabae8cf65d4d9891d8a7a8706896593ad0353c36e7a",
+        "signature": "070e7b8102575a21c0b9aabae8cf65d4d9891d8a7a8706896593ad0353c36e7a",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts": {
+        "version": "590bfc301e525e1d3eb1bee5462416bd230bc576a0e07ec177bf65fb30d64958",
+        "signature": "590bfc301e525e1d3eb1bee5462416bd230bc576a0e07ec177bf65fb30d64958",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/vue/dist/vue.d.ts": {
+        "version": "f79e452d452ab10eac3f96b3b3930cf78ec6c9037c4cd9a062dae61744f634fc",
+        "signature": "f79e452d452ab10eac3f96b3b3930cf78ec6c9037c4cd9a062dae61744f634fc",
+        "affectsGlobalScope": false
+      },
+      "./src/components/Scroller/index.ts": {
+        "version": "ab9099019b90c213b6226dde62dd7b693a1a2a964e97c5dd2694a6723ba461f7",
+        "signature": "25db72edd651f2ea64130cfd3e2084981f260fb2f1984e58b78dcfa91d60f6e2",
+        "affectsGlobalScope": false
+      },
+      "./src/components/index.ts": {
+        "version": "2fe60b1400108e3c00bc11cf76586ec3f5acc8e2fbcf9d36660b847383425ac2",
+        "signature": "f15d9af610475675c015739939b471c80268b244e2c3b7749740925c51df3ab2",
+        "affectsGlobalScope": false
+      },
+      "./src/index.ts": {
+        "version": "42aaae24b64d8cf1518ab6bf3dadb5177c4705593300b3ad2f130e88032c9f85",
+        "signature": "834e5463d13db75be9363c4276d42cffc7af3a8149d4780d313ec4e7c54fee1f",
+        "affectsGlobalScope": false
+      },
+      "./src/main.ts": {
+        "version": "50cb9f18b1c7115799ae456f0d0038840278b49ea520b5549d468ec76c248fb9",
+        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
+        "affectsGlobalScope": false
+      },
+      "./src/shims-vue.d.ts": {
+        "version": "34ad86c5e067c3c4f8d152ae81ea03d1cdb37d27cacb6b37a495cc0aa8c3fa05",
+        "signature": "34ad86c5e067c3c4f8d152ae81ea03d1cdb37d27cacb6b37a495cc0aa8c3fa05",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/types.d.ts": {
+        "version": "a8396b2f0de9cb9814fe48ac1bcd2421858d8ddfe1d0452ac1ce710577aaad0c",
+        "signature": "a8396b2f0de9cb9814fe48ac1bcd2421858d8ddfe1d0452ac1ce710577aaad0c",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/constants/dom-events.d.ts": {
+        "version": "2ced1c968715b739707b7ae1a2664a351a4d58117fc33fb748e20c0837e508e7",
+        "signature": "2ced1c968715b739707b7ae1a2664a351a4d58117fc33fb748e20c0837e508e7",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/createDomEvent.d.ts": {
+        "version": "5c527e7696e85a99909a7ed9325cc6c309e5439c98879cb56ed17a85ea11c5ae",
+        "signature": "5c527e7696e85a99909a7ed9325cc6c309e5439c98879cb56ed17a85ea11c5ae",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts": {
+        "version": "8fa4d2a2edbd4beffe41d70bb15668978966932b0618b8237976084830ddb2b5",
+        "signature": "8fa4d2a2edbd4beffe41d70bb15668978966932b0618b8237976084830ddb2b5",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts": {
+        "version": "55d4f6b441a7eadbcb77902acba21085c719185fb3c00b596a9a522e4b2c1732",
+        "signature": "55d4f6b441a7eadbcb77902acba21085c719185fb3c00b596a9a522e4b2c1732",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/domWrapper.d.ts": {
+        "version": "46cb59eceb020346beb9cfe8689f7bf394228e596e29fdd375b6e814c6fa99c8",
+        "signature": "46cb59eceb020346beb9cfe8689f7bf394228e596e29fdd375b6e814c6fa99c8",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts": {
+        "version": "fe630bc4c386ed8d9c4223b045a39059258086954338d50f01d2034323dc9a93",
+        "signature": "fe630bc4c386ed8d9c4223b045a39059258086954338d50f01d2034323dc9a93",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/mount.d.ts": {
+        "version": "928f2eb70f2e044d9452f87a8b6935986ad0735fbcf41086098e4edf9eea48be",
+        "signature": "928f2eb70f2e044d9452f87a8b6935986ad0735fbcf41086098e4edf9eea48be",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/components/RouterLinkStub.d.ts": {
+        "version": "562349b4fb41484507977cdbad97b9fdf253fe7af2e9d0fc0e0761629305efb7",
+        "signature": "562349b4fb41484507977cdbad97b9fdf253fe7af2e9d0fc0e0761629305efb7",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/errorWrapper.d.ts": {
+        "version": "0e89a54b0bae9c56dff647ae529baf49e597c0fbfaf72d9b5f07b0a702148121",
+        "signature": "0e89a54b0bae9c56dff647ae529baf49e597c0fbfaf72d9b5f07b0a702148121",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/config.d.ts": {
+        "version": "3c2cb12f5c93c56914e92e8face1e855eba85833d4a6a89ed0c120972669fbc9",
+        "signature": "3c2cb12f5c93c56914e92e8face1e855eba85833d4a6a89ed0c120972669fbc9",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/utils/flushPromises.d.ts": {
+        "version": "779c5f38053bcbc4bda3e45d4932da517471b486b2bbe51bbdcc912b3101fda4",
+        "signature": "779c5f38053bcbc4bda3e45d4932da517471b486b2bbe51bbdcc912b3101fda4",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/utils/autoUnmount.d.ts": {
+        "version": "5aae42359c2d23e9141a0d30e8c9b5613ef1dd307cfe722920a0ab8cea154103",
+        "signature": "5aae42359c2d23e9141a0d30e8c9b5613ef1dd307cfe722920a0ab8cea154103",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@vue/test-utils/dist/index.d.ts": {
+        "version": "5e8f280c19203ce55b945431be2cdb557ae3947443e898f0fb8bb8a9257850fd",
+        "signature": "5e8f280c19203ce55b945431be2cdb557ae3947443e898f0fb8bb8a9257850fd",
+        "affectsGlobalScope": false
+      },
+      "./tests/unit/example.spec.ts": {
+        "version": "dd2340e8e722bf60bdffeb4ec561a85381a79f876dc7db1d6493afd2e9fb09fd",
+        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/webpack-env/index.d.ts": {
+        "version": "3a1e422f919c70fca66e94dc641ad8d9732b3d2533ac047b8a9aaca9eea3aa10",
+        "signature": "3a1e422f919c70fca66e94dc641ad8d9732b3d2533ac047b8a9aaca9eea3aa10",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/jest-diff/build/cleanupSemantic.d.ts": {
+        "version": "d8aab31ba8e618cc3eea10b0945de81cb93b7e8150a013a482332263b9305322",
+        "signature": "d8aab31ba8e618cc3eea10b0945de81cb93b7e8150a013a482332263b9305322",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/pretty-format/build/types.d.ts": {
+        "version": "462bccdf75fcafc1ae8c30400c9425e1a4681db5d605d1a0edb4f990a54d8094",
+        "signature": "462bccdf75fcafc1ae8c30400c9425e1a4681db5d605d1a0edb4f990a54d8094",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/pretty-format/build/index.d.ts": {
+        "version": "5923d8facbac6ecf7c84739a5c701a57af94a6f6648d6229a6c768cf28f0f8cb",
+        "signature": "5923d8facbac6ecf7c84739a5c701a57af94a6f6648d6229a6c768cf28f0f8cb",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/jest-diff/build/types.d.ts": {
+        "version": "7adecb2c3238794c378d336a8182d4c3dd2c4fa6fa1785e2797a3db550edea62",
+        "signature": "7adecb2c3238794c378d336a8182d4c3dd2c4fa6fa1785e2797a3db550edea62",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/jest-diff/build/diffLines.d.ts": {
+        "version": "dc12dc0e5aa06f4e1a7692149b78f89116af823b9e1f1e4eae140cd3e0e674e6",
+        "signature": "dc12dc0e5aa06f4e1a7692149b78f89116af823b9e1f1e4eae140cd3e0e674e6",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/jest-diff/build/printDiffs.d.ts": {
+        "version": "1bfc6565b90c8771615cd8cfcf9b36efc0275e5e83ac7d9181307e96eb495161",
+        "signature": "1bfc6565b90c8771615cd8cfcf9b36efc0275e5e83ac7d9181307e96eb495161",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/jest-diff/build/index.d.ts": {
+        "version": "8a8a96898906f065f296665e411f51010b51372fa260d5373bf9f64356703190",
+        "signature": "8a8a96898906f065f296665e411f51010b51372fa260d5373bf9f64356703190",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/jest/index.d.ts": {
+        "version": "6ff2ca51e2c9d88d6d904c481879b12ec0cad2a69b88e220859a52207444773b",
+        "signature": "6ff2ca51e2c9d88d6d904c481879b12ec0cad2a69b88e220859a52207444773b",
+        "affectsGlobalScope": true
+      }
+    },
+    "options": {
+      "target": 99,
+      "module": 99,
+      "strict": true,
+      "composite": true,
+      "declarationMap": false,
+      "jsx": 1,
+      "moduleResolution": 2,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true,
+      "useDefineForClassFields": true,
+      "sourceMap": false,
+      "baseUrl": "./",
+      "types": [
+        "webpack-env",
+        "jest"
+      ],
+      "paths": {
+        "*": [
+          "src/@t`ypes/*"
+        ]
+      },
+      "lib": [
+        "lib.esnext.d.ts",
+        "lib.dom.d.ts",
+        "lib.dom.iterable.d.ts",
+        "lib.scripthost.d.ts"
+      ],
+      "inlineSourceMap": false,
+      "pathsBasePath": "D:/INHOUSE/ChronoCraft/Scroller/chronocraft-scroller-vue",
+      "configFilePath": "./tsconfig.json"
+    },
+    "referencedMap": {
+      "./node_modules/@babel/parser/typings/babel-parser.d.ts": [
+        "./node_modules/@babel/types/lib/index.d.ts"
+      ],
+      "./node_modules/@types/jest/index.d.ts": [
+        "./node_modules/jest-diff/build/index.d.ts",
+        "./node_modules/pretty-format/build/index.d.ts"
+      ],
+      "./node_modules/@vue/compiler-core/dist/compiler-core.d.ts": [
+        "./node_modules/@babel/parser/typings/babel-parser.d.ts",
+        "./node_modules/@babel/types/lib/index.d.ts",
+        "./node_modules/@vue/compiler-core/node_modules/source-map/source-map.d.ts",
+        "./node_modules/@vue/shared/dist/shared.d.ts"
+      ],
+      "./node_modules/@vue/compiler-dom/dist/compiler-dom.d.ts": [
+        "./node_modules/@vue/compiler-core/dist/compiler-core.d.ts"
+      ],
+      "./node_modules/@vue/reactivity/dist/reactivity.d.ts": [
+        "./node_modules/@vue/shared/dist/shared.d.ts"
+      ],
+      "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts": [
+        "./node_modules/@vue/reactivity/dist/reactivity.d.ts",
+        "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts",
+        "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts",
+        "./node_modules/@vue/shared/dist/shared.d.ts"
+      ],
+      "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts": [
+        "./node_modules/@vue/reactivity/dist/reactivity.d.ts",
+        "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts",
+        "./node_modules/csstype/index.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts": [
+        "./node_modules/@vue/test-utils/dist/constants/dom-events.d.ts",
+        "./node_modules/@vue/test-utils/dist/createDomEvent.d.ts",
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/components/RouterLinkStub.d.ts": [
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/config.d.ts": [
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/createDomEvent.d.ts": [
+        "./node_modules/@vue/test-utils/dist/constants/dom-events.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/domWrapper.d.ts": [
+        "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/index.d.ts": [
+        "./node_modules/@vue/test-utils/dist/components/RouterLinkStub.d.ts",
+        "./node_modules/@vue/test-utils/dist/config.d.ts",
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/errorWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/mount.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/utils/autoUnmount.d.ts",
+        "./node_modules/@vue/test-utils/dist/utils/flushPromises.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts": [
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/mount.d.ts": [
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/types.d.ts": [
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/utils/autoUnmount.d.ts": [
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts": [
+        "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/jest-diff/build/diffLines.d.ts": [
+        "./node_modules/jest-diff/build/cleanupSemantic.d.ts",
+        "./node_modules/jest-diff/build/types.d.ts"
+      ],
+      "./node_modules/jest-diff/build/index.d.ts": [
+        "./node_modules/jest-diff/build/cleanupSemantic.d.ts",
+        "./node_modules/jest-diff/build/diffLines.d.ts",
+        "./node_modules/jest-diff/build/printDiffs.d.ts",
+        "./node_modules/jest-diff/build/types.d.ts"
+      ],
+      "./node_modules/jest-diff/build/printDiffs.d.ts": [
+        "./node_modules/jest-diff/build/cleanupSemantic.d.ts",
+        "./node_modules/jest-diff/build/types.d.ts"
+      ],
+      "./node_modules/jest-diff/build/types.d.ts": [
+        "./node_modules/pretty-format/build/index.d.ts"
+      ],
+      "./node_modules/pretty-format/build/index.d.ts": [
+        "./node_modules/pretty-format/build/types.d.ts"
+      ],
+      "./node_modules/vue/dist/vue.d.ts": [
+        "./node_modules/@vue/compiler-dom/dist/compiler-dom.d.ts",
+        "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts"
+      ],
+      "./src/components/Scroller/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
+      "./src/components/index.ts": [
+        "./src/components/Scroller/index.ts"
+      ],
+      "./src/index.ts": [
+        "./node_modules/vue/dist/vue.d.ts",
+        "./src/components/index.ts"
+      ],
+      "./src/main.ts": [
+        "./node_modules/vue/dist/vue.d.ts",
+        "./src/shims-vue.d.ts"
+      ],
+      "./src/shims-vue.d.ts": [
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./tests/unit/example.spec.ts": [
+        "./node_modules/@vue/test-utils/dist/index.d.ts",
+        "./src/shims-vue.d.ts"
+      ]
+    },
+    "exportedModulesMap": {
+      "./node_modules/@babel/parser/typings/babel-parser.d.ts": [
+        "./node_modules/@babel/types/lib/index.d.ts"
+      ],
+      "./node_modules/@types/jest/index.d.ts": [
+        "./node_modules/jest-diff/build/index.d.ts",
+        "./node_modules/pretty-format/build/index.d.ts"
+      ],
+      "./node_modules/@vue/compiler-core/dist/compiler-core.d.ts": [
+        "./node_modules/@babel/parser/typings/babel-parser.d.ts",
+        "./node_modules/@babel/types/lib/index.d.ts",
+        "./node_modules/@vue/compiler-core/node_modules/source-map/source-map.d.ts",
+        "./node_modules/@vue/shared/dist/shared.d.ts"
+      ],
+      "./node_modules/@vue/compiler-dom/dist/compiler-dom.d.ts": [
+        "./node_modules/@vue/compiler-core/dist/compiler-core.d.ts"
+      ],
+      "./node_modules/@vue/reactivity/dist/reactivity.d.ts": [
+        "./node_modules/@vue/shared/dist/shared.d.ts"
+      ],
+      "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts": [
+        "./node_modules/@vue/reactivity/dist/reactivity.d.ts",
+        "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts",
+        "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts",
+        "./node_modules/@vue/shared/dist/shared.d.ts"
+      ],
+      "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts": [
+        "./node_modules/@vue/reactivity/dist/reactivity.d.ts",
+        "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts",
+        "./node_modules/csstype/index.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts": [
+        "./node_modules/@vue/test-utils/dist/constants/dom-events.d.ts",
+        "./node_modules/@vue/test-utils/dist/createDomEvent.d.ts",
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/components/RouterLinkStub.d.ts": [
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/config.d.ts": [
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/createDomEvent.d.ts": [
+        "./node_modules/@vue/test-utils/dist/constants/dom-events.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/domWrapper.d.ts": [
+        "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/index.d.ts": [
+        "./node_modules/@vue/test-utils/dist/components/RouterLinkStub.d.ts",
+        "./node_modules/@vue/test-utils/dist/config.d.ts",
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/errorWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/mount.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/utils/autoUnmount.d.ts",
+        "./node_modules/@vue/test-utils/dist/utils/flushPromises.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts": [
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/mount.d.ts": [
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/types.d.ts": [
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/utils/autoUnmount.d.ts": [
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts": [
+        "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts",
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        "./node_modules/vue/dist/vue.d.ts"
+      ],
+      "./node_modules/jest-diff/build/diffLines.d.ts": [
+        "./node_modules/jest-diff/build/cleanupSemantic.d.ts",
+        "./node_modules/jest-diff/build/types.d.ts"
+      ],
+      "./node_modules/jest-diff/build/index.d.ts": [
+        "./node_modules/jest-diff/build/cleanupSemantic.d.ts",
+        "./node_modules/jest-diff/build/diffLines.d.ts",
+        "./node_modules/jest-diff/build/printDiffs.d.ts",
+        "./node_modules/jest-diff/build/types.d.ts"
+      ],
+      "./node_modules/jest-diff/build/printDiffs.d.ts": [
+        "./node_modules/jest-diff/build/cleanupSemantic.d.ts",
+        "./node_modules/jest-diff/build/types.d.ts"
+      ],
+      "./node_modules/jest-diff/build/types.d.ts": [
+        "./node_modules/pretty-format/build/index.d.ts"
+      ],
+      "./node_modules/pretty-format/build/index.d.ts": [
+        "./node_modules/pretty-format/build/types.d.ts"
+      ],
+      "./node_modules/vue/dist/vue.d.ts": [
+        "./node_modules/@vue/compiler-dom/dist/compiler-dom.d.ts",
+        "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts"
+      ],
+      "./src/components/Scroller/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
+      "./src/components/index.ts": [
+        "./src/components/Scroller/index.ts"
+      ],
+      "./src/index.ts": [
+        "./node_modules/vue/dist/vue.d.ts",
+        "./src/components/index.ts"
+      ],
+      "./src/shims-vue.d.ts": [
+        "./node_modules/vue/dist/vue.d.ts"
+      ]
+    },
+    "semanticDiagnosticsPerFile": [
+      "./node_modules/@babel/parser/typings/babel-parser.d.ts",
+      "./node_modules/@babel/types/lib/index.d.ts",
+      "./node_modules/@types/jest/index.d.ts",
+      "./node_modules/@types/webpack-env/index.d.ts",
+      "./node_modules/@vue/compiler-core/dist/compiler-core.d.ts",
+      "./node_modules/@vue/compiler-core/node_modules/source-map/source-map.d.ts",
+      "./node_modules/@vue/compiler-dom/dist/compiler-dom.d.ts",
+      "./node_modules/@vue/reactivity/dist/reactivity.d.ts",
+      "./node_modules/@vue/runtime-core/dist/runtime-core.d.ts",
+      "./node_modules/@vue/runtime-dom/dist/runtime-dom.d.ts",
+      "./node_modules/@vue/shared/dist/shared.d.ts",
+      "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts",
+      "./node_modules/@vue/test-utils/dist/components/RouterLinkStub.d.ts",
+      "./node_modules/@vue/test-utils/dist/config.d.ts",
+      "./node_modules/@vue/test-utils/dist/constants/dom-events.d.ts",
+      "./node_modules/@vue/test-utils/dist/createDomEvent.d.ts",
+      "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+      "./node_modules/@vue/test-utils/dist/errorWrapper.d.ts",
+      "./node_modules/@vue/test-utils/dist/index.d.ts",
+      "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts",
+      "./node_modules/@vue/test-utils/dist/mount.d.ts",
+      "./node_modules/@vue/test-utils/dist/types.d.ts",
+      "./node_modules/@vue/test-utils/dist/utils/autoUnmount.d.ts",
+      "./node_modules/@vue/test-utils/dist/utils/flushPromises.d.ts",
+      "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+      "./node_modules/csstype/index.d.ts",
+      "./node_modules/jest-diff/build/cleanupSemantic.d.ts",
+      "./node_modules/jest-diff/build/diffLines.d.ts",
+      "./node_modules/jest-diff/build/index.d.ts",
+      "./node_modules/jest-diff/build/printDiffs.d.ts",
+      "./node_modules/jest-diff/build/types.d.ts",
+      "./node_modules/pretty-format/build/index.d.ts",
+      "./node_modules/pretty-format/build/types.d.ts",
+      "./node_modules/typescript/lib/lib.dom.d.ts",
+      "./node_modules/typescript/lib/lib.dom.iterable.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.collection.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.core.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.generator.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.promise.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+      "./node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+      "./node_modules/typescript/lib/lib.es2016.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.intl.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.object.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.string.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.intl.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.promise.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.regexp.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.array.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.object.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.string.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.symbol.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.bigint.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.intl.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.promise.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.sharedmemory.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.string.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts",
+      "./node_modules/typescript/lib/lib.es5.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.intl.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.promise.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.string.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.weakref.d.ts",
+      "./node_modules/typescript/lib/lib.scripthost.d.ts",
+      "./node_modules/vue/dist/vue.d.ts",
+      "./src/components/Scroller/index.ts",
+      "./src/components/index.ts",
+      "./src/index.ts",
+      "./src/main.ts",
+      "./src/shims-vue.d.ts",
+      "./tests/unit/example.spec.ts"
+    ]
+  },
+  "version": "4.1.6"
+}
