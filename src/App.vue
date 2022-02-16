@@ -1,6 +1,6 @@
 <template>
 <h1>Chronocraft Library Test Playground</h1>
-<Scroller orientation="vertical" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+<Scroller orientation="horizontal" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="true" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
     <!-- <template v-slot:cell="slotProps">
         <span>{{ slotProps.data.id }}</span>
     </template> -->
@@ -20,7 +20,7 @@ export default {
             scrollerdata: [],
             firstid: 10000,
             lastid: 10000,
-            total: 180,
+            total: 140,
             newcellslength: 28
         }
     },

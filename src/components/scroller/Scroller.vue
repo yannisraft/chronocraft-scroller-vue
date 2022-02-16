@@ -109,6 +109,7 @@ export default defineComponent({
         let loadingCells = false;
         let alertvisible = ref(false);
         let alerttext = ref("");
+        let dirsign = 1;
 
         let cellsdata = ref(props.data);
 
@@ -198,16 +199,21 @@ export default defineComponent({
             var diff = 0;
             var targetPosition = 0;
             if (props.orientation === 'vertical') {
-                /* var colsloaded = parseInt(newdata.length / props.numcols);
-                targetPosition = previousScrollPos; // - (cellheight * colsloaded);
-                scroller.scrollTop = targetPosition;
-
-                diff = previousScrollPos - movescrollPos;
-                movescrollPos = targetPosition - diff; */
                 var colsloaded = Math.floor(newdata.length / props.numcols);
 
-                targetPosition = previousScrollPos;// - (cellheight * colsloaded);
-                scroller.scrollTop = targetPosition;
+                if(previousScrollPos === 0) 
+                {
+                    targetPosition = (cellheight * colsloaded);
+                    
+                    setTimeout(() => {
+                        scroller.scrollTop = targetPosition;
+                    }, 0);
+                } else {
+                    targetPosition = previousScrollPos;
+                    scroller.scrollTop = targetPosition;
+                }
+                
+                
 
                 diff = previousScrollPos - movescrollPos;
                 movescrollPos = targetPosition - diff;
@@ -218,7 +224,6 @@ export default defineComponent({
 
                 diff = previousScrollPos - movescrollPos;
                 movescrollPos = targetPosition - diff;
-
             }
 
             setTimeout(() => {
@@ -239,7 +244,6 @@ export default defineComponent({
                             var firstid = cellsdata.value[0].id;
                             var lastid = cellsdata.value[cellsdata.value.length-1].id;
                             context.emit("on-update-data-next", (newdata) => {
-                                console.log("on-update-data-next");
                                 GenerateNextData(newdata);
                             }, firstid, lastid);
                         }
@@ -465,13 +469,14 @@ export default defineComponent({
                     veloc = scroller.scrollLeft - prevscrollLeft;
 
                     if (scroller.scrollLeft === (scroller.scrollWidth - scroller.clientWidth)) {
-                        console.log("detectScrollEdges");
-                        var dirsign = 1;
-                        var delta = 0;
-                        dirsign = parseInt(delta / Math.abs(delta));
-                        detectScrollEdges(dirsign, false, e);
+                        //var dirsign = 1;
+                        //var delta = 0;
+                        //dirsign = parseInt(delta / Math.abs(delta));
+                        //detectScrollEdges(dirsign, false, e);
                     }
                 }
+
+                
 
                 context.emit("on-scroll");
                 beginMomentumTracking();
@@ -479,22 +484,62 @@ export default defineComponent({
 
             scroller.addEventListener("scroll", (e) => {
                 var delta = 0;
-                var dirsign = 1;
+                ///var dirsign = 1;
 
                 if (props.orientation === 'vertical') {
                     let scroll = scroller.scrollTop;
                     delta = scroll - previousScrollPos;
-                    dirsign = parseInt(delta / Math.abs(delta));
-                    detectScrollEdges(dirsign, false, e);
+                    if(delta != 0) dirsign = parseInt(delta / Math.abs(delta));
+                    
+                    //detectScrollEdges(dirsign, false, e);
                     previousScrollPos = scroll;
                 } else {
                     let scroll = scroller.scrollLeft;
                     delta = scroll - previousScrollPos;
-                    dirsign = parseInt(delta / Math.abs(delta));
-                    detectScrollEdges(dirsign, false, e);
+                    if(delta != 0) dirsign = parseInt(delta / Math.abs(delta));
+                    //detectScrollEdges(dirsign, false, e);
+                    previousScrollPos = scroll;
+                }              
+            });
+
+            var detectEdgesInterval = setInterval(()=> {
+                /* //let scroll = scroller.scrollTop;
+                //var delta = 0;
+                if (props.orientation === 'vertical') {
+                    //delta = scroll - previousScrollPos;
+                    detectScrollEdges(dirsign);
+                    //previousScrollPos = scroll;
+                } else {
+                }   */   
+                var delta = 0;
+                ///var dirsign = 1;
+
+                if (props.orientation === 'vertical') {
+                    //let scroll = scroller.scrollTop;
+                    /* delta = scroll - previousScrollPos;
+                    dirsign = parseInt(delta / Math.abs(delta)); */
+                    detectScrollEdges(dirsign, false);
+                    //previousScrollPos = scroll;
+                } else {
+                    //let scroll = scroller.scrollLeft;
+                    /* delta = scroll - previousScrollPos;
+                    dirsign = parseInt(delta / Math.abs(delta)); */
+                    detectScrollEdges(dirsign, false);
+                    //previousScrollPos = scroll;
+                }
+
+            }, 200);
+
+            var scrollPosInterval = setInterval(()=> {
+                
+                if (props.orientation === 'vertical') {
+                    let scroll = scroller.scrollTop;
+                    previousScrollPos = scroll;
+                } else {
+                    let scroll = scroller.scrollLeft;
                     previousScrollPos = scroll;
                 }
-            });
+            }, 50);
         }
 
         function WindowResized(e) {
@@ -527,7 +572,8 @@ export default defineComponent({
             scrollLoadingOffset,
             cellsdata,
             alertvisible,
-            alerttext
+            alerttext,
+            dirsign
         };
     }
 });
