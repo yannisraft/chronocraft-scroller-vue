@@ -71,6 +71,7 @@ Scroller
 |  @on-scroll  |  Function   | Event fired when the user has scrolled    |
 |  @on-update-data-next  |  Function  |  Event fired when the user has reached at the end of the scroller and new data might be required to load |
 |  @on-update-data-previous  |  Function  | Event fired when the user has reached at the start of the scroller and new data might be required to load  |
+|  @on-data-updated  |  Function  |  Event triggered when scroller data has changed and returns the new data
 
 
 ### Important Notice

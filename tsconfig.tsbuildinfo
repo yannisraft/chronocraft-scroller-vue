@@ -237,8 +237,8 @@
         "affectsGlobalScope": false
       },
       "./node_modules/@babel/parser/typings/babel-parser.d.ts": {
-        "version": "29afd3970c68fdcbf3168de0f855d7cd84135c436050793b0584e1a904affe2d",
-        "signature": "29afd3970c68fdcbf3168de0f855d7cd84135c436050793b0584e1a904affe2d",
+        "version": "1a7cc144992d79b062c22ac0309c6624dbb0d49bbddff7ea3b9daa0c17bcac0a",
+        "signature": "1a7cc144992d79b062c22ac0309c6624dbb0d49bbddff7ea3b9daa0c17bcac0a",
         "affectsGlobalScope": false
       },
       "./node_modules/@vue/compiler-core/node_modules/source-map/source-map.d.ts": {
@@ -297,13 +297,13 @@
         "affectsGlobalScope": false
       },
       "./src/main.ts": {
-        "version": "50cb9f18b1c7115799ae456f0d0038840278b49ea520b5549d468ec76c248fb9",
+        "version": "ade4e6ade0df33597d58ee6ce74a8dab8a3b741914ad5b699f78dfc302a26a2b",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
       "./src/shims-vue.d.ts": {
-        "version": "34ad86c5e067c3c4f8d152ae81ea03d1cdb37d27cacb6b37a495cc0aa8c3fa05",
-        "signature": "34ad86c5e067c3c4f8d152ae81ea03d1cdb37d27cacb6b37a495cc0aa8c3fa05",
+        "version": "36eed4536b37a2a01ac240ce30db05a93e627178689414935b23a7bad525a57c",
+        "signature": "36eed4536b37a2a01ac240ce30db05a93e627178689414935b23a7bad525a57c",
         "affectsGlobalScope": false
       },
       "./node_modules/@vue/test-utils/dist/types.d.ts": {
@@ -377,7 +377,7 @@
         "affectsGlobalScope": false
       },
       "./tests/unit/example.spec.ts": {
-        "version": "dd2340e8e722bf60bdffeb4ec561a85381a79f876dc7db1d6493afd2e9fb09fd",
+        "version": "ff4d67073269cb7c417ab7aa511d6c5e58e2648280b49a2d9b05f0ae2aae9781",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
@@ -458,7 +458,7 @@
         "lib.scripthost.d.ts"
       ],
       "inlineSourceMap": false,
-      "pathsBasePath": "D:/INHOUSE/ChronoCraft/Scroller/chronocraft-scroller-vue",
+      "pathsBasePath": "F:/DEVELOPMENT/ChronoCraft/Scroller/chronocraft-scroller-vue",
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
@@ -813,6 +813,68 @@
       "./src/main.ts",
       "./src/shims-vue.d.ts",
       "./tests/unit/example.spec.ts"
+    ],
+    "affectedFilesPendingEmit": [
+      [
+        "./node_modules/@vue/compiler-dom/dist/compiler-dom.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/baseWrapper.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/components/RouterLinkStub.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/config.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/domWrapper.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/index.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/mount.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/types.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/utils/autoUnmount.d.ts",
+        0
+      ],
+      [
+        "./node_modules/@vue/test-utils/dist/vueWrapper.d.ts",
+        0
+      ],
+      [
+        "./node_modules/vue/dist/vue.d.ts",
+        0
+      ],
+      [
+        "./src/components/Scroller/index.ts",
+        0
+      ],
+      [
+        "./src/components/index.ts",
+        0
+      ],
+      [
+        "./src/index.ts",
+        0
+      ]
     ]
   },
   "version": "4.1.6"
