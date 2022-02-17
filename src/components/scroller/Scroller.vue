@@ -181,6 +181,8 @@ export default defineComponent({
             setTimeout(() => {
                 loadingCells = false;
             }, 400);
+
+            context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
         }
 
         function GeneratePreviousData(newdata) {
@@ -229,6 +231,8 @@ export default defineComponent({
             setTimeout(() => {
                 loadingCells = false;
             }, 400);
+
+            context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
         }
 
         async function detectScrollEdges(sign, dragging, e) {
@@ -549,6 +553,7 @@ export default defineComponent({
         onMounted(() => {
             window.addEventListener("resize", WindowResized);
             Initialize();
+            context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
         });
 
         onUpdated(() => {
