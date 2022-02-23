@@ -68,10 +68,14 @@ Scroller
 |  newcellslength  |  Number  |  The total number of new cells that will be loaded when scrolling forward or backwards  |
 |  data  |  Array  |  The actual data passed into the scroller. These data are reactive by using ref() |
 |  cellsquared  |  Boolean  |  Sets the cell to be squared. (width will have the same size as the height)  |
-|  @on-scroll  |  Function   | Event fired when the user has scrolled    |
-|  @on-update-data-next  |  Function  |  Event fired when the user has reached at the end of the scroller and new data might be required to load |
-|  @on-update-data-previous  |  Function  | Event fired when the user has reached at the start of the scroller and new data might be required to load  |
-|  @on-data-updated  |  Function  |  Event triggered when scroller data has changed and returns the new data
+|  @on-scroll  |  Event Function   | Event fired when the user has scrolled    |
+|  @on-update-data-next  |  Event Function  |  Event fired when the user has reached at the end of the scroller and new data might be required to load |
+|  @on-update-data-previous  |  Event Function  | Event fired when the user has reached at the start of the scroller and new data might be required to load  |
+|  @on-data-updated  |  Event Function  |  Event triggered when scroller data has changed and returns the new data
+|  ScrollTo  |  Call Function  |  Function called to scroll the scroller to specific position in pixels
+|  ScrollBy  |  Call Function  |  Function called to scroll the scroller by a specific amount in pixels
+|  GetCellsPosition  |  Call Function  |  Function called to get a specific cell's position in pixels
+
 
 
 ### Important Notice

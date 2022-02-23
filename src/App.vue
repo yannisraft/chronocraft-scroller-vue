@@ -1,10 +1,13 @@
 <template>
 <h1>Chronocraft Library Test Playground</h1>
-<Scroller orientation="horizontal" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious" @on-data-updated="onDataUpdated">
+<Scroller ref="scroller_ref" orientation="vertical" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious" @on-data-updated="onDataUpdated">
     <!-- <template v-slot:cell="slotProps">
         <span>{{ slotProps.data.id }}</span>
     </template> -->
 </Scroller>
+<br/>
+<button class="testbutton" type="button" @click="ScrollBy()">Scroll By</button>
+<button class="testbutton" type="button" @click="ScrollTo()">Scroll To</button>
 </template>
 
 <script>
@@ -21,7 +24,8 @@ export default {
             firstid: 10000,
             lastid: 10000,
             total: 140,
-            newcellslength: 28
+            newcellslength: 28,
+            scrolltoposition: 0
         }
     },
     methods: {
@@ -51,7 +55,13 @@ export default {
             done(newdata);
         },
         onDataUpdated(data) {
-            console.log("onDataUpdated: ", data);
+            //console.log("onDataUpdated: ", data);
+        },
+        ScrollBy() {
+            this.$refs.scroller_ref.ScrollBy(100);
+        },
+        ScrollTo() {
+            this.$refs.scroller_ref.ScrollTo(this.scrolltoposition);
         }
     },
     mounted() {
@@ -60,7 +70,14 @@ export default {
             this.scrollerdata.push({
                 id: f
             });
-        }        
+        }    
+        
+        // Test GetCellsPosition
+        // ---------------------
+        this.$nextTick(function () {
+            var foundposition = this.$refs.scroller_ref.GetCellsPosition(10100);
+            this.scrolltoposition = foundposition;
+        });
     }
 };
 </script>
@@ -102,6 +119,30 @@ h1 {
     bottom: 10px;
     right: 10px;
     font-size: 12pt;
+}
+
+.testbutton {
+    background: #b6b6b6;
+
+
+    /* for theme */
+    background: #f0ecec;
+    /* box-shadow: 2px 2px 2px 2px rgb(221 221 221 / 60%); */
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 5px;
+    border: 0px solid;
+    padding: 10px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.testbutton:active {
+    background: #d4d0d0;
 }
 
 @media screen and (max-width: 600px) {

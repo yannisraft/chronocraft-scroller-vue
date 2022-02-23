@@ -4,7 +4,7 @@
         <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container' ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
             <slot name="content">
 
-                <div v-for="datacell in cellsdata" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW}">
+                <div v-for="datacell in cellsdata" :id="'cell_'+datacell.id" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW}">
                     <slot name="cell" :data="datacell">
                         <span class="cell-text">{{ datacell.id }}</span>
                     </slot>
@@ -84,7 +84,7 @@ export default defineComponent({
         manualmode: {
             type: Boolean,
             default: false,
-        }        
+        }
     },
     setup(props, context) {
         let cellW = ref(props.cellwidth + "px");
@@ -203,10 +203,9 @@ export default defineComponent({
             if (props.orientation === 'vertical') {
                 var colsloaded = Math.floor(newdata.length / props.numcols);
 
-                if(previousScrollPos === 0) 
-                {
+                if (previousScrollPos === 0) {
                     targetPosition = (cellheight * colsloaded);
-                    
+
                     setTimeout(() => {
                         scroller.scrollTop = targetPosition;
                     }, 0);
@@ -214,8 +213,6 @@ export default defineComponent({
                     targetPosition = previousScrollPos;
                     scroller.scrollTop = targetPosition;
                 }
-                
-                
 
                 diff = previousScrollPos - movescrollPos;
                 movescrollPos = targetPosition - diff;
@@ -246,7 +243,7 @@ export default defineComponent({
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
                             var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
+                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
                             context.emit("on-update-data-next", (newdata) => {
                                 GenerateNextData(newdata);
                             }, firstid, lastid);
@@ -258,7 +255,7 @@ export default defineComponent({
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
                             var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
+                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
                             context.emit("on-update-data-next", (newdata) => {
                                 setTimeout(() => {
                                     GenerateNextData(newdata);
@@ -275,7 +272,7 @@ export default defineComponent({
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
                             var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
+                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
                             context.emit("on-update-data-previous", (newdata) => {
                                 // done
                                 GeneratePreviousData(newdata);
@@ -287,7 +284,7 @@ export default defineComponent({
                         if (!loadingCells && !justLoaded) {
                             loadingCells = true;
                             var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length-1].id;
+                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
                             context.emit("on-update-data-previous", (newdata) => {
                                 // done
                                 setTimeout(() => {
@@ -334,6 +331,78 @@ export default defineComponent({
                 }
             }
 
+        }
+
+        function ScrollTo(position) {
+            if (typeof position === 'number') {
+                if (props.orientation === 'vertical') {
+                    scroller.scrollTo({
+                        top: position,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                } else {
+                    scroller.scrollTo({
+                        top: 0,
+                        left: position,
+                        behavior: "smooth",
+                    });
+                }
+            }
+        }
+
+        function ScrollBy(position) {
+            if (typeof position === 'number') {
+                if (props.orientation === 'vertical') {
+                    scroller.scrollBy({
+                        top: position,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                } else {
+                    scroller.scrollBy({
+                        top: 0,
+                        left: position,
+                        behavior: "smooth",
+                    });
+                }
+            }
+        }
+
+        function GetCellsPosition(id) {
+            var foundcell_position = -1;
+            var foundcell = null;
+            for(var k=0; k < cellsdata.value.length; k++)
+            {
+                if(cellsdata.value[k])
+                {
+                    if(cellsdata.value[k].id === id)
+                    {
+                        foundcell = cellsdata.value[k];
+                        var cellid = "cell_"+cellsdata.value[k].id;
+                        var cellelement = document.getElementById(cellid);
+                        var cellboundingrect = cellelement.getBoundingClientRect();   
+                        
+                        var content = document.querySelector(".scroller-content");                        
+
+                        if (props.orientation === 'vertical') {
+                            var contentpadding = parseInt(content.style.paddingTop);
+                            foundcell_position = cellelement.offsetTop - contentpadding + props.gap;
+                        } else {
+                            var contentpadding = parseInt(content.style.paddingRight);
+                            foundcell_position = parseInt(cellboundingrect.left - props.gap - contentpadding);
+                        }
+                        break;
+                    }
+                }                
+            }            
+
+            return foundcell_position;
+        }
+
+        function ScrollToCell(id) {
+            var cell_posotion = GetCellsPosition(id);
+            ScrollTo(cell_posotion);
         }
 
         function Initialize() {
@@ -480,8 +549,6 @@ export default defineComponent({
                     }
                 }
 
-                
-
                 context.emit("on-scroll");
                 beginMomentumTracking();
             });
@@ -493,20 +560,20 @@ export default defineComponent({
                 if (props.orientation === 'vertical') {
                     let scroll = scroller.scrollTop;
                     delta = scroll - previousScrollPos;
-                    if(delta != 0) dirsign = parseInt(delta / Math.abs(delta));
-                    
+                    if (delta != 0) dirsign = parseInt(delta / Math.abs(delta));
+
                     //detectScrollEdges(dirsign, false, e);
                     previousScrollPos = scroll;
                 } else {
                     let scroll = scroller.scrollLeft;
                     delta = scroll - previousScrollPos;
-                    if(delta != 0) dirsign = parseInt(delta / Math.abs(delta));
+                    if (delta != 0) dirsign = parseInt(delta / Math.abs(delta));
                     //detectScrollEdges(dirsign, false, e);
                     previousScrollPos = scroll;
-                }              
+                }
             });
 
-            var detectEdgesInterval = setInterval(()=> {
+            var detectEdgesInterval = setInterval(() => {
                 /* //let scroll = scroller.scrollTop;
                 //var delta = 0;
                 if (props.orientation === 'vertical') {
@@ -514,7 +581,7 @@ export default defineComponent({
                     detectScrollEdges(dirsign);
                     //previousScrollPos = scroll;
                 } else {
-                }   */   
+                }   */
                 var delta = 0;
                 ///var dirsign = 1;
 
@@ -534,8 +601,8 @@ export default defineComponent({
 
             }, 200);
 
-            var scrollPosInterval = setInterval(()=> {
-                
+            var scrollPosInterval = setInterval(() => {
+
                 if (props.orientation === 'vertical') {
                     let scroll = scroller.scrollTop;
                     previousScrollPos = scroll;
@@ -567,6 +634,10 @@ export default defineComponent({
             scroller,
             cellRef,
             isMouseDown,
+            ScrollTo,
+            ScrollBy,
+            ScrollToCell,
+            GetCellsPosition,
             startPos,
             startscrollPos,
             movescrollPos,
