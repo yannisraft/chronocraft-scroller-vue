@@ -1,15 +1,13 @@
 <template>
 <div class="scroller-container" :style="[{ 'height': height + 'px'}]">
-    <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}]">
+    <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}, {'overflow-x': GetOverflowX()+' !important', 'overflow-y': GetOverflowY()+' !important'}]">
         <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container' ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
             <slot name="content">
-
-                <div v-for="datacell in cellsdata" :id="'cell_'+datacell.id" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW}">
+                <div v-for="datacell in cellsdata" :id="'cell_'+datacell.id" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW, 'z-index': datacell.index}">
                     <slot name="cell" :data="datacell">
                         <span class="cell-text">{{ datacell.id }}</span>
                     </slot>
                 </div>
-
             </slot>
         </div>
     </div>
@@ -23,8 +21,12 @@
 import {
     defineComponent,
     ref,
+    reactive,
+    onBeforeMount,
     onMounted,
-    onUpdated
+    onActivated,
+    onUpdated,
+    watch
 } from "vue";
 
 export default defineComponent({
@@ -84,6 +86,10 @@ export default defineComponent({
         manualmode: {
             type: Boolean,
             default: false,
+        },
+        hasscrollbar: {
+            type: Boolean,
+            default: true,
         }
     },
     setup(props, context) {
@@ -110,8 +116,29 @@ export default defineComponent({
         let alertvisible = ref(false);
         let alerttext = ref("");
         let dirsign = 1;
+        let inczindex = 10000000; // Incremental z-index
 
-        let cellsdata = ref(props.data);
+        const cellsdata = ref(props.data);
+
+        function GetOverflowX() {
+            let overflowx = 'hidden';
+            if (props.orientation === 'horizontal') {
+                if (props.hasscrollbar) {
+                    overflowx = 'auto';
+                }
+            }
+            return overflowx;
+        }
+
+        function GetOverflowY() {
+            let overflowy = 'hidden';
+            if (props.orientation === 'vertical') {
+                if (props.hasscrollbar) {
+                    overflowy = 'auto';
+                }
+            }
+            return overflowy;
+        }
 
         function momentumLoop() {
             if (props.orientation === 'vertical') {
@@ -137,18 +164,29 @@ export default defineComponent({
 
         function getScrollbarWidth() {
             var div, width = getScrollbarWidth.width;
-            if (width === undefined) {
-                div = document.createElement('div');
-                div.innerHTML = '<div style="width:50px;height:50px;position:absolute;left:-50px;top:-50px;overflow:auto;"><div style="width:1px;height:100px;"></div></div>';
-                div = div.firstChild;
-                document.body.appendChild(div);
-                width = getScrollbarWidth.width = div.offsetWidth - div.clientWidth;
-                document.body.removeChild(div);
+            if (props.hasscrollbar) {
+                if (width === undefined) {
+                    div = document.createElement('div');
+                    div.innerHTML = '<div style="width:50px;height:50px;position:absolute;left:-50px;top:-50px;overflow:auto;"><div style="width:1px;height:100px;"></div></div>';
+                    div = div.firstChild;
+                    document.body.appendChild(div);
+                    width = getScrollbarWidth.width = div.offsetWidth - div.clientWidth;
+                    document.body.removeChild(div);
+                }
+            } else {
+                width = 0;
             }
+
             return width;
         }
 
         function GenerateNextData(newdata) {
+            // For each of the data set the index
+            inczindex -= cellsdata.value.length-1;
+            for (let i = 0; i < newdata.length; i++) {
+                newdata[i].index = inczindex-i;
+            }
+
             // Add new data
             cellsdata.value = [...cellsdata.value, ...newdata];
 
@@ -186,6 +224,15 @@ export default defineComponent({
         }
 
         function GeneratePreviousData(newdata) {
+            // For each of the data set the index
+            /* for (let i = newdata.length - 1; i > 0; i--) {
+                inczindex++;
+                newdata[i].index = inczindex;
+            } */
+            for (let i = 0; i < newdata.length; i++) {
+                newdata[i].index = inczindex+newdata.length-i;
+            }
+            inczindex+=newdata.length - 1;
 
             // Add new data
             cellsdata.value = [...newdata, ...cellsdata.value];
@@ -372,18 +419,15 @@ export default defineComponent({
         function GetCellsPosition(id) {
             var foundcell_position = -1;
             var foundcell = null;
-            for(var k=0; k < cellsdata.value.length; k++)
-            {
-                if(cellsdata.value[k])
-                {
-                    if(cellsdata.value[k].id === id)
-                    {
+            for (var k = 0; k < cellsdata.value.length; k++) {
+                if (cellsdata.value[k]) {
+                    if (cellsdata.value[k].id === id) {
                         foundcell = cellsdata.value[k];
-                        var cellid = "cell_"+cellsdata.value[k].id;
+                        var cellid = "cell_" + cellsdata.value[k].id;
                         var cellelement = document.getElementById(cellid);
-                        var cellboundingrect = cellelement.getBoundingClientRect();   
-                        
-                        var content = document.querySelector(".scroller-content");                        
+                        var cellboundingrect = cellelement.getBoundingClientRect();
+
+                        var content = document.querySelector(".scroller-content");
 
                         if (props.orientation === 'vertical') {
                             var contentpadding = parseInt(content.style.paddingTop);
@@ -394,8 +438,8 @@ export default defineComponent({
                         }
                         break;
                     }
-                }                
-            }            
+                }
+            }
 
             return foundcell_position;
         }
@@ -407,6 +451,7 @@ export default defineComponent({
 
         function Initialize() {
             console.log('Initialize');
+
             scroller = document.querySelector(".scroller");
             scrollbarWidth = getScrollbarWidth();
 
@@ -617,8 +662,20 @@ export default defineComponent({
             Initialize();
         }
 
+        onBeforeMount(() => {
+            console.log('onBeforeMount');
+            setTimeout(() => {
+                for (var k = 0; k < cellsdata.value.length; k++) {
+                    cellsdata.value[k].index = inczindex-k;
+                    //inczindex--;
+                }
+                console.log('cellsdata: ', cellsdata.value);
+            }, 10);
+        });
+
         onMounted(() => {
             window.addEventListener("resize", WindowResized);
+
             Initialize();
             context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
         });
@@ -638,6 +695,8 @@ export default defineComponent({
             ScrollBy,
             ScrollToCell,
             GetCellsPosition,
+            GetOverflowX,
+            GetOverflowY,
             startPos,
             startscrollPos,
             movescrollPos,
