@@ -23,3 +23,8 @@
 .debugcellstyle {
     background-color: brown !important;
 }
+
+.overlay {
+    position: fixed;
+    z-index: 100000000000000;
+}

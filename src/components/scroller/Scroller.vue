@@ -1,6 +1,11 @@
 <template>
 <div class="scroller-container" :style="[{ 'height': height + 'px'}]">
     <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}, {'overflow-x': GetOverflowX()+' !important', 'overflow-y': GetOverflowY()+' !important'}]">
+        <div class="overlay">
+            <slot name="overlay">
+                
+            </slot>
+        </div>
         <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container' ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
             <slot name="content">
                 <div v-for="datacell in cellsdata" :id="'cell_'+datacell.id" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW, 'z-index': datacell.index}">
@@ -449,9 +454,14 @@ export default defineComponent({
             ScrollTo(cell_posotion);
         }
 
-        function Initialize() {
-            console.log('Initialize');
+        /* function TestCell(id) {
+            if(id === 10000)
+            {
+                console.log("id: ", id);
+            }            
+        } */
 
+        function Initialize() {
             scroller = document.querySelector(".scroller");
             scrollbarWidth = getScrollbarWidth();
 
@@ -663,13 +673,13 @@ export default defineComponent({
         }
 
         onBeforeMount(() => {
-            console.log('onBeforeMount');
+            //console.log('onBeforeMount');
             setTimeout(() => {
                 for (var k = 0; k < cellsdata.value.length; k++) {
                     cellsdata.value[k].index = inczindex-k;
                     //inczindex--;
                 }
-                console.log('cellsdata: ', cellsdata.value);
+                //console.log('cellsdata: ', cellsdata.value);
             }, 10);
         });
 

@@ -4,6 +4,9 @@
     <!-- <template v-slot:cell="slotProps">
         <span>{{ slotProps.data.id }}</span>
     </template> -->
+    <template v-slot:overlay>
+        <span>Overlay Content</span>
+    </template>
 </Scroller>
 <br/>
 <button class="testbutton" type="button" @click="ScrollBy()">Scroll By</button>

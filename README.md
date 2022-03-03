@@ -77,6 +77,12 @@ Scroller
 |  ScrollBy  |  Call Function  |  Function called to scroll the scroller by a specific amount in pixels
 |  GetCellsPosition  |  Call Function  |  Function called to get a specific cell's position in pixels
 
+### Component slots
+
+|  Name  | hasprops  | Description  |
+|---|---|---|
+|  cell  | yes  | Overrides the cell rendering and passes the cells data as props
+|  overlay  | no  | In this slot custom elements can be added as an overlay above the scroller content
 
 
 ### Important Notice
