@@ -1,11 +1,7 @@
 <template>
 <div class="scroller-container" :style="[{ 'height': height + 'px'}]">
     <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}, {'overflow-x': GetOverflowX()+' !important', 'overflow-y': GetOverflowY()+' !important'}]">
-        <div class="overlay">
-            <slot name="overlay">
-                
-            </slot>
-        </div>
+        
         <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container' ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
             <slot name="content">
                 <div v-for="datacell in cellsdata" :id="'cell_'+datacell.id" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW, 'z-index': datacell.index}">
@@ -15,6 +11,11 @@
                 </div>
             </slot>
         </div>
+    </div>
+    <div class="overlay">
+        <slot name="overlay">
+            
+        </slot>
     </div>
     <div class="alert-overlay" v-if="alertvisible">
         <h3>{{ alerttext }}</h3>
