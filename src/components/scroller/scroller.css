@@ -36,8 +36,6 @@
     pointer-events: none;
 }
 
-.preload-overlay img {}
-
 .preloadvisible {
     opacity: 1;
     transition: opacity 2.0s cubic-bezier(0.23, 1, 0.32, 1) 0s;
@@ -115,4 +113,10 @@
     100% {
         -webkit-filter: blur(15px);
     }
+}
+
+.preloaderimg {
+    background: url('./../../assets/preloader.png') no-repeat;
+    width: 64px;
+    height: 64px;
 }

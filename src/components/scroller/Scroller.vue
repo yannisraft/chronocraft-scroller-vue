@@ -18,7 +18,7 @@
         </slot>
     </div>
     <div :class="['preload-overlay', 'noselect',{'preloadvisible': preloadvisible}]">
-        <img src="./../../assets/preloader.png" alt="preload"/>
+        <div class="preloaderimg"></div>
     </div>
     <div class="alert-overlay" v-if="alertvisible">
         <h3>{{ alerttext }}</h3>
@@ -678,7 +678,7 @@ export default defineComponent({
             }, 50);
         }
 
-        function SetAnimateNext(nextdata) {
+        function SetAnimateNext(nextdata, callback) {
             animatedirection.value = 1;
             preloadvisible.value = true;
 
@@ -686,6 +686,7 @@ export default defineComponent({
                 cellsdata.value = nextdata;
                 animatedirection.value = 0;
                 ScrollTo(0);
+                callback();
             }, 2000); 
 
             setTimeout(()=> {
@@ -701,6 +702,7 @@ export default defineComponent({
                 cellsdata.value = nextdata;
                 animatedirection.value = 0;
                 ScrollTo(0);
+                callback();
             }, 2000); 
 
             setTimeout(()=> {

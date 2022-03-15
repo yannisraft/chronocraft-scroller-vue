@@ -80,8 +80,12 @@ let postVueConfig = [
         '**/*.png',
         '**/*.gif',
         '**/*.jpg',
-        '**/*.jpeg'
-      ]
+        '**/*.jpeg',
+        '**/*.ttf'
+      ],
+      publicPath: '/public',
+      limit: Infinity,
+      reserveImportInJs: true
     }),
 ]
 

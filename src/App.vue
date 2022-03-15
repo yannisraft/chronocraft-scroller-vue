@@ -80,7 +80,9 @@ export default {
                 });
             }
 
-            this.$refs.scroller_ref.SetAnimatePrevious(nextdata);
+            this.$refs.scroller_ref.SetAnimatePrevious(nextdata, ()=> {
+                
+            });
         },
         AnimateNext() {
             this.firstid = 20000;
@@ -94,7 +96,9 @@ export default {
                 });
             }
 
-            this.$refs.scroller_ref.SetAnimateNext(nextdata);
+            this.$refs.scroller_ref.SetAnimateNext(nextdata, ()=> {
+
+            });
         }
     },
     mounted() {
