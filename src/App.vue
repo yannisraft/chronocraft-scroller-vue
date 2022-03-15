@@ -8,11 +8,11 @@
         <span>Overlay Content</span>
     </template>
 </Scroller>
-<br/>
+<br />
 <button class="testbutton" type="button" @click="ScrollBy()">Scroll By</button>
 <button class="testbutton" type="button" @click="ScrollTo()">Scroll To</button>
-<button class="testbutton" type="button" @click="AnimatePrevious()">Animate Previous</button>
-<button class="testbutton" type="button" @click="AnimateNext()">Animate Next</button>
+<button class="testbutton" type="button" @click="AnimatePrevious()">Load Previous</button>
+<button class="testbutton" type="button" @click="AnimateNext()">Load Next</button>
 </template>
 
 <script>
@@ -30,8 +30,7 @@ export default {
             lastid: 10000,
             total: 140,
             newcellslength: 28,
-            scrolltoposition: 0,
-            animatescroll: 0
+            scrolltoposition: 0
         }
     },
     methods: {
@@ -41,9 +40,9 @@ export default {
         onUpdateDataNext(done, _firstid, _lastid) {
             var newdata = [];
             for (var f = _lastid; f < _lastid + this.newcellslength; f++) {
-                
+
                 newdata.push({
-                    id: f+1
+                    id: f + 1
                 });
             }
 
@@ -70,10 +69,32 @@ export default {
             this.$refs.scroller_ref.ScrollTo(this.scrolltoposition);
         },
         AnimatePrevious() {
-            this.animatescroll = -1;
+            this.firstid = 9000;
+            this.lastid = 9000;
+            var nextdata = [];
+
+            this.lastid += this.total;
+            for (var f = this.firstid; f < this.lastid; f++) {
+                nextdata.push({
+                    id: f
+                });
+            }
+
+            this.$refs.scroller_ref.SetAnimatePrevious(nextdata);
         },
         AnimateNext() {
-            this.animatescroll = 1;
+            this.firstid = 20000;
+            this.lastid = 20000;
+            var nextdata = [];
+
+            this.lastid += this.total;
+            for (var f = this.firstid; f < this.lastid; f++) {
+                nextdata.push({
+                    id: f
+                });
+            }
+
+            this.$refs.scroller_ref.SetAnimateNext(nextdata);
         }
     },
     mounted() {
@@ -82,8 +103,8 @@ export default {
             this.scrollerdata.push({
                 id: f
             });
-        }    
-        
+        }
+
         // Test GetCellsPosition
         // ---------------------
         this.$nextTick(function () {
@@ -136,7 +157,6 @@ h1 {
 .testbutton {
     background: #b6b6b6;
 
-
     /* for theme */
     background: #f0ecec;
     /* box-shadow: 2px 2px 2px 2px rgb(221 221 221 / 60%); */
@@ -156,7 +176,7 @@ h1 {
 }
 
 .testbutton:active {
-    background: #d4d0d0;    
+    background: #d4d0d0;
 }
 
 @media screen and (max-width: 600px) {

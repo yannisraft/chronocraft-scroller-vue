@@ -2,7 +2,7 @@
 <div class="scroller-container" :style="[{ 'height': height + 'px'}]">
     <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}, {'overflow-x': GetOverflowX()+' !important', 'overflow-y': GetOverflowY()+' !important'}]">
 
-        <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container', {'animate-next': (animatedirection === 1)} ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
+        <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container', {'animate-next': (animatedirection === 1)}, {'animate-previous': (animatedirection === -1)} ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
             <slot name="content">
                 <div v-for="datacell in cellsdata" :id="'cell_'+datacell.id" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW, 'z-index': datacell.index}">
                     <slot name="cell" :data="datacell">
@@ -16,6 +16,9 @@
         <slot name="overlay">
 
         </slot>
+    </div>
+    <div :class="['preload-overlay', 'noselect',{'preloadvisible': preloadvisible}]">
+        <img src="./../../assets/preloader.png" alt="preload"/>
     </div>
     <div class="alert-overlay" v-if="alertvisible">
         <h3>{{ alerttext }}</h3>
@@ -124,6 +127,7 @@ export default defineComponent({
         let scrollLoadingOffset = 200;
         let loadingCells = false;
         let alertvisible = ref(false);
+        let preloadvisible = ref(false);
         let alerttext = ref("");
         let dirsign = 1;
         let inczindex = 10000000; // Incremental z-index
@@ -674,6 +678,37 @@ export default defineComponent({
             }, 50);
         }
 
+        function SetAnimateNext(nextdata) {
+            animatedirection.value = 1;
+            preloadvisible.value = true;
+
+            setTimeout(()=> {
+                cellsdata.value = nextdata;
+                animatedirection.value = 0;
+                ScrollTo(0);
+            }, 2000); 
+
+            setTimeout(()=> {
+                preloadvisible.value = false;
+            }, 2100);
+        }
+
+        function SetAnimatePrevious(nextdata) {
+            animatedirection.value = -1;
+            preloadvisible.value = true;
+
+            setTimeout(()=> {
+                cellsdata.value = nextdata;
+                animatedirection.value = 0;
+                ScrollTo(0);
+            }, 2000); 
+
+            setTimeout(()=> {
+                preloadvisible.value = false;
+            }, 2100);
+        }
+
+
         function WindowResized(e) {
             Initialize();
         }
@@ -708,11 +743,11 @@ export default defineComponent({
                 second
             ); */
             console.log("animatedirection: ", animatedirection);
-            // Animate on Direction
-            setTimeout(() => {
-                animatedirection.value = 0;
-            }, 3000);
-            
+            // Animate on Direction                  
+        });
+
+        watch(() => props.data, (first, second) => {
+            cellsdata.value = first;
         });
 
         return {
@@ -728,6 +763,8 @@ export default defineComponent({
             GetCellsPosition,
             GetOverflowX,
             GetOverflowY,
+            SetAnimateNext,
+            SetAnimatePrevious,
             startPos,
             startscrollPos,
             movescrollPos,
@@ -740,6 +777,7 @@ export default defineComponent({
             alertvisible,
             alerttext,
             dirsign,
+            preloadvisible,
             animatedirection
         };
     }
