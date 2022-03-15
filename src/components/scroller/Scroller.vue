@@ -1,8 +1,8 @@
 <template>
 <div class="scroller-container" :style="[{ 'height': height + 'px'}]">
     <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}, {'overflow-x': GetOverflowX()+' !important', 'overflow-y': GetOverflowY()+' !important'}]">
-        
-        <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container' ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
+
+        <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container', {'animate-next': (animatedirection === 1)} ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
             <slot name="content">
                 <div v-for="datacell in cellsdata" :id="'cell_'+datacell.id" ref="cellRef" :key="datacell.id" :class="['scroller-cell', orientation === 'vertical' ? 'vertical-cell' : 'horizontal-cell', datacell.debug ? 'debugcellstyle' : '']" :style="{ 'flex-basis': cellFlexBasis, 'height': cellH, 'width': cellW, 'z-index': datacell.index}">
                     <slot name="cell" :data="datacell">
@@ -14,7 +14,7 @@
     </div>
     <div class="overlay">
         <slot name="overlay">
-            
+
         </slot>
     </div>
     <div class="alert-overlay" v-if="alertvisible">
@@ -96,6 +96,10 @@ export default defineComponent({
         hasscrollbar: {
             type: Boolean,
             default: true,
+        },
+        animatescroll: {
+            type: Number,
+            default: 0
         }
     },
     setup(props, context) {
@@ -123,6 +127,7 @@ export default defineComponent({
         let alerttext = ref("");
         let dirsign = 1;
         let inczindex = 10000000; // Incremental z-index
+        let animatedirection = ref(0);
 
         const cellsdata = ref(props.data);
 
@@ -188,9 +193,9 @@ export default defineComponent({
 
         function GenerateNextData(newdata) {
             // For each of the data set the index
-            inczindex -= cellsdata.value.length-1;
+            inczindex -= cellsdata.value.length - 1;
             for (let i = 0; i < newdata.length; i++) {
-                newdata[i].index = inczindex-i;
+                newdata[i].index = inczindex - i;
             }
 
             // Add new data
@@ -236,9 +241,9 @@ export default defineComponent({
                 newdata[i].index = inczindex;
             } */
             for (let i = 0; i < newdata.length; i++) {
-                newdata[i].index = inczindex+newdata.length-i;
+                newdata[i].index = inczindex + newdata.length - i;
             }
-            inczindex+=newdata.length - 1;
+            inczindex += newdata.length - 1;
 
             // Add new data
             cellsdata.value = [...newdata, ...cellsdata.value];
@@ -677,7 +682,7 @@ export default defineComponent({
             //console.log('onBeforeMount');
             setTimeout(() => {
                 for (var k = 0; k < cellsdata.value.length; k++) {
-                    cellsdata.value[k].index = inczindex-k;
+                    cellsdata.value[k].index = inczindex - k;
                     //inczindex--;
                 }
                 //console.log('cellsdata: ', cellsdata.value);
@@ -693,6 +698,21 @@ export default defineComponent({
 
         onUpdated(() => {
             GetTotalVisibleCells();
+        });
+
+        watch(() => props.animatescroll, (first, second) => {
+            animatedirection.value = first;
+            /* console.log(
+                "Watch props.animatescroll function called with args:",
+                first,
+                second
+            ); */
+            console.log("animatedirection: ", animatedirection);
+            // Animate on Direction
+            setTimeout(() => {
+                animatedirection.value = 0;
+            }, 3000);
+            
         });
 
         return {
@@ -719,7 +739,8 @@ export default defineComponent({
             cellsdata,
             alertvisible,
             alerttext,
-            dirsign
+            dirsign,
+            animatedirection
         };
     }
 });

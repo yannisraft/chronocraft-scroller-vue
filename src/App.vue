@@ -1,6 +1,6 @@
 <template>
 <h1>Chronocraft Library Test Playground</h1>
-<Scroller ref="scroller_ref" orientation="vertical" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious" @on-data-updated="onDataUpdated">
+<Scroller ref="scroller_ref" orientation="vertical" :animatescroll="animatescroll" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious" @on-data-updated="onDataUpdated">
     <!-- <template v-slot:cell="slotProps">
         <span>{{ slotProps.data.id }}</span>
     </template> -->
@@ -11,6 +11,8 @@
 <br/>
 <button class="testbutton" type="button" @click="ScrollBy()">Scroll By</button>
 <button class="testbutton" type="button" @click="ScrollTo()">Scroll To</button>
+<button class="testbutton" type="button" @click="AnimatePrevious()">Animate Previous</button>
+<button class="testbutton" type="button" @click="AnimateNext()">Animate Next</button>
 </template>
 
 <script>
@@ -28,7 +30,8 @@ export default {
             lastid: 10000,
             total: 140,
             newcellslength: 28,
-            scrolltoposition: 0
+            scrolltoposition: 0,
+            animatescroll: 0
         }
     },
     methods: {
@@ -65,6 +68,12 @@ export default {
         },
         ScrollTo() {
             this.$refs.scroller_ref.ScrollTo(this.scrolltoposition);
+        },
+        AnimatePrevious() {
+            this.animatescroll = -1;
+        },
+        AnimateNext() {
+            this.animatescroll = 1;
         }
     },
     mounted() {
@@ -142,10 +151,12 @@ h1 {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    margin-left: 10px;
 }
 
 .testbutton:active {
-    background: #d4d0d0;
+    background: #d4d0d0;    
 }
 
 @media screen and (max-width: 600px) {
