@@ -307,26 +307,31 @@ export default defineComponent({
                         scroller.scrollHeight - scrollLoadingOffset) {
 
                         if (!loadingCells && !justLoaded) {
-                            loadingCells = true;
-                            var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
-                            context.emit("on-update-data-next", (newdata) => {
-                                GenerateNextData(newdata);
-                            }, firstid, lastid);
+
+                            if (cellsdata.value) {
+                                loadingCells = true;
+                                var firstid = cellsdata.value[0].id;
+                                var lastid = cellsdata.value[cellsdata.value.length - 1].id;
+                                context.emit("on-update-data-next", (newdata) => {
+                                    GenerateNextData(newdata);
+                                }, firstid, lastid);
+                            }
                         }
                     }
                 } else {
                     if (scroller.scrollLeft + scroller.offsetWidth >=
                         scroller.scrollWidth - scrollLoadingOffset || scroller.scrollLeft === (scroller.scrollWidth - scroller.clientWidth)) {
                         if (!loadingCells && !justLoaded) {
-                            loadingCells = true;
-                            var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
-                            context.emit("on-update-data-next", (newdata) => {
-                                setTimeout(() => {
-                                    GenerateNextData(newdata);
-                                }, 10);
-                            }, firstid, lastid);
+                            if (cellsdata.value) {
+                                loadingCells = true;
+                                var firstid = cellsdata.value[0].id;
+                                var lastid = cellsdata.value[cellsdata.value.length - 1].id;
+                                context.emit("on-update-data-next", (newdata) => {
+                                    setTimeout(() => {
+                                        GenerateNextData(newdata);
+                                    }, 10);
+                                }, firstid, lastid);
+                            }
                         }
                     }
                 }
@@ -336,27 +341,31 @@ export default defineComponent({
                 if (props.orientation === 'vertical') {
                     if (scroller.scrollTop < scrollLoadingOffset) {
                         if (!loadingCells && !justLoaded) {
-                            loadingCells = true;
-                            var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
-                            context.emit("on-update-data-previous", (newdata) => {
-                                // done
-                                GeneratePreviousData(newdata);
-                            }, firstid, lastid);
+                            if (cellsdata.value) {
+                                loadingCells = true;
+                                var firstid = cellsdata.value[0].id;
+                                var lastid = cellsdata.value[cellsdata.value.length - 1].id;
+                                context.emit("on-update-data-previous", (newdata) => {
+                                    // done
+                                    GeneratePreviousData(newdata);
+                                }, firstid, lastid);
+                            }
                         }
                     }
                 } else {
                     if (scroller.scrollLeft < scrollLoadingOffset) {
                         if (!loadingCells && !justLoaded) {
-                            loadingCells = true;
-                            var firstid = cellsdata.value[0].id;
-                            var lastid = cellsdata.value[cellsdata.value.length - 1].id;
-                            context.emit("on-update-data-previous", (newdata) => {
-                                // done
-                                setTimeout(() => {
-                                    GeneratePreviousData(newdata);
-                                }, 10);
-                            }, firstid, lastid);
+                            if (cellsdata.value) {
+                                loadingCells = true;
+                                var firstid = cellsdata.value[0].id;
+                                var lastid = cellsdata.value[cellsdata.value.length - 1].id;
+                                context.emit("on-update-data-previous", (newdata) => {
+                                    // done
+                                    setTimeout(() => {
+                                        GeneratePreviousData(newdata);
+                                    }, 10);
+                                }, firstid, lastid);
+                            }
                         }
                     }
                 }
@@ -707,7 +716,7 @@ export default defineComponent({
             setTimeout(() => {
                 cellsdata.value = nextdata;
                 oncellsdataChange();
-                
+
                 animatedirection.value = 0;
                 ScrollTo(0);
                 callback();
