@@ -1,6 +1,6 @@
 <template>
 <h1>Chronocraft Library Test Playground</h1>
-<Scroller ref="scroller_ref" orientation="vertical" :animatescroll="animatescroll" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :data="scrollerdata" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious" @on-data-updated="onDataUpdated">
+<Scroller v-model="scrollerdata" ref="scroller_ref" orientation="vertical" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
     <!-- <template v-slot:cell="slotProps">
         <span>{{ slotProps.data.id }}</span>
     </template> -->
@@ -58,9 +58,6 @@ export default {
             }
 
             done(newdata);
-        },
-        onDataUpdated(data) {
-            //console.log("onDataUpdated: ", data);
         },
         ScrollBy() {
             this.$refs.scroller_ref.ScrollBy(100);

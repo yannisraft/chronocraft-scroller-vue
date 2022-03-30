@@ -1,7 +1,7 @@
 {
   "name": "chronocraft-scroller-vue",
   "buildname": "chronocraftscrollervue",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "A Vue 3 Dynamic and Versatile High Performance Infinite Scroller Component",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -51,6 +51,7 @@
     "core-js": "^3.6.5"
   },
   "dependencies": {
+    "chronocraft-datepicker-vue": "^0.0.2",
     "core-js": "^3.6.5"
   },
   "devDependencies": {

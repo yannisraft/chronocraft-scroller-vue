@@ -66,13 +66,12 @@ Scroller
 |  contentpadding  |  Number  |  The size of padding between the scroller cells  |
 |  wheelscrollspeed  |  Number  |  Defines the mouse wheel scroll speed  |
 |  newcellslength  |  Number  |  The total number of new cells that will be loaded when scrolling forward or backwards  |
-|  data  |  Array  |  The actual data passed into the scroller. These data are reactive by using ref() |
+|  v-model  |  Array  |  The actual data passed into the scroller |
 |  cellsquared  |  Boolean  |  Sets the cell to be squared. (width will have the same size as the height)  |
 |  hasscrollbar  |  Boolean  |  Defines if the scroller should have a scroll bar  |
 |  @on-scroll  |  Event Function   | Event fired when the user has scrolled    |
 |  @on-update-data-next  |  Event Function  |  Event fired when the user has reached at the end of the scroller and new data might be required to load |
 |  @on-update-data-previous  |  Event Function  | Event fired when the user has reached at the start of the scroller and new data might be required to load  |
-|  @on-data-updated  |  Event Function  |  Event triggered when scroller data has changed and returns the new data
 |  ScrollTo  |  Call Function  |  Function called to scroll the scroller to specific position in pixels
 |  ScrollBy  |  Call Function  |  Function called to scroll the scroller by a specific amount in pixels
 |  GetCellsPosition  |  Call Function  |  Function called to get a specific cell's position in pixels

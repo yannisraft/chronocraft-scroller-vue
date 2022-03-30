@@ -42,7 +42,7 @@ export default defineComponent({
     name: "Scroller",
     components: {},
     props: {
-        data: {
+        modelValue: {
             type: Array,
             default: () => {
                 return []
@@ -133,7 +133,7 @@ export default defineComponent({
         let inczindex = 10000000; // Incremental z-index
         let animatedirection = ref(0);
 
-        const cellsdata = ref(props.data);
+        const cellsdata = ref(props.modelValue);
 
         function GetOverflowX() {
             let overflowx = 'hidden';
@@ -209,6 +209,8 @@ export default defineComponent({
             //
             cellsdata.value.splice(0, newdata.length);
 
+            oncellsdataChange();
+
             let cell = document.querySelector(".scroller-cell");
             let cellheight = cell.offsetHeight + props.gap;
             let cellwidth = cell.offsetWidth + props.gap;
@@ -235,7 +237,7 @@ export default defineComponent({
                 loadingCells = false;
             }, 400);
 
-            context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
+            //context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
         }
 
         function GeneratePreviousData(newdata) {
@@ -255,6 +257,8 @@ export default defineComponent({
             // Remove Last n Cells where n=newdata.length
             //
             cellsdata.value.splice(cellsdata.value.length - newdata.length, cellsdata.value.length - 1);
+
+            oncellsdataChange();
 
             let cell = document.querySelector(".scroller-cell");
             let cellheight = cell.offsetHeight + props.gap;
@@ -291,7 +295,7 @@ export default defineComponent({
                 loadingCells = false;
             }, 400);
 
-            context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
+            //context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
         }
 
         async function detectScrollEdges(sign, dragging, e) {
@@ -682,34 +686,37 @@ export default defineComponent({
             animatedirection.value = 1;
             preloadvisible.value = true;
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 cellsdata.value = nextdata;
+                oncellsdataChange();
+
                 animatedirection.value = 0;
                 ScrollTo(0);
                 callback();
-            }, 2000); 
+            }, 2000);
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 preloadvisible.value = false;
             }, 2100);
         }
 
-        function SetAnimatePrevious(nextdata) {
+        function SetAnimatePrevious(nextdata, callback) {
             animatedirection.value = -1;
             preloadvisible.value = true;
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 cellsdata.value = nextdata;
+                oncellsdataChange();
+                
                 animatedirection.value = 0;
                 ScrollTo(0);
                 callback();
-            }, 2000); 
+            }, 2000);
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 preloadvisible.value = false;
             }, 2100);
         }
-
 
         function WindowResized(e) {
             Initialize();
@@ -722,6 +729,8 @@ export default defineComponent({
                     cellsdata.value[k].index = inczindex - k;
                     //inczindex--;
                 }
+
+                oncellsdataChange();
                 //console.log('cellsdata: ', cellsdata.value);
             }, 10);
         });
@@ -730,7 +739,7 @@ export default defineComponent({
             window.addEventListener("resize", WindowResized);
 
             Initialize();
-            context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
+            //context.emit("on-data-updated", JSON.parse(JSON.stringify(cellsdata.value)));
         });
 
         onUpdated(() => {
@@ -748,9 +757,13 @@ export default defineComponent({
             // Animate on Direction                  
         });
 
-        watch(() => props.data, (first, second) => {
+        watch(() => props.modelValue, (first, second) => {
             cellsdata.value = first;
         });
+
+        const oncellsdataChange = () => {
+            context.emit("update:modelValue", cellsdata.value);
+        }
 
         return {
             cellW,
