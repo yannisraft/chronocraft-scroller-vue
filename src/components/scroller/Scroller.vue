@@ -808,7 +808,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 @import "./scroller.css";
 
 .scroller {
