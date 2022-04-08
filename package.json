@@ -1,7 +1,7 @@
 {
   "name": "chronocraft-scroller-vue",
   "buildname": "chronocraftscrollervue",
-  "version": "0.1.9",
+  "version": "0.1.8",
   "description": "A Vue 3 Dynamic and Versatile High Performance Infinite Scroller Component",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

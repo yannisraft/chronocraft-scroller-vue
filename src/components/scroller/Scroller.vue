@@ -212,27 +212,25 @@ export default defineComponent({
             oncellsdataChange();
 
             let cell = document.querySelector(".scroller-cell");
-            if (cell) {
-                let cellheight = cell.offsetHeight + props.gap;
-                let cellwidth = cell.offsetWidth + props.gap;
+            let cellheight = cell.offsetHeight + props.gap;
+            let cellwidth = cell.offsetWidth + props.gap;
 
-                var diff = 0;
-                var targetPosition = 0;
-                if (props.orientation === 'vertical') {
-                    var colsloaded = parseInt(newdata.length / props.numcols);
-                    targetPosition = previousScrollPos; // - (cellheight * colsloaded);
-                    scroller.scrollTop = targetPosition;
+            var diff = 0;
+            var targetPosition = 0;
+            if (props.orientation === 'vertical') {
+                var colsloaded = parseInt(newdata.length / props.numcols);
+                targetPosition = previousScrollPos; // - (cellheight * colsloaded);
+                scroller.scrollTop = targetPosition;
 
-                    diff = previousScrollPos - movescrollPos;
-                    movescrollPos = targetPosition - diff;
-                } else {
-                    var rowsloaded = parseInt(newdata.length / props.numrows);
-                    targetPosition = previousScrollPos - (cellwidth * rowsloaded);
-                    scroller.scrollLeft = targetPosition;
+                diff = previousScrollPos - movescrollPos;
+                movescrollPos = targetPosition - diff;
+            } else {
+                var rowsloaded = parseInt(newdata.length / props.numrows);
+                targetPosition = previousScrollPos - (cellwidth * rowsloaded);
+                scroller.scrollLeft = targetPosition;
 
-                    diff = previousScrollPos - movescrollPos;
-                    movescrollPos = targetPosition - diff;
-                }
+                diff = previousScrollPos - movescrollPos;
+                movescrollPos = targetPosition - diff;
             }
 
             setTimeout(() => {
@@ -263,36 +261,34 @@ export default defineComponent({
             oncellsdataChange();
 
             let cell = document.querySelector(".scroller-cell");
-            if (cell) {
-                let cellheight = cell.offsetHeight + props.gap;
-                let cellwidth = cell.offsetWidth + props.gap;
+            let cellheight = cell.offsetHeight + props.gap;
+            let cellwidth = cell.offsetWidth + props.gap;
 
-                var diff = 0;
-                var targetPosition = 0;
-                if (props.orientation === 'vertical') {
-                    var colsloaded = Math.floor(newdata.length / props.numcols);
+            var diff = 0;
+            var targetPosition = 0;
+            if (props.orientation === 'vertical') {
+                var colsloaded = Math.floor(newdata.length / props.numcols);
 
-                    if (previousScrollPos === 0) {
-                        targetPosition = (cellheight * colsloaded);
+                if (previousScrollPos === 0) {
+                    targetPosition = (cellheight * colsloaded);
 
-                        setTimeout(() => {
-                            scroller.scrollTop = targetPosition;
-                        }, 0);
-                    } else {
-                        targetPosition = previousScrollPos;
+                    setTimeout(() => {
                         scroller.scrollTop = targetPosition;
-                    }
-
-                    diff = previousScrollPos - movescrollPos;
-                    movescrollPos = targetPosition - diff;
+                    }, 0);
                 } else {
-                    var rowsloaded = parseInt(newdata.length / props.numrows);
-                    targetPosition = previousScrollPos + (cellwidth * rowsloaded);
-                    scroller.scrollLeft = targetPosition;
-
-                    diff = previousScrollPos - movescrollPos;
-                    movescrollPos = targetPosition - diff;
+                    targetPosition = previousScrollPos;
+                    scroller.scrollTop = targetPosition;
                 }
+
+                diff = previousScrollPos - movescrollPos;
+                movescrollPos = targetPosition - diff;
+            } else {
+                var rowsloaded = parseInt(newdata.length / props.numrows);
+                targetPosition = previousScrollPos + (cellwidth * rowsloaded);
+                scroller.scrollLeft = targetPosition;
+
+                diff = previousScrollPos - movescrollPos;
+                movescrollPos = targetPosition - diff;
             }
 
             setTimeout(() => {
