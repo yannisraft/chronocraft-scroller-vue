@@ -59,6 +59,7 @@ Scroller
 |  Name  | Type  | Description  |
 |---|---|---|
 |  orientation  |  String  |  Defines the orientation of the scroller. The possible values are **horizontal** or **vertical**  |
+|  static       |  Boolean |  Set the Scroll view as static. No new data will be loaded wehn reaching at the end
 |  cellwidth    |  Number  |  Defines the base of the cellwidth on the vertical scroller |
 |  cellheight    |  Number  |  Defines the base of the cellheight on the horizontal scroller  |
 |  numcols  |  Number  |  The total number of columns on the vertical scroller  |

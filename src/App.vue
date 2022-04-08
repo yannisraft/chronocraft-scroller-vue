@@ -1,11 +1,24 @@
 <template>
 <h1>Chronocraft Library Test Playground</h1>
 <Scroller v-model="scrollerdata" ref="scroller_ref" orientation="vertical" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
-    <!-- <template v-slot:cell="slotProps">
+    <template v-slot:cell="slotProps">
         <span>{{ slotProps.data.id }}</span>
-    </template> -->
+    </template>
     <template v-slot:overlay>
         <span>Overlay Content</span>
+    </template>
+</Scroller>
+<Scroller v-model="dayviewdata" :height="400" :numcols="1" :static="true" :cellheight="1280">
+    <template v-slot:cell="slotProps">
+        <div class="timings">
+            <!-- <div v-for="time in daytimelist" :key="time" class="ccr-daytime">
+                <div class="ccr-daytime-halfhour" v-if="time.ishalf"><span>{{ time.timestr }}</span></div>
+                <div class="ccr-daytime-hour" v-if="!time.ishalf"><span>{{ time.timestr }}</span></div>
+            </div> -->
+        </div>
+        <div class="days" id="events">
+            
+        </div>
     </template>
 </Scroller>
 <br />
@@ -30,7 +43,8 @@ export default {
             lastid: 10000,
             total: 140,
             newcellslength: 28,
-            scrolltoposition: 0
+            scrolltoposition: 0,
+            dayviewdata: [{id: 1}, {id: 2}]
         }
     },
     methods: {
@@ -77,8 +91,8 @@ export default {
                 });
             }
 
-            this.$refs.scroller_ref.SetAnimatePrevious(nextdata, ()=> {
-                
+            this.$refs.scroller_ref.SetAnimatePrevious(nextdata, () => {
+
             });
         },
         AnimateNext() {
@@ -93,7 +107,7 @@ export default {
                 });
             }
 
-            this.$refs.scroller_ref.SetAnimateNext(nextdata, ()=> {
+            this.$refs.scroller_ref.SetAnimateNext(nextdata, () => {
 
             });
         }
@@ -108,10 +122,10 @@ export default {
 
         // Test GetCellsPosition
         // ---------------------
-        this.$nextTick(function () {
+        /* this.$nextTick(function () {
             var foundposition = this.$refs.scroller_ref.GetCellsPosition(10100);
             this.scrolltoposition = foundposition;
-        });
+        }); */
     }
 };
 </script>

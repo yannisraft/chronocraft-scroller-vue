@@ -1,6 +1,6 @@
 <template>
 <div class="scroller-container" :style="[{ 'height': height + 'px'}]">
-    <div :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}, {'overflow-x': GetOverflowX()+' !important', 'overflow-y': GetOverflowY()+' !important'}]">
+    <div :id="scrollerid" :class="['scroller', orientation === 'vertical' ? 'vertical-scroller' : 'horizontal-scroller' ]" :style="[{ 'height': height + 'px'}, {'overflow-x': GetOverflowX()+' !important', 'overflow-y': GetOverflowY()+' !important'}]">
 
         <div :class="['scroller-content', orientation === 'vertical' ? 'vertical-container' : 'horizontal-container', {'animate-next': (animatedirection === 1)}, {'animate-previous': (animatedirection === -1)} ]" :style="[{ 'gap': gap + 'px'}, { 'padding': contentpadding + 'px'} ]">
             <slot name="content">
@@ -96,6 +96,10 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        static: {
+            type: Boolean,
+            default: false,
+        },
         hasscrollbar: {
             type: Boolean,
             default: true,
@@ -132,6 +136,7 @@ export default defineComponent({
         let dirsign = 1;
         let inczindex = 10000000; // Incremental z-index
         let animatedirection = ref(0);
+        let scrollerid = "scroller_"+(Math.floor(Math.random() * 999999)+1000000);
 
         const cellsdata = ref(props.modelValue);
 
@@ -382,7 +387,7 @@ export default defineComponent({
             if (cell) {
                 let cellheight = cell.offsetHeight + props.gap;
                 let cellwidth = cell.offsetWidth + props.gap;
-                scroller = document.querySelector(".scroller");
+                scroller = document.querySelector("#"+scrollerid);
 
                 var totalVisibleCells = 0;
                 if (props.orientation === 'vertical') {
@@ -402,12 +407,15 @@ export default defineComponent({
                 // The ( Total visible cells ) + ( New cells added each time) * 3
                 // Otherwise the scrolling will not be working correctly
 
-                if (minimumRequiredInitialCells > cellsdata.value.length) {
-                    console.log("Error: Minimum Cells Required to load at start should be: ", minimumRequiredInitialCells);
+                if (!props.static) {
+                    if (minimumRequiredInitialCells > cellsdata.value.length) {
+                        console.log("Error: Minimum Cells Required to load at start should be: ", minimumRequiredInitialCells);
 
-                    alertvisible.value = true;
-                    alerttext.value = "Error: Minimum Cells Required to load at start should be: " + minimumRequiredInitialCells + ". This value is relevant to the scroller width and to the number of new cells added each time.";
+                        alertvisible.value = true;
+                        alerttext.value = "Error: Minimum Cells Required to load at start should be: " + minimumRequiredInitialCells + ". This value is relevant to the scroller width and to the number of new cells added each time.";
+                    }
                 }
+
             }
 
         }
@@ -489,7 +497,7 @@ export default defineComponent({
         } */
 
         function Initialize() {
-            scroller = document.querySelector(".scroller");
+            scroller = document.querySelector("#"+scrollerid);
             scrollbarWidth = getScrollbarWidth();
 
             var totalgap = 0;
@@ -655,44 +663,28 @@ export default defineComponent({
                 }
             });
 
-            var detectEdgesInterval = setInterval(() => {
-                /* //let scroll = scroller.scrollTop;
-                //var delta = 0;
-                if (props.orientation === 'vertical') {
-                    //delta = scroll - previousScrollPos;
-                    detectScrollEdges(dirsign);
-                    //previousScrollPos = scroll;
-                } else {
-                }   */
-                var delta = 0;
-                ///var dirsign = 1;
+            if (!props.static) {
+                var detectEdgesInterval = setInterval(() => {
+                    var delta = 0;
 
-                if (props.orientation === 'vertical') {
-                    //let scroll = scroller.scrollTop;
-                    /* delta = scroll - previousScrollPos;
-                    dirsign = parseInt(delta / Math.abs(delta)); */
-                    detectScrollEdges(dirsign, false);
-                    //previousScrollPos = scroll;
-                } else {
-                    //let scroll = scroller.scrollLeft;
-                    /* delta = scroll - previousScrollPos;
-                    dirsign = parseInt(delta / Math.abs(delta)); */
-                    detectScrollEdges(dirsign, false);
-                    //previousScrollPos = scroll;
-                }
+                    if (props.orientation === 'vertical') {
+                        detectScrollEdges(dirsign, false);
+                    } else {
+                        detectScrollEdges(dirsign, false);
+                    }
+                }, 200);
 
-            }, 200);
+                var scrollPosInterval = setInterval(() => {
 
-            var scrollPosInterval = setInterval(() => {
-
-                if (props.orientation === 'vertical') {
-                    let scroll = scroller.scrollTop;
-                    previousScrollPos = scroll;
-                } else {
-                    let scroll = scroller.scrollLeft;
-                    previousScrollPos = scroll;
-                }
-            }, 50);
+                    if (props.orientation === 'vertical') {
+                        let scroll = scroller.scrollTop;
+                        previousScrollPos = scroll;
+                    } else {
+                        let scroll = scroller.scrollLeft;
+                        previousScrollPos = scroll;
+                    }
+                }, 50);
+            }
         }
 
         function SetAnimateNext(nextdata, callback) {
@@ -806,7 +798,8 @@ export default defineComponent({
             alerttext,
             dirsign,
             preloadvisible,
-            animatedirection
+            animatedirection,
+            scrollerid
         };
     }
 });
