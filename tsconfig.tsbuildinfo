@@ -306,6 +306,11 @@
         "signature": "36eed4536b37a2a01ac240ce30db05a93e627178689414935b23a7bad525a57c",
         "affectsGlobalScope": false
       },
+      "./src/components/VScroller/index.ts": {
+        "version": "2f2860271067102aad477a0c4c29babef7ebe96c1b943b797b9395675d1b5de8",
+        "signature": "dca1f88c428a07d9a3786d95f5b2fa6c873f959a484e11432f5331b8d4d817a1",
+        "affectsGlobalScope": false
+      },
       "./node_modules/@vue/test-utils/dist/types.d.ts": {
         "version": "a8396b2f0de9cb9814fe48ac1bcd2421858d8ddfe1d0452ac1ce710577aaad0c",
         "signature": "a8396b2f0de9cb9814fe48ac1bcd2421858d8ddfe1d0452ac1ce710577aaad0c",
@@ -579,6 +584,9 @@
       "./src/components/Scroller/index.ts": [
         "./src/shims-vue.d.ts"
       ],
+      "./src/components/VScroller/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
       "./src/components/index.ts": [
         "./src/components/Scroller/index.ts"
       ],
@@ -716,6 +724,9 @@
       "./src/components/Scroller/index.ts": [
         "./src/shims-vue.d.ts"
       ],
+      "./src/components/VScroller/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
       "./src/components/index.ts": [
         "./src/components/Scroller/index.ts"
       ],
@@ -808,6 +819,7 @@
       "./node_modules/typescript/lib/lib.scripthost.d.ts",
       "./node_modules/vue/dist/vue.d.ts",
       "./src/components/Scroller/index.ts",
+      "./src/components/VScroller/index.ts",
       "./src/components/index.ts",
       "./src/index.ts",
       "./src/main.ts",

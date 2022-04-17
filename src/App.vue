@@ -1,26 +1,31 @@
 <template>
+<div style="padding: 20px; display: flex;">
+    <div style="width: 50%;">
+        <Scroller v-model="scrollerdata" ref="scroller_ref" orientation="vertical" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+            <template v-slot:cell="slotProps">
+                <span>{{ slotProps.data.id }}</span>
+            </template>
+            <template v-slot:overlay>
+                <span>Overlay Content</span>
+            </template>
+        </Scroller>
+    </div>
+    <div style="width: 50%;">
+        <VScroller v-model="scrollerdata">
+        </VScroller>
+    </div>
+</div>
 <h1>Chronocraft Library Test Playground</h1>
-<Scroller v-model="scrollerdata" ref="scroller_ref" orientation="vertical" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
-    <template v-slot:cell="slotProps">
-        <span>{{ slotProps.data.id }}</span>
-    </template>
-    <template v-slot:overlay>
-        <span>Overlay Content</span>
-    </template>
-</Scroller>
-<Scroller v-model="dayviewdata" :height="400" :numcols="1" :static="true" :cellheight="1280">
+
+<!-- <Scroller v-model="dayviewdata" :height="400" :numcols="1" :static="true" :cellheight="1280">
     <template v-slot:cell="slotProps">
         <div class="timings">
-            <!-- <div v-for="time in daytimelist" :key="time" class="ccr-daytime">
-                <div class="ccr-daytime-halfhour" v-if="time.ishalf"><span>{{ time.timestr }}</span></div>
-                <div class="ccr-daytime-hour" v-if="!time.ishalf"><span>{{ time.timestr }}</span></div>
-            </div> -->
         </div>
         <div class="days" id="events">
-            
+
         </div>
     </template>
-</Scroller>
+</Scroller> -->
 <br />
 <button class="testbutton" type="button" @click="ScrollBy()">Scroll By</button>
 <button class="testbutton" type="button" @click="ScrollTo()">Scroll To</button>
@@ -30,11 +35,13 @@
 
 <script>
 import Scroller from './components/Scroller/Scroller.vue';
+import VScroller from './components/VScroller/VScroller.vue';
 
 export default {
     name: 'App',
     components: {
-        Scroller
+        Scroller,
+        VScroller
     },
     data: function () {
         return {
@@ -44,7 +51,11 @@ export default {
             total: 140,
             newcellslength: 28,
             scrolltoposition: 0,
-            dayviewdata: [{id: 1}, {id: 2}]
+            dayviewdata: [{
+                id: 1
+            }, {
+                id: 2
+            }]
         }
     },
     methods: {

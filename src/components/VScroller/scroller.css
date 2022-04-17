@@ -1,0 +1,37 @@
+.scroller {
+    height: 100%;
+}
+
+.scroller-viewport {
+    height: 100%;
+    width: 300px;
+    margin: 0px auto;
+    overflow-y: hidden;
+    border: 1px solid #bdbdbd;
+}
+
+.scroller-container {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.scroller-cell-v {
+    width: 40px;
+    background-color: #c79e9e;
+    max-width: 20%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 1.5vw;
+    font-family: Arial;
+    color: #ffffff;
+    padding: 5px;
+    margin: 5px;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+    -webkit-perspective: 1000;
+}
