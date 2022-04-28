@@ -1,18 +1,23 @@
 <template>
-<div style="padding: 20px; display: flex;">
+<div style="padding: 20px; display: flex; height: 500px;">
     <div style="width: 50%;">
-        <Scroller v-model="scrollerdata" ref="scroller_ref" orientation="vertical" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
+        <!-- <Scroller v-model="scrollerdata" ref="scroller_ref" orientation="vertical" :hasscrollbar="true" :cellwidth="200" :numcols="7" :numrows="4" :contentpadding="30" :wheelscrollspeed="3" :newcellslength="newcellslength" :cellsquared="false" @on-scroll="OnScroll" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
             <template v-slot:cell="slotProps">
                 <span>{{ slotProps.data.id }}</span>
             </template>
             <template v-slot:overlay>
                 <span>Overlay Content</span>
             </template>
-        </Scroller>
+        </Scroller> -->
     </div>
     <div style="width: 50%;">
-        <VScroller v-model="scrollerdata">
+        <!-- Infinite -->
+        <VScroller v-model="scrollerdata" :isInfinite="true" :scrollSpeed="3" :gap="3" :hasScrollbar="true" orientation="vertical" :numberOfRows="6">
         </VScroller>
+
+        <!-- Finite -->
+        <!-- <VScroller v-model="finitescrollerdata" :isInfinite="false" :scrollSpeed="3" :gap="3" :hasScrollbar="true" orientation="vertical" :numberOfRows="6">
+        </VScroller> -->
     </div>
 </div>
 <h1>Chronocraft Library Test Playground</h1>
@@ -46,6 +51,7 @@ export default {
     data: function () {
         return {
             scrollerdata: [],
+            finitescrollerdata: [],
             firstid: 10000,
             lastid: 10000,
             total: 140,

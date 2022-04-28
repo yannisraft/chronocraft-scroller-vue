@@ -1,10 +1,17 @@
 <template>
-<div :id="scrollerId" class="scroller">
-    <div :id="viewportId" class="scroller-viewport">
+<div :id="scrollerId" class="scroller noselect">
+    <div :id="viewportId" class="scroller-viewport" :style="{width: '100%'}">
         <div :id="containerId" class="scroller-container" :style="[{ 'height': GetContainerHeight()}]">
 
         </div>
     </div>
+    <VScrollerScrollBar :active="hasScrollbar" :mode="isInfinite ? 'infinite' : 'normal'" @onChange="OnScrollBarChanged" @onBackwardsClicked="onBackwardsClicked"  @onForwardClicked="onForwardClicked" :viewportId="viewportId" />
+    <!-- <div class="scroller-scrollbar">
+        <div class="scroller-scrollbar-track"></div>
+        <div class="scroller-scrollbar-thumb" :style="'top: '+scrollbarThumbPosition+'px'"></div>
+        <div class="scroller-scrollbar-up" style="height: 12px;"></div>
+        <div class="scroller-scrollbar-down" style="height: 12px;"></div>
+    </div> -->
 </div>
 </template>
 
@@ -22,9 +29,13 @@ import {
     watch
 } from "vue";
 
+import VScrollerScrollBar from './VScrollerScrollBar';
+
 export default defineComponent({
     name: "VScroller",
-    components: {},
+    components: {
+        VScrollerScrollBar
+    },
     props: {
         modelValue: {
             type: Array,
@@ -46,7 +57,7 @@ export default defineComponent({
         },
         numberOfRows: {
             type: Number,
-            default: 4
+            default: 5
         },
         gap: {
             type: Number,
@@ -64,7 +75,7 @@ export default defineComponent({
             type: Boolean,
             default: true,
         },
-        wheelScrollSpeed: {
+        scrollSpeed: {
             type: Number,
             default: 6
         },
@@ -90,22 +101,39 @@ export default defineComponent({
         const cellsdata = ref(props.modelValue);
         const cells = ref([]);
         const divs = ref([]);
+        let viewportWidth = ref("100%");
+        let scrollbarPosition = ref(0);
+        
 
         // ---- Attributes        
         let translatePositionPrevious = translatePosition.value;
         const loadedCells = 75;
         const indexInitial = 1000;
         let indexForward = indexInitial;
-        let indexBackward = indexInitial;
+        let indexBackward = indexInitial - 1;
         let indexTopForward = 0;
         let indexTopBackward = 0;
-        let indexLeft = 0;
+        let indexLeftForward = 0;
+        let indexLeftBackward = 0;
         let momentumID = "";
         let velocityCurrent = 0;
         const velocityMomentum = 0.97;
         let timeSinceLastScroll = 0;
         let container = null;
         let viewport = null;
+        let translatePositionString = "Y";
+        let mouseDown = false;
+        let mouseMoving = false;
+        let dragScrollStartPosition = translatePosition.value;
+        let dragScrollPreviousPosition = translatePosition.value;
+        let mouseDownStartPosition = 0;
+        let scrollInterval = null;
+        let scrolldirection = 0;
+        let finalScrollSpeed = props.scrollSpeed;
+        
+
+        // ---- Setup Orientation
+        if (props.orientation === 'horizontal') translatePositionString = "X";
 
         // ---- Methods Public
         function GetContainerHeight() {
@@ -116,10 +144,71 @@ export default defineComponent({
             return finalHeight;
         }
 
+        function OnScrollBarChanged(newvalue) {
+            finalScrollSpeed = props.scrollSpeed;
+            if(newvalue <= 30 || newvalue > 70)
+            {
+                finalScrollSpeed = props.scrollSpeed * 3;
+            }
+
+            scrolldirection = 0;
+            if(newvalue < 50)
+            {
+                // Move Backwards
+                scrolldirection = -1;
+            } else if(newvalue > 50) {
+                // Move Forward
+                scrolldirection = 1;
+            }
+
+            if(scrolldirection !== 0)
+            {
+                if(scrollInterval === null)
+                {
+                    scrollInterval = setInterval(() => {
+                        UpdatePosition();                        
+                    }, 20);
+                }
+            } else {
+                clearInterval(scrollInterval);
+                scrollInterval = null;
+            }         
+        }
+
+        function onBackwardsClicked() {
+            scrolldirection = -1;
+            finalScrollSpeed = props.scrollSpeed * 3;
+
+            UpdatePosition(); 
+            BeginMomentumTracking();
+
+            scrolldirection = 0;
+            finalScrollSpeed = props.scrollSpeed;
+        }
+
+        function onForwardClicked() {
+            scrolldirection = 1;
+            finalScrollSpeed = props.scrollSpeed * 3;
+
+            UpdatePosition(); 
+            BeginMomentumTracking();
+
+            scrolldirection = 0;
+            finalScrollSpeed = props.scrollSpeed;
+        }
+
         // ---- Methods Private
+        function UpdatePosition() {
+            const walk = scrolldirection * finalScrollSpeed;
+
+            const _translatePositionPrevious = translatePosition.value;
+            translatePosition.value += -walk;
+            velocityCurrent = translatePosition.value - _translatePositionPrevious;
+        }
+
         function AnimateScroller() {
             if (container) {
-                container.style.transform = "translateY(" + translatePosition.value + "px)";
+                container.style.transform = "translate" + translatePositionString + "(" + translatePosition.value + "px)";
                 let direction = 1;
                 if (translatePosition.value > translatePositionPrevious) {
                     direction = -1;
@@ -133,30 +222,41 @@ export default defineComponent({
         function DetectEdges(direction) {
             if (viewport) {
                 var viewportHeight = viewport.clientHeight;
-                var diff = -indexTopBackward;// * (cellHeight.value + props.gap*2) - translatePosition.value - 300;
-                /* if (direction === -1) {
-                    if (diff > cellHeight.value) {
-                        var times = parseInt(diff / cellHeight.value);
+                var cellSizeOriented = cellHeight.value;
+                if (props.orientation === 'horizontal') cellSizeOriented = cellWidth.value;
+
+                var diff = 0;
+                if (direction === -1) { // Backwards
+                    diff = (-indexTopBackward * (cellSizeOriented + props.gap * 2)) - (translatePosition.value + 300);
+                    if (diff < -(cellSizeOriented + props.gap * 2)) {
+                        UpdateCells(direction, cellSizeOriented);
+                        indexTopForward--;
                     }
-                } else {
-
-                } */
-                console.log("indexTopBackward: ", indexTopBackward);
-                //console.log("diff: ", diff);
-
-                if (Math.abs(diff) > cellHeight.value) {
-                   UpdateCells(direction);
+                } else { // Forward
+                    diff = (indexTopForward * (cellSizeOriented + props.gap * 2)) + translatePosition.value - viewportHeight;
+                    if (diff < 0) {
+                        UpdateCells(direction, cellSizeOriented);
+                        indexTopBackward++;
+                        //console.log("diff: ", diff);                        
+                    }
                 }
             }
         }
 
-        function UpdateCells(direction) {
+        function UpdateCells(direction, cellSizeOriented) {
             if (direction === 1) {
                 // Add Cells Forward
-                for (var i = 1; i <= props.numberOfColumns; i++) {
-                    console.log("ADD FORWARD");
-                    var leftval = indexLeft * (cellWidth.value + props.gap*2);
-                    var topval = indexTopForward * (cellHeight.value + props.gap*2);
+                let cellsNumberOriented = props.numberOfColumns;
+                if (props.orientation === 'horizontal') cellsNumberOriented = props.numberOfRows;
+
+                for (var i = 1; i <= cellsNumberOriented; i++) {
+                    var leftval = indexLeftForward * (cellSizeOriented + props.gap * 2);
+                    var topval = indexTopForward * (cellSizeOriented + props.gap * 2);
+
+                    if (props.orientation === 'horizontal') {
+                        leftval = indexTopForward * (cellSizeOriented + props.gap * 2);
+                        topval = indexLeftForward * (cellSizeOriented + props.gap * 2);
+                    }
 
                     var item = document.createElement("div");
                     item.id = "item" + indexForward;
@@ -169,26 +269,37 @@ export default defineComponent({
                     cells.value.push(item);
 
                     indexForward++;
-                    indexLeft++;
-                    if (indexLeft > props.numberOfColumns - 1) {
-                        indexLeft = 0;
+                    indexLeftForward++;
+
+                    if (indexLeftForward > cellsNumberOriented - 1) {
+                        indexLeftForward = 0;
                         indexTopForward++;
                     }
+
                 }
 
                 // Remove Cells Backwards
-                for (var i = 0; i < props.numberOfColumns; i++) {
+                for (var i = 0; i < cellsNumberOriented; i++) {
                     var _cell = cells.value[i];
                     container.removeChild(_cell);
                     indexBackward++;
                 }
-                indexTopBackward++;
-                cells.value.splice(0, props.numberOfColumns);
+
+                cells.value.splice(0, cellsNumberOriented);
             } else {
-                // Add Items Backward                
-                for (var i = 1; i <= props.numberOfColumns; i++) {
-                    var leftval = indexLeft * (cellWidth.value + props.gap*2);
-                    var topval = indexTopBackward * (cellHeight.value + props.gap*2);
+                // Add Items Backward
+                let cellsNumberOriented = props.numberOfColumns;
+                if (props.orientation === 'horizontal') cellsNumberOriented = props.numberOfRows;
+
+                for (var i = 1; i <= cellsNumberOriented; i++) {
+                    var leftval = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
+                    var topval = indexTopBackward * (cellSizeOriented + props.gap * 2);
+
+                    if (props.orientation === 'horizontal') {
+                        leftval = indexTopBackward * (cellSizeOriented + props.gap * 2);
+                        topval = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
+                        console.log("TOPVAL: ", topval);
+                    }
 
                     var item = document.createElement("div");
                     item.id = "item" + indexBackward;
@@ -197,35 +308,49 @@ export default defineComponent({
                     item.style.top = topval + "px";
                     item.style.backgroundColor = "#a5c79e";
                     item.innerHTML = indexBackward;
-                    cells.value.prepend(item);
-                    this.items.unshift(item);
+                    container.prepend(item);
+                    cells.value.unshift(item);
 
                     indexBackward--;
-                    indexLeft++;
-                    if (indexLeft > props.numberOfColumns - 1) {
-                        indexLeft = 0;
+                    indexLeftBackward++;
+                    if (indexLeftBackward > cellsNumberOriented - 1) {
+                        indexLeftBackward = 0;
                         indexTopBackward--;
                     }
+
                 }
 
-                for (var i = 0; i < props.numberOfColumns; i++) {
+                for (var i = 0; i < cellsNumberOriented; i++) {
                     var _cell = cells.value[cells.value.length - i - 1];
                     container.removeChild(_cell);
                     indexForward--;
                 }
-                indexTopForward--;
-                cells.value.splice(cells.value.length - props.numberOfColumns, cells.value.length);
+
+                cells.value.splice(cells.value.length - cellsNumberOriented, cells.value.length);
             }
         }
 
         function GenerateInitialCells() {
             indexTopForward = 0;
-            indexTopBackward = 0;
-            indexLeft = 0;
+            indexTopBackward = -1;
+            indexLeftForward = 0;
+
+            var cellSizeOriented = cellHeight.value;
+            let cellsNumberOriented = props.numberOfColumns;
+
+            if (props.orientation === 'horizontal') {
+                cellSizeOriented = cellWidth.value;
+                cellsNumberOriented = props.numberOfRows;
+            }
 
             for (let i = 0; i < loadedCells; i++) {
-                let leftval = indexLeft * (cellWidth.value + props.gap*2);
-                let topval = indexTopForward * (cellHeight.value + props.gap*2);                
+                let leftval = indexLeftForward * (cellSizeOriented + props.gap * 2);
+                let topval = indexTopForward * (cellSizeOriented + props.gap * 2);
+
+                if (props.orientation === 'horizontal') {
+                    leftval = indexTopForward * (cellSizeOriented + props.gap * 2);
+                    topval = indexLeftForward * (cellSizeOriented + props.gap * 2);
+                }
 
                 var item = document.createElement("div");
                 item.id = "item" + indexForward;
@@ -237,15 +362,17 @@ export default defineComponent({
                 cells.value.push(item);
 
                 indexForward++;
-                indexLeft++;
-                if (indexLeft > props.numberOfColumns - 1) {
-                    indexLeft = 0;
+                indexLeftForward++;
+                if (indexLeftForward > cellsNumberOriented - 1) {
+                    indexLeftForward = 0;
                     indexTopForward++;
                 }
             }
 
-            container.style.transform = "translateY(" + translatePosition.value + "px)";
+            container.style.transform = "translate" + translatePositionString + "(" + translatePosition.value + "px)";
         }
+
+        
 
         function CancelMomentumTracking() {
             cancelAnimationFrame(momentumID);
@@ -268,12 +395,11 @@ export default defineComponent({
         // ---- Events
         window.addEventListener("wheel", (e) => {
             var timediff = Date.now() - timeSinceLastScroll;
-            let finalScrollSpeed = props.wheelScrollSpeed;
+            finalScrollSpeed = props.scrollSpeed;
             if (timediff < 10) {
-                finalScrollSpeed = props.wheelScrollSpeed * 3;
+                finalScrollSpeed = props.scrollSpeed * 3;
             }
 
-            const direction = Math.sign(e.deltaY);
             const deltaY = Math.sign(e.deltaY);
             const walk = deltaY * finalScrollSpeed;
 
@@ -290,6 +416,45 @@ export default defineComponent({
             container = document.getElementById(containerId.value);
             viewport = document.getElementById(viewportId.value);
 
+            // Add Container Events after its creation
+            viewport.addEventListener("mousedown", (e) => {
+                console.log("mousedown");
+                mouseDown = true;
+                dragScrollStartPosition = translatePosition.value;
+                dragScrollPreviousPosition = e.pageY;
+                mouseDownStartPosition = e.pageY;
+                if (props.orientation === 'horizontal') {
+                    mouseDownStartPosition = e.pageX;
+                }
+            });
+
+            viewport.addEventListener("mouseup", (e) => {
+                console.log("mouseup");
+                mouseDown = false;
+                mouseMoving = false;
+
+                BeginMomentumTracking();
+            });
+
+            viewport.addEventListener("mousemove", (e) => {
+                if (!mouseDown) return;
+
+                e.preventDefault();
+                mouseMoving = true;
+
+                console.log("mousemove");
+                let moveSpeed = 1;
+                var walk = e.pageY - dragScrollPreviousPosition;
+                velocityCurrent = walk;
+                translatePosition.value += walk * moveSpeed;
+                dragScrollPreviousPosition = e.pageY;
+            });
+
+            viewport.addEventListener("mouseleave", (e) => {
+                mouseDown = false;
+            });
+
+            // Setup
             GenerateInitialCells();
 
             setInterval(() => {
@@ -313,9 +478,14 @@ export default defineComponent({
             cellsdata,
             cells,
             divs,
+            viewportWidth,
+            scrollbarPosition,
 
             // Methods Public
-            GetContainerHeight
+            GetContainerHeight,
+            OnScrollBarChanged,
+            onBackwardsClicked,
+            onForwardClicked
         };
     }
 });

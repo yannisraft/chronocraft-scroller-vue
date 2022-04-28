@@ -1,13 +1,16 @@
 .scroller {
     height: 100%;
+    width: 300px;
 }
 
 .scroller-viewport {
     height: 100%;
-    width: 300px;
     margin: 0px auto;
     overflow-y: hidden;
+    overflow-x: hidden;
     border: 1px solid #bdbdbd;
+    position: relative;
+    margin: 0px;
 }
 
 .scroller-container {
@@ -16,6 +19,8 @@
     justify-content: start;
     flex-direction: row;
     flex-wrap: wrap;
+    transition: transform 100ms ease-out;
+    will-change: transform;
 }
 
 .scroller-cell-v {
@@ -34,4 +39,77 @@
     -webkit-backface-visibility: hidden;
     will-change: transform;
     -webkit-perspective: 1000;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+.scroller-scrollbar {
+    font-family: verdana;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 12px;
+}
+
+.scroller-scrollbar-down {
+    background-color: #33ccaa;
+    bottom: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.scroller-scrollbar-thumb {
+    background-color: #22aabb;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    border-radius: 10px;
+    width: 100%;
+    height: 30px;
+}
+
+.scroller-scrollbar-thumb-down {
+    background-color: #1199aa;
+}
+
+.scroller-scrollbar-thumb-over {
+    background-color: #33bbcc;
+}
+
+.scroller-scrollbar-track {
+    background-color: #dedede;
+    cursor: pointer;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+.scroller-scrollbar-up {
+    background-color: #33ccaa;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 10px;
+    width: 100%;
 }
