@@ -12,7 +12,7 @@
     </div>
     <div style="width: 50%;">
         <!-- Infinite -->
-        <VScroller v-model="scrollerdata" :isInfinite="true" :scrollSpeed="3" :gap="3" :hasScrollbar="true" orientation="vertical" :numberOfRows="6">
+        <VScroller v-model="scrollerdata" :isInfinite="true" :scrollSpeed="3" :gap="3" :hasScrollbar="true" orientation="vertical" :numberOfRows="6" @on-update-data-next="onUpdateDataNext" @on-update-data-previous="onUpdateDataPrevious">
         </VScroller>
 
         <!-- Finite -->
@@ -50,12 +50,12 @@ export default {
     },
     data: function () {
         return {
-            scrollerdata: [],
+            scrollerdata: {},
             finitescrollerdata: [],
-            firstid: 10000,
-            lastid: 10000,
-            total: 140,
-            newcellslength: 28,
+            firstid: 100,
+            lastid: 100,
+            total: 200,
+            newcellslength: 50,
             scrolltoposition: 0,
             dayviewdata: [{
                 id: 1
@@ -69,23 +69,21 @@ export default {
             //
         },
         onUpdateDataNext(done, _firstid, _lastid) {
-            var newdata = [];
+            var newdata = {};
             for (var f = _lastid; f < _lastid + this.newcellslength; f++) {
-
-                newdata.push({
+                /* newdata.push({
                     id: f + 1
-                });
+                }); */                
+                newdata[f] = { id: f };
             }
 
             done(newdata);
         },
         onUpdateDataPrevious(done, _firstid, _lastid) {
 
-            var newdata = [];
+            var newdata = {};
             for (var f = _firstid - this.newcellslength; f < _firstid; f++) {
-                newdata.push({
-                    id: f
-                });
+                newdata[f] = { id: f };
             }
 
             done(newdata);
@@ -94,7 +92,7 @@ export default {
             this.$refs.scroller_ref.ScrollBy(100);
         },
         ScrollTo() {
-            this.$refs.scroller_ref.ScrollTo(this.scrolltoposition);
+            //this.$refs.scroller_ref.ScrollTo(this.scrolltoposition);
         },
         AnimatePrevious() {
             this.firstid = 9000;
@@ -130,12 +128,16 @@ export default {
         }
     },
     mounted() {
+        // TODO
+        // TODO This should be updated on CUSTOM EVENT On Initialized Component
         this.lastid += this.total;
         for (var f = this.firstid; f < this.lastid; f++) {
-            this.scrollerdata.push({
-                id: f
-            });
+            this.scrollerdata[f] = { id: f };
         }
+
+        //this.scrollerdata[0] = { id: this.firstid };
+
+        console.log("this.scrollerdata.length: ", Object.keys(this.scrollerdata).length);
 
         // Test GetCellsPosition
         // ---------------------

@@ -307,8 +307,8 @@
         "affectsGlobalScope": false
       },
       "./src/components/VScroller/index.ts": {
-        "version": "2f2860271067102aad477a0c4c29babef7ebe96c1b943b797b9395675d1b5de8",
-        "signature": "dca1f88c428a07d9a3786d95f5b2fa6c873f959a484e11432f5331b8d4d817a1",
+        "version": "792e20add44db9ae55529839cbe8af39920c00045f9f68bf2dd0f59d16a522a0",
+        "signature": "d8cbe899d26b80568a99b4a7999250e5b4cc32c8f36594b981f29abbaa3f2b5d",
         "affectsGlobalScope": false
       },
       "./node_modules/@vue/test-utils/dist/types.d.ts": {

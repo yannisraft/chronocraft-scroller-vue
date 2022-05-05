@@ -50,7 +50,7 @@ export default defineComponent({
         },
         orientation: {
             type: String,
-            default: "vertical",
+            default: "vertical"
         },
         height: {
             type: Number,
@@ -82,7 +82,7 @@ export default defineComponent({
         },
         cellsquared: {
             type: Boolean,
-            default: true,
+            default: true
         },
         wheelscrollspeed: {
             type: Number,
@@ -94,15 +94,15 @@ export default defineComponent({
         },
         manualmode: {
             type: Boolean,
-            default: false,
+            default: false
         },
         static: {
             type: Boolean,
-            default: false,
+            default: false
         },
         hasscrollbar: {
             type: Boolean,
-            default: true,
+            default: true
         },
         animatescroll: {
             type: Number,
@@ -426,13 +426,13 @@ export default defineComponent({
                     scroller.scrollTo({
                         top: position,
                         left: 0,
-                        behavior: "smooth",
+                        behavior: "smooth"
                     });
                 } else {
                     scroller.scrollTo({
                         top: 0,
                         left: position,
-                        behavior: "smooth",
+                        behavior: "smooth"
                     });
                 }
             }
@@ -444,13 +444,13 @@ export default defineComponent({
                     scroller.scrollBy({
                         top: position,
                         left: 0,
-                        behavior: "smooth",
+                        behavior: "smooth"
                     });
                 } else {
                     scroller.scrollBy({
                         top: 0,
                         left: position,
-                        behavior: "smooth",
+                        behavior: "smooth"
                     });
                 }
             }

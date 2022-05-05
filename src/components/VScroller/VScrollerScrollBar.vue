@@ -22,7 +22,7 @@ import {
 } from "vue";
 
 export default defineComponent({
-    name: "VScroller",
+    name: "VScrollerScrollBar",
     components: {},
     props: {
         modelValue: {
@@ -33,7 +33,7 @@ export default defineComponent({
         },
         active: {
             type: Boolean,
-            default: true,
+            default: true
         },
         viewportId: {
             type: String,
@@ -41,7 +41,7 @@ export default defineComponent({
         },
         orientation: {
             type: String,
-            default: "vertical",
+            default: "vertical"
         },
         mode: {
             type: String,

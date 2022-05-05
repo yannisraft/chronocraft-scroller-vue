@@ -51,6 +51,7 @@
     "core-js": "^3.6.5"
   },
   "dependencies": {
+    "@vue/cli-plugin-eslint": "^5.0.4",
     "chronocraft-datepicker-vue": "^0.0.2",
     "core-js": "^3.6.5"
   },

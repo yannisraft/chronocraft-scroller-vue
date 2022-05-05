@@ -64,9 +64,9 @@ let postVueConfig = [
   // Process only `<style module>` blocks.
   PostCSS({
     modules: {
-      generateScopedName: '[local]___[hash:base64:5]',
+      generateScopedName: '[local]___[hash:base64:5]'
     },
-    include: /&module=.*\.css$/,
+    include: /&module=.*\.css$/
   }),
   // Process all `<style>` blocks except `<style module>`.
   PostCSS({ include: /(?<!&module=.*)\.css$/,
