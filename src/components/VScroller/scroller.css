@@ -19,25 +19,25 @@
     justify-content: start;
     flex-direction: row;
     flex-wrap: wrap;    
+    transition: transform 100ms ease-out;
+    will-change: transform, opacity;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0)
-  and (min-resolution:.001dpcm) {
-    .scroller-container {
-        transition: transform 100ms ease-out;
-        will-change: transform, opacity;
-    }
-
-    .scroller-cell-v
-    {
-        -webkit-backface-visibility: hidden;
-        will-change: transform, opacity;
-        -webkit-perspective: 1000;
-    }
-}
 
 /* Only For Firefox */
 @supports (-moz-appearance:none) {
+    .scroller-container {
+        transition: transform 0ms ease-out;
+        will-change: transform, opacity;
+
+        transition-timing-function: linear;
+        -moz-transition-timing-function: linear; /* Firefox 4 */
+        -moz-transition-delay: 0ms; /* Firefox 4 */
+    }
+}
+
+/* Microsoft Edge Browser 12-18 */
+@supports (-ms-ime-align:auto) {
     .scroller-container {
         transition: transform 0ms ease-out;
         will-change: transform, opacity;
@@ -51,7 +51,7 @@
     height: 40px;
     text-align: center;
     line-height: 40px;
-    font-size: 1.5vw;
+    font-size: 9pt;
     font-family: Arial;
     color: #ffffff;
     padding: 5px;

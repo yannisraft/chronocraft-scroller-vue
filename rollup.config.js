@@ -15,19 +15,17 @@ import url from "@rollup/plugin-url";
 import nested from "postcss-nested";
 import { terser } from "rollup-plugin-terser";
 import autoprefixer from "autoprefixer";
-import typescript from 'rollup-plugin-typescript2';
-import css from 'rollup-plugin-css-only';
-import pkg from './package.json';
+import typescript from "rollup-plugin-typescript2";
+import css from "rollup-plugin-css-only";
+import pkg from "./package.json";
 
-const banner =
-    `
+const banner = `
  // ${pkg.name}
  // ${pkg.description}
  // ${pkg.repository.url}
  // v${pkg.version}
  // ${pkg.license} License
 `;
-
 
 const postcssConfigList = [
   postcssImport({
@@ -46,14 +44,14 @@ const postcssConfigList = [
 
       // resolve relative path, @import './components/style.css'
       return path.resolve(basedir, id);
-    }
+    },
   }),
   simplevars,
   nested,
   postcssUrl({ url: "inline" }),
   autoprefixer({
-    overrideBrowserslist: "> 1%, IE 6, Explorer >= 10, Safari >= 7"
-  })
+    overrideBrowserslist: "> 1%, IE 6, Explorer >= 10, Safari >= 7",
+  }),
 ];
 
 const argv = minimist(process.argv.slice(2));
@@ -64,34 +62,33 @@ let postVueConfig = [
   // Process only `<style module>` blocks.
   PostCSS({
     modules: {
-      generateScopedName: '[local]___[hash:base64:5]'
+      generateScopedName: "[local]___[hash:base64:5]",
     },
-    include: /&module=.*\.css$/
+    include: /&module=.*\.css$/,
   }),
   // Process all `<style>` blocks except `<style module>`.
-  PostCSS({ include: /(?<!&module=.*)\.css$/,
-    plugins:[
-      ...postcssConfigList
-    ]
-   }),
+  PostCSS({
+    include: /(?<!&module=.*)\.css$/,
+    plugins: [...postcssConfigList],
+  }),
   url({
-      include: [
-        '**/*.svg',
-        '**/*.png',
-        '**/*.gif',
-        '**/*.jpg',
-        '**/*.jpeg',
-        '**/*.ttf'
-      ],
-      publicPath: '/public',
-      limit: Infinity,
-      reserveImportInJs: true
-    }),
-]
+    include: [
+      "**/*.svg",
+      "**/*.png",
+      "**/*.gif",
+      "**/*.jpg",
+      "**/*.jpeg",
+      "**/*.ttf",
+    ],
+    publicPath: "/public",
+    limit: Infinity,
+    reserveImportInJs: true,
+  }),
+];
 
-if(process.env.SEP_CSS){
+if (process.env.SEP_CSS) {
   //postVueConfig = [css({ output: './dist/bundle.css' }), ...postVueConfig]
-  postVueConfig = [css({ output: 'bundle.css' }), ...postVueConfig]
+  postVueConfig = [css({ output: "bundle.css" }), ...postVueConfig];
 }
 
 const baseConfig = {
@@ -101,34 +98,32 @@ const baseConfig = {
         entries: [
           {
             find: "@",
-            replacement: `${path.resolve(projectRoot, "src")}`
-          }
+            replacement: `${path.resolve(projectRoot, "src")}`,
+          },
         ],
         customResolver: resolve({
-          extensions: [".js", ".jsx", ".vue"]
-        })
-      })
+          extensions: [".js", ".jsx", ".vue"],
+        }),
+      }),
     ],
     replace: {
-        preventAssignment: true,
+      preventAssignment: true,
       "process.env.NODE_ENV": JSON.stringify("production"),
       __VUE_OPTIONS_API__: JSON.stringify(true),
-      __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
     },
     vue: {
       target: "browser",
       preprocessStyles: process.env.SEP_CSS ? false : true,
-      postcssPlugins: [...postcssConfigList]
+      postcssPlugins: [...postcssConfigList],
     },
-    postVue: [
-      ...postVueConfig
-    ],
+    postVue: [...postVueConfig],
     babel: {
       exclude: "node_modules/**",
       extensions: [".js", ".jsx", ".vue"],
-      babelHelpers: "bundled"
-    }
-  }
+      babelHelpers: "bundled",
+    },
+  },
 };
 
 // ESM/UMD/IIFE shared settings: externals
@@ -136,7 +131,7 @@ const baseConfig = {
 const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
-  "vue"
+  "vue",
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -144,7 +139,7 @@ const external = [
 const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
-  vue: "Vue"
+  vue: "Vue",
 };
 
 const baseFolder = "./src/";
@@ -152,8 +147,8 @@ const componentsFolder = "components/";
 
 const components = fs
   .readdirSync(baseFolder + componentsFolder)
-  .filter(f =>
-    fs.statSync(path.join(baseFolder + componentsFolder, f)).isDirectory()
+  .filter((f) =>
+    fs.statSync(path.join(baseFolder + componentsFolder, f)).isDirectory(),
   );
 
 const entriespath = {
@@ -161,17 +156,17 @@ const entriespath = {
   ...components.reduce((obj, name) => {
     obj[name] = baseFolder + componentsFolder + name + "/index.ts";
     return obj;
-  }, {})
+  }, {}),
 };
 
-const capitalize = s => {
+const capitalize = (s) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
 let buildFormats = [];
 
-const mapComponent = name => {
+const mapComponent = (name) => {
   return [
     {
       input: baseFolder + componentsFolder + `${name}/index.ts`,
@@ -182,7 +177,7 @@ const mapComponent = name => {
         file: `dist/components/${name}/index.ts`,
         exports: "named",
         globals,
-        banner: banner
+        banner: banner,
       },
       plugins: [
         typescript(),
@@ -191,11 +186,11 @@ const mapComponent = name => {
         ...baseConfig.plugins.postVue,
         babel({
           ...baseConfig.plugins.babel,
-          presets: [["@babel/preset-env", { modules: false }]]
+          presets: [["@babel/preset-env", { modules: false }]],
         }),
-        commonjs()
-      ]
-    }
+        commonjs(),
+      ],
+    },
   ];
 };
 
@@ -206,7 +201,7 @@ if (!argv.format || argv.format === "es") {
     output: {
       format: "esm",
       dir: "dist/esm",
-      banner: banner
+      banner: banner,
     },
     plugins: [
       typescript(),
@@ -216,10 +211,10 @@ if (!argv.format || argv.format === "es") {
       ...baseConfig.plugins.postVue,
       babel({
         ...baseConfig.plugins.babel,
-        presets: [["@babel/preset-env", { modules: false }]]
+        presets: [["@babel/preset-env", { modules: false }]],
       }),
       commonjs(),
-    ]
+    ],
   };
 
   const merged = {
@@ -228,7 +223,7 @@ if (!argv.format || argv.format === "es") {
     output: {
       format: "esm",
       file: `dist/${pkg.buildname}.esm.js`,
-      banner: banner
+      banner: banner,
     },
     plugins: [
       typescript(),
@@ -238,13 +233,13 @@ if (!argv.format || argv.format === "es") {
       ...baseConfig.plugins.postVue,
       babel({
         ...baseConfig.plugins.babel,
-        presets: [["@babel/preset-env", { modules: false }]]
+        presets: [["@babel/preset-env", { modules: false }]],
       }),
       commonjs(),
-    ]
+    ],
   };
   const ind = [
-    ...components.map(f => mapComponent(f)).reduce((r, a) => r.concat(a), [])
+    ...components.map((f) => mapComponent(f)).reduce((r, a) => r.concat(a), []),
   ];
   buildFormats.push(esConfig);
   buildFormats.push(merged);
@@ -263,7 +258,7 @@ if (!argv.format || argv.format === "iife") {
       name: `${pkg.buildname}`,
       exports: "named",
       globals,
-      banner: banner
+      banner: banner,
     },
     plugins: [
       typescript(),
@@ -275,10 +270,10 @@ if (!argv.format || argv.format === "iife") {
       commonjs(),
       terser({
         output: {
-          ecma: 5
-        }
-      })
-    ]
+          ecma: 5,
+        },
+      }),
+    ],
   };
   buildFormats.push(unpkgConfig);
 }
@@ -294,7 +289,7 @@ if (!argv.format || argv.format === "cjs") {
       dir: "dist/cjs",
       exports: "named",
       globals,
-      banner: banner
+      banner: banner,
     },
     plugins: [
       typescript(),
@@ -304,13 +299,13 @@ if (!argv.format || argv.format === "cjs") {
         ...baseConfig.plugins.vue,
         template: {
           ...baseConfig.plugins.vue.template,
-          optimizeSSR: true
-        }
+          optimizeSSR: true,
+        },
       }),
       ...baseConfig.plugins.postVue,
       babel(baseConfig.plugins.babel),
       commonjs(),
-    ]
+    ],
   };
   buildFormats.push(cjsConfig);
 }

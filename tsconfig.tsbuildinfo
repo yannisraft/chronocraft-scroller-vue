@@ -282,22 +282,22 @@
         "affectsGlobalScope": false
       },
       "./src/components/Scroller/index.ts": {
-        "version": "ab9099019b90c213b6226dde62dd7b693a1a2a964e97c5dd2694a6723ba461f7",
+        "version": "b1891a714ee2d312ebd61ecb98e516455f9531ec4452f7c95cdad1a484ee211e",
         "signature": "25db72edd651f2ea64130cfd3e2084981f260fb2f1984e58b78dcfa91d60f6e2",
         "affectsGlobalScope": false
       },
       "./src/components/index.ts": {
-        "version": "2fe60b1400108e3c00bc11cf76586ec3f5acc8e2fbcf9d36660b847383425ac2",
-        "signature": "f15d9af610475675c015739939b471c80268b244e2c3b7749740925c51df3ab2",
+        "version": "7ef2303cf0d586bd72690f42b4a89aa33b044b1cbbae2a8d2f702cd38b59e80e",
+        "signature": "e91e628c6ea7430cf137b148e2ce58c9297e602493a605cdc1bd7019dd8f564e",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "42aaae24b64d8cf1518ab6bf3dadb5177c4705593300b3ad2f130e88032c9f85",
-        "signature": "834e5463d13db75be9363c4276d42cffc7af3a8149d4780d313ec4e7c54fee1f",
+        "version": "027c94e205418c849f203bde3181a66a25ff007946e4f75abbefc415762f8175",
+        "signature": "b6f8c412d3e3bd082b7bd9c4af62ed3efc234e98da5a84736ed305c59dcb574f",
         "affectsGlobalScope": false
       },
       "./src/main.ts": {
-        "version": "50cb9f18b1c7115799ae456f0d0038840278b49ea520b5549d468ec76c248fb9",
+        "version": "1297cf214fa1b84a364b43b5f05c9c364beb4c5385b7c8aa05c48a9bf41323ce",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
@@ -307,7 +307,7 @@
         "affectsGlobalScope": false
       },
       "./src/components/VScroller/index.ts": {
-        "version": "792e20add44db9ae55529839cbe8af39920c00045f9f68bf2dd0f59d16a522a0",
+        "version": "c07b3504f733e72601f7952809795da4259543744ca6ecd12d832e8b441bf1ad",
         "signature": "d8cbe899d26b80568a99b4a7999250e5b4cc32c8f36594b981f29abbaa3f2b5d",
         "affectsGlobalScope": false
       },
@@ -382,7 +382,7 @@
         "affectsGlobalScope": false
       },
       "./tests/unit/example.spec.ts": {
-        "version": "dd2340e8e722bf60bdffeb4ec561a85381a79f876dc7db1d6493afd2e9fb09fd",
+        "version": "62afeea642799265253354bc6fcd6c6e3d0b2a1b3a3da7d30a5349f9d670907c",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },

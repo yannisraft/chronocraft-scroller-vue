@@ -1,9 +1,9 @@
 <template>
 <div :id="scrollbarId" v-if="active" class="scroller-scrollbar">
     <div class="scroller-scrollbar-track"></div>
-    <div class="scroller-scrollbar-thumb" :style="'top: '+scrollbarThumbPosition+'px'"></div>
-    <div class="scroller-scrollbar-up" @click="ScrollBackwardsClicked()" style="height: 12px;"></div>
-    <div class="scroller-scrollbar-down" @click="ScrollForwardClicked()" style="height: 12px;"></div>
+    <div class="scroller-scrollbar-thumb" :style="'top: ' + scrollbarThumbPosition + 'px'"></div>
+    <div class="scroller-scrollbar-up" @click="ScrollBackwardsClicked()" style="height: 12px"></div>
+    <div class="scroller-scrollbar-down" @click="ScrollForwardClicked()" style="height: 12px"></div>
 </div>
 </template>
 
@@ -28,7 +28,7 @@ export default defineComponent({
         modelValue: {
             type: Array,
             default: () => {
-                return []
+                return [];
             }
         },
         active: {
@@ -49,11 +49,11 @@ export default defineComponent({
         }
     },
     setup(props, context) {
-        // ---- Attributes 
+        // ---- Attributes
         let viewport = null;
         let scrollbarButtonDown = false;
         let previousMovePosition = -100000;
-        let IDGenerated = (Math.floor(Math.random() * 999999) + 1000000);
+        let IDGenerated = Math.floor(Math.random() * 999999) + 1000000;
         let scrollbarPercent = 0;
         var scrollbar;
         var scrollbar_size;
@@ -74,22 +74,18 @@ export default defineComponent({
         function ScrollBackwardsClicked() {
             context.emit("on-backwards-clicked");
 
-            if (props.mode !== 'infinite') {
-                
-            }
+            if (props.mode !== "infinite") {}
         }
 
         function ScrollForwardClicked() {
             context.emit("on-forward-clicked");
 
-            if (props.mode !== 'infinite') {
-
-            }
+            if (props.mode !== "infinite") {}
         }
 
         // ---- Methods Private
         function SetPosition(position) {
-             // Clamp new Value 
+            // Clamp new Value
             var newValue = Math.max(scrollbar_min, Math.min(position, scrollbar_max));
             scrollbarThumbPosition.value = newValue;
             UpdatePercent();
@@ -97,9 +93,10 @@ export default defineComponent({
 
         function SetPercent(percent) {
             scrollbarPercent = percent;
-            scrollbarThumbPosition.value = (scrollbarPercent * (scrollbar_max - scrollbar_min)) / 100;
+            scrollbarThumbPosition.value =
+                (scrollbarPercent * (scrollbar_max - scrollbar_min)) / 100;
             previousMovePosition = -100000;
-            context.emit("on-change", scrollbarPercent);            
+            context.emit("on-change", scrollbarPercent);
         }
 
         function UpdatePercent() {
@@ -109,10 +106,8 @@ export default defineComponent({
         }
 
         function SetupScrollbar() {
-
             if (props.active) {
                 if (props.viewportId !== "") {
-
                     scrollbar = document.querySelector("#" + scrollbarId.value);
                     scrollbar_track = document.querySelector("#" + scrollbarId.value + " .scroller-scrollbar-track");
                     scrollbar_thumb = document.querySelector("#" + scrollbarId.value + " .scroller-scrollbar-thumb");
@@ -121,12 +116,12 @@ export default defineComponent({
                     scrollbar_size = scrollbar_track.clientWidth;
                     scrollbar_track_size = scrollbar_track.clientHeight;
                     scrollbar_thumb_size = scrollbar_thumb.clientHeight;
-                    scrollbar_up_size = scrollbar_up.clientHeight;                    
+                    scrollbar_up_size = scrollbar_up.clientHeight;
 
                     scrollbar_min = scrollbar_up_size;
                     scrollbar_max = scrollbar_track_size - scrollbar_up_size - scrollbar_thumb_size;
 
-                    if (props.orientation === 'horizontal') {
+                    if (props.orientation === "horizontal") {
                         scrollbar_track_size = scrollbar_track.clientWidth;
                         scrollbar_thumb_size = scrollbar_thumb.clientWidth;
                         scrollbar_up_size = scrollbar_up.clientWidth;
@@ -134,10 +129,10 @@ export default defineComponent({
                     }
 
                     var viewportWidthInPixels = viewport.clientWidth;
-                    viewport.style.width = (viewportWidthInPixels - scrollbar_size) + "px";
+                    viewport.style.width = viewportWidthInPixels - scrollbar_size + "px";
                     scrollbarThumbPosition.value = scrollbar_up_size;
 
-                    if (props.mode === 'infinite') SetPercent(50);
+                    if (props.mode === "infinite") SetPercent(50);
 
                     scrollbar_thumb.addEventListener("mousedown", (e) => {
                         scrollbarButtonDown = true;
@@ -158,12 +153,11 @@ export default defineComponent({
                     document.addEventListener("mouseup", (e) => {
                         scrollbarButtonDown = false;
 
-                        if (props.mode === 'infinite') {
+                        if (props.mode === "infinite") {
                             SetPercent(50);
                         }
                     });
                 }
-
             }
         }
 
@@ -182,7 +176,6 @@ export default defineComponent({
             ScrollForwardClicked
         };
     }
-
 });
 </script>
 

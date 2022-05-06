@@ -17,13 +17,13 @@ module.exports = {
 
         // resolve relative path, @import './components/style.css'
         return path.resolve(basedir, id);
-      }
+      },
     },
     "postcss-simple-vars": {},
     "postcss-nested": {},
     "postcss-url": {},
     autoprefixer: {
-      overrideBrowserslist: "> 1%, IE 6, Explorer >= 10, Safari >= 7"
-    }
-  }
+      overrideBrowserslist: "> 1%, IE 6, Explorer >= 10, Safari >= 7",
+    },
+  },
 };
