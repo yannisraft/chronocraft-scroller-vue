@@ -1,8 +1,22 @@
 <template>
 <div :id="scrollerId" class="scroller noselect">
-    <div :id="viewportId" class="scroller-viewport" :style="{ width: '100%' }">
-        <div :id="containerId" class="scroller-container" :style="[{ height: GetContainerHeight() }]">
-            <div v-for="datacell in cellsdata" :key="datacell.id" :id="'cell_' + datacell.id"></div>
+    <div :id="viewportId" class="scroller-viewport">
+        <div :id="containerId" :key="renderKey" class="scroller-container" :style="[{ height: GetContainerHeight() }]">
+            <!-- WORKING -->
+            <!-- <div v-for="(row, rowkey) in alldata" :key="rowkey" class="scroller-row-v" :style="[{'margin-left': gap+'px'}, {'background-color': '#eaeaea'},{top: row.top, left: row.left, width: row.width, height: calculatedRowSize}]"> -->
+
+            <!-- WITHOUT ABSOLUTE -->
+            <!-- <div v-for="(row, rowkey) in alldata" :key="rowkey" class="scroller-row-v" :style="[{'margin-left': gap+'px'}, {'background-color': '#eaeaea'},{top: row.index * calculatedRowSize+'px', left: row.left, width: row.width, height: calculatedRowSize+'px'}]"> -->
+            <VScrollerRow v-for="(row, rowkey) in alldata" :key="rowkey" :calculatedRowSize="calculatedRowSize" :gap="gap" :row="row" :orientation="orientation">
+                <!-- <slot name="row" :data="row">
+                    <div v-for="(cell, cellkey) in row.cells" class="scroller-cell-v" :key="cellkey" :id="'item'+cell.id" :style="[{left: cell.left, top: cell.top, 'flex-basis': cell.flexbasis}]">
+                        <slot name="cell" :data="cell">
+                            <span>{{ cell.index }}</span>
+                        </slot>
+                    </div>
+                </slot> -->
+            </VScrollerRow>
+            <!-- </div> -->
         </div>
     </div>
     <VScrollerScrollBar :active="hasScrollbar" :mode="isInfinite ? 'infinite' : 'normal'" @onChange="OnScrollBarChanged" @onBackwardsClicked="onBackwardsClicked" @onForwardClicked="onForwardClicked" :viewportId="viewportId" />
@@ -27,15 +41,21 @@ import {
     onActivated,
     onUpdated,
     watch,
-    computed
+    computed,
+    app,
+    createApp
 } from "vue";
 
 import VScrollerScrollBar from "./VScrollerScrollBar";
+import VScrollerCell from "./VScrollerCell";
+import VScrollerRow from "./VScrollerRow";
 
 export default defineComponent({
     name: "VScroller",
     components: {
-        VScrollerScrollBar
+        VScrollerScrollBar,
+        VScrollerCell,
+        VScrollerRow
     },
     props: {
         modelValue: {
@@ -74,7 +94,7 @@ export default defineComponent({
         },
         cellSquared: {
             type: Boolean,
-            default: true
+            default: false
         },
         scrollSpeed: {
             type: Number,
@@ -97,13 +117,21 @@ export default defineComponent({
         const containerId = ref("container_" + IDGenerated);
         const viewportId = ref("viewport_" + IDGenerated);
         let cellWidthVal = ref(props.cellWidth);
-        let ccellHeightVal = ref(props.cellHeight);
+        let cellHeightVal = ref(props.cellHeight);
         let translatePosition = ref(0);
         const cellsdata = ref({}); //ref(props.modelValue);
         const cells = ref([]);
         const divs = ref([]);
-        let viewportWidth = ref("100%");
         let scrollbarPosition = ref(0);
+        const alldata = ref({});
+
+        let calculatedRowSize = ref(props.cellHeight);
+
+        if (props.orientation === "horizontal") {
+            calculatedRowSize.value = props.cellWidth;
+        }
+
+        let renderKey = 0;
 
         // ---- Attributes
         let translatePositionPrevious = translatePosition.value;
@@ -139,10 +167,14 @@ export default defineComponent({
         let cacheUpdatePosition = 300;
         let scrollercache = {};
 
-        var cellSizeOriented = ccellHeightVal.value;
+        var cellSizeOriented = cellHeightVal.value;
         let cellsNumberOriented = 0;
 
         let newcellslength = 50;
+        let currentRowElement = null;
+
+        let resizeWindowTimeout = null;
+        let resizeWindowData = {};
 
         // ---- Setup Orientation
         if (props.orientation === "horizontal") translatePositionString = "X";
@@ -240,10 +272,20 @@ export default defineComponent({
 
         function DetectEdges(direction) {
             if (viewport) {
-                var viewportHeight = viewport.clientHeight;
+                var viewportSize = viewport.clientHeight;
                 let cellSizeWithGap = cellSizeOriented + props.gap * 2;
+
+                if(props.orientation === "horizontal")
+                {
+                    viewportSize = viewport.clientWidth;
+                }
+                
+                cellSizeWithGap = calculatedRowSize.value;
+
                 var diff = 0;
                 let diffcache = 0;
+
+                // TODO: update topval BUG for calculatedRowSize
 
                 /* console.log("indexRowForward: ", indexRowForward);
                         console.log("indexRowBackward: ", indexRowBackward);
@@ -253,12 +295,8 @@ export default defineComponent({
                 if (direction === -1) {
                     // Backwards
 
-                    diff = -indexRowBackward * cellSizeWithGap -
-                        (translatePosition.value + viewportHeight);
-                    diffcache =
-                        indexCacheRowBackward * cellSizeWithGap +
-                        translatePosition.value +
-                        parseInt(newcellslength / cellsNumberOriented);
+                    diff = -indexRowBackward * cellSizeWithGap - (translatePosition.value + viewportSize);
+                    diffcache = indexCacheRowBackward * cellSizeWithGap + translatePosition.value + parseInt(newcellslength / cellsNumberOriented);
 
                     let updatePositionTest = -parseInt(newcellslength / cellsNumberOriented) * cellSizeWithGap;
 
@@ -271,37 +309,14 @@ export default defineComponent({
 
                     if (diff < -cellSizeWithGap) {
                         UpdateCells(direction, cellSizeOriented);
-                        indexRowForward--;
+                        //indexRowForward--;
                     }
-
-                    // WORKING
-                    /* diff = (-indexRowBackward * cellSizeWithGap) - (translatePosition.value + viewportHeight);
-                              diffcache = (-parseInt(indexCacheBackward / cellsNumberOriented) * cellSizeWithGap) - (translatePosition.value + viewportHeight);
-
-                              if (diffcache < -parseInt(newcellslength / cellsNumberOriented) * cellSizeWithGap) {
-                                  UpdateScrollerCache(direction);                        
-                              }
-
-                              if (diff < -cellSizeWithGap) {
-                                  UpdateCells(direction, cellSizeOriented);
-                                  indexRowForward--;
-                              } */
                 } else if (direction === 1) {
                     // Forward
-                    diff =
-                        indexRowForward * cellSizeWithGap +
-                        translatePosition.value -
-                        viewportHeight;
-                    diffcache =
-                        indexCacheRowForward * cellSizeWithGap +
-                        translatePosition.value -
-                        viewportHeight +
-                        parseInt(newcellslength / cellsNumberOriented);
+                    diff = indexRowForward * cellSizeWithGap + translatePosition.value - viewportSize;
+                    diffcache = indexCacheRowForward * cellSizeWithGap + translatePosition.value - viewportSize + parseInt(newcellslength / cellsNumberOriented);
 
-                    let updatePositionTest =
-                        parseInt(newcellslength / cellsNumberOriented) * cellSizeWithGap +
-                        viewportHeight;
-                    //let updatePositionTest = (parseInt(indexCacheForward / cellsNumberOriented) * cellSizeWithGap) + viewportHeight;
+                    let updatePositionTest = parseInt(newcellslength / cellsNumberOriented) * cellSizeWithGap + viewportSize;
 
                     //console.log("indexCacheRowForward: ", indexCacheRowForward);
                     //console.log("cellSizeWithGap: ", cellSizeWithGap);
@@ -310,75 +325,71 @@ export default defineComponent({
                     //console.log("diff: ", diff);
                     //console.log("updatePositionTest: ", updatePositionTest);
 
-                    //if (diffcache > updatePositionTest) {
                     if (diffcache < updatePositionTest) {
-                        //console.log("UpdateScrollerCache");
                         UpdateScrollerCache(direction);
                     }
 
                     if (diff < 0) {
                         UpdateCells(direction, cellSizeOriented);
-                        //indexRowBackward++;
                     }
                 }
-                //console.log("translatePosition.value: ", translatePosition.value);
             }
         }
 
         function UpdateScrollerCache(direction) {
             if (direction === 1) {
                 //console.log("UpdateScrollerCache NEXT");
-                context.emit("on-update-data-next",(newdata) => {
-                        //console.log("scrollercache LENGTH: ",Object.keys(scrollercache).length);
-                        
-                        newcellslength = Object.keys(newdata).length;
-                        indexCacheForward = parseInt(
-                            Object.keys(newdata).reduce((key, v) =>
-                                newdata[v] >= newdata[key] ? v : key
-                            )
-                        );
-                        indexCacheRowForward += parseInt(
-                            Object.keys(newdata).length / cellsNumberOriented
-                        );
+                context.emit("on-update-data-next", (newdata) => {
+                    //console.log("scrollercache LENGTH: ",Object.keys(scrollercache).length);
+                    /* console.log("newdata NEXT: ", newdata); */
 
-                        // Clear Data regarding Backwards Cache
-                        for (let i = 0; i < Math.abs(indexBackward - indexCacheBackward); i++) {
-                            if (scrollercache[indexCacheBackward + i]) {
-                                delete scrollercache[indexCacheBackward + i];
-                            }
+                    newcellslength = Object.keys(newdata).length;
+                    /* indexCacheForward = parseInt(
+                        Object.keys(newdata).reduce((key, v) =>
+                            newdata[v] >= newdata[key] ? v : key
+                        )
+                    )+1; */
+                    indexCacheForward += Object.keys(newdata).length;
+                    indexCacheRowForward += parseInt(Object.keys(newdata).length / cellsNumberOriented);
+
+                    // Clear Data regarding Backwards Cache
+                    for (let i = 0; i < Math.abs(indexBackward - indexCacheBackward); i++) {
+                        if (scrollercache[indexCacheBackward + i]) {
+                            delete scrollercache[indexCacheBackward + i];
                         }
+                    }
 
-                        indexCacheBackward = indexBackward;
-                        indexCacheRowBackward = indexRowBackward;
+                    indexCacheBackward = indexBackward;
+                    indexCacheRowBackward = indexRowBackward;
 
-                        scrollercache = {
-                            ...newdata,
-                            ...scrollercache
-                        };
-                    },
-                    indexBackward,
-                    indexCacheForward
-                );
+                    scrollercache = {
+                        ...newdata,
+                        ...scrollercache
+                    };
+                }, indexBackward, indexCacheForward);
             } else {
                 //console.log("UpdateScrollerCache PREVIOUS");
-                context.emit("on-update-data-previous",(newdata) => {
-                        //console.log("scrollercache LENGTH: ",Object.keys(scrollercache).length);
-                        newcellslength = Object.keys(newdata).length;
-                        indexCacheBackward -= Object.keys(newdata).length;
-                        indexCacheRowBackward -= parseInt(
-                            Object.keys(newdata).length / cellsNumberOriented
-                        );
-                        indexCacheForward = indexForward;
-                        indexCacheRowForward = indexRowForward;
+                context.emit("on-update-data-previous", (newdata) => {
+                    //console.log("scrollercache LENGTH: ",Object.keys(scrollercache).length);
 
-                        scrollercache = {
-                            ...newdata,
-                            ...scrollercache
-                        };                        
-                    },
-                    indexCacheBackward,
-                    indexForward
-                );
+                    newcellslength = Object.keys(newdata).length;
+                    indexCacheBackward -= Object.keys(newdata).length;
+                    /* indexCacheBackward = parseInt(
+                        Object.keys(newdata).reduce((key, v) =>
+                            newdata[v] < newdata[key] ? v : key
+                        )
+                    )-1;  */
+
+                    indexCacheRowBackward -= parseInt(Object.keys(newdata).length / cellsNumberOriented);
+
+                    indexCacheForward = indexForward;
+                    indexCacheRowForward = indexRowForward;
+
+                    scrollercache = {
+                        ...newdata,
+                        ...scrollercache
+                    };
+                }, indexCacheBackward, indexForward);
             }
         }
 
@@ -387,6 +398,229 @@ export default defineComponent({
                 if (direction === 1) {
                     // Add Cells Forward
                     //console.log("Add Cells Forward");
+                    //console.log("scrollercache", scrollercache);
+                    var cellsToAdd = [];
+                    for (var i = 0; i < cellsNumberOriented; i++) {
+                        var cachecell = scrollercache[indexForward + i];
+                        if (cachecell) {
+                            if (scrollercache[indexForward + i]) {
+                                cellsToAdd.push({
+                                    id: scrollercache[indexForward + i].id,
+                                    item: null,
+                                    index: indexForward + i
+                                });
+                            }
+                        }
+                    }
+
+                    //indexLeftForward = 0;
+
+                    console.log("cellsToAdd.length: ", cellsToAdd.length);
+                    console.log("indexLeftForward: ", indexLeftForward);
+
+                    if (cellsToAdd.length > 0) {
+                        for (var i = 0; i < cellsToAdd.length; i++) {
+                            var leftval_row = 0;
+                            let topval_row = indexRowForward * calculatedRowSize.value;
+                            var leftval_cell = i * (cellSizeOriented + props.gap * 2);
+                            let topval_cell = 0;
+
+                            if (props.orientation === "horizontal") {
+                                leftval_row = indexRowForward * calculatedRowSize.value;
+                                topval_row = 0;
+                                leftval_cell = 0;
+                                topval_cell = i * (cellSizeOriented + props.gap * 2);
+                            }
+
+                            
+
+                            if (i > cellsNumberOriented - 1) {
+                                // Create Row
+                                //CreateRow(topval);
+                                /* alldata.value[indexRowForward] = {
+                                    top: topval + "px",
+                                    left: "0px",
+                                    width: "calc(100% - " + 2 * props.gap + "px)",
+                                    height: parseInt(cellSizeOriented + props.gap * 2) + "px",
+                                    cells: {}
+                                };
+                                currentRowElement = alldata.value[indexRowForward]; */
+                                AddRow(topval_row, leftval_row, indexRowForward, true);
+
+                                indexLeftForward = 0;
+                                indexRowForward++;
+                            }
+
+                            indexForward++;
+                            indexLeftForward++;
+
+                            let key = cellsToAdd[i].index;
+                            cellsdata.value[key] = {
+                                id: cellsToAdd[i].id
+                            };
+
+                            //CreateCell(cellsToAdd[i].index, topval, leftval);
+                            if (currentRowElement) {
+                                if (!currentRowElement.cells[key]) {
+                                    currentRowElement.cells[key] = {
+                                        index: cellsdata.value[key].id,
+                                        id: "item" + cellsdata.value[key].id,
+                                        left: leftval_cell + "px",
+                                        flexbasis: (100 / cellsNumberOriented) + "%",
+                                        top: topval_cell+"px"
+                                    };
+                                }
+                            }
+                        }
+                    }
+
+                    let rowRemoved = false;
+                    for (var i = 0; i < cellsToAdd.length; i++) {
+                        var _cell = cellsdata.value[indexBackward];
+                        //container.removeChild(_cell.item);
+                        delete cellsdata.value[indexBackward];
+                        indexBackward++;
+                        indexCacheBackward++;
+
+                        if (!rowRemoved) {
+                            /* if (_cell.item) {
+                                if (_cell.item.parentElement.parentElement === container) {
+                                    container.removeChild(_cell.item.parentElement);
+                                }
+                            } else {
+                                console.log("!!!! _cell: ", _cell);
+                            } */
+                            if (alldata.value[indexRowBackward]) {
+                                delete alldata.value[indexRowBackward];
+                            }
+
+                            rowRemoved = true;
+                        }
+                    }
+
+                    indexRowBackward++;
+                    indexCacheRowBackward++;
+
+                    for (var i = 0; i < cellsToAdd.length; i++) {
+                        delete scrollercache[cellsToAdd[i].index];
+                    }
+
+                    cellsToAdd = [];
+
+                    //console.log("TOTAL: ", Object.keys(alldata.value).length);
+                } else {
+                    // Add Items Backward
+                    console.log("Add Cells Backward");
+                    var cellsToAdd = [];
+                    for (var i = 1; i <= cellsNumberOriented; i++) {
+                        var cachecell = scrollercache[indexBackward - i];
+                        if (cachecell !== null && typeof cachecell !== "undefined") {
+                            if (scrollercache[indexBackward - i]) {
+                                cellsToAdd.push({
+                                    id: scrollercache[indexBackward - i].id,
+                                    item: null,
+                                    index: indexBackward - i
+                                });
+                            }
+                        }
+                    }
+
+                    if (cellsToAdd.length > 0) {
+                        for (var i = 0; i < cellsToAdd.length; i++) {                            
+                            var leftval_row = 0;
+                            //var leftval = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
+                            //var topval = indexRowBackward * (cellSizeOriented + props.gap * 2);
+                            let topval_row = indexRowBackward * calculatedRowSize.value;
+                            var leftval_cell = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
+                            var topval_cell = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
+
+                            if (props.orientation === "horizontal") {
+                                //leftval_row = indexRowBackward * (cellSizeOriented + props.gap * 2);
+                                leftval_row = indexRowBackward * calculatedRowSize.value;
+                                //topval_row = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
+                                topval_row = 0;
+                            }
+
+                            indexBackward--;
+                            indexLeftBackward++;
+
+                            if (indexLeftBackward > cellsNumberOriented - 1) {
+
+                                // Create Row
+                                //CreateRow(topval);
+                                /* alldata.value[indexRowBackward] = {
+                                    top: topval + "px",
+                                    left: "0px",
+                                    width: "calc(100% - " + 2 * props.gap + "px)",
+                                    height: parseInt(cellSizeOriented + props.gap * 2) + "px",
+                                    cells: {}
+                                };
+                                currentRowElement = alldata.value[indexRowBackward]; */
+                                AddRow(topval_row, leftval_row, indexRowBackward, false);
+
+                                indexLeftBackward = 0;
+                                indexRowBackward--;
+                            }
+
+                            let key = cellsToAdd[i].index;
+                            cellsdata.value[cellsToAdd[i].index] = {
+                                id: cellsToAdd[i].id
+                            };
+
+                            //CreateCell(cellsToAdd[i].index, topval, leftval);
+                            if (currentRowElement) {
+                                if (!currentRowElement.cells[key]) {
+                                    currentRowElement.cells[key] = {
+                                        index: cellsdata.value[key].id,
+                                        id: "item" + cellsdata.value[key].id,
+                                        left: leftval_cell + "px",
+                                        flexbasis: (100 / cellsNumberOriented) + "%",
+                                        top: topval_cell+"px"
+                                    };
+                                }
+                            }
+                        }
+                    }
+
+                    let rowRemoved = false;
+                    for (var i = 0; i < cellsToAdd.length; i++) {
+                        var _cell = cellsdata.value[indexForward - 1];
+                        //container.removeChild(_cell.item);
+                        delete cellsdata.value[indexForward - 1];
+                        indexForward--;
+                        indexCacheForward--;
+                        if (!rowRemoved) {
+                            /* if (_cell.item.parentElement.parentElement === container) {
+                                container.removeChild(_cell.item.parentElement);
+                            } */
+                            if (alldata.value[indexRowForward]) {
+                                delete alldata.value[indexRowForward];
+                            }
+
+                            rowRemoved = true;
+                        }
+                    }
+
+                    indexRowForward--;
+                    indexCacheRowForward--;
+
+                    for (var i = 0; i < cellsToAdd.length; i++) {
+                        if (cellsToAdd[i]) delete scrollercache[cellsToAdd[i].index];
+                    }
+
+                    /* console.log("indexForward: "+indexForward+" indexRowForward: "+indexRowForward);
+                    console.log("indexBackward: "+indexBackward+" indexRowBackward: "+indexRowBackward); */
+
+                    cellsToAdd = [];
+                }
+            }
+        }
+
+        /* function UpdateCellsOLD(direction, cellSizeOriented) {
+            if (Object.keys(scrollercache).length > 0) {
+                if (direction === 1) {
+                    // Add Cells Forward
+                    console.log("Add Cells Forward");
                     //console.log("scrollercache", scrollercache);
                     var cellsToAdd = [];
                     for (var i = 0; i < cellsNumberOriented; i++) {
@@ -413,36 +647,44 @@ export default defineComponent({
                                 topval = indexLeftForward * (cellSizeOriented + props.gap * 2);
                             }
 
-                            var item = document.createElement("div");
-                            item.id = "item" + cellsToAdd[i].index;
-                            item.classList.add("scroller-cell-v");
-                            item.style.left = leftval + "px";
-                            item.style.top = topval + "px";
-                            item.style.backgroundColor = "#9eadc7";
-                            item.innerHTML = cellsToAdd[i].id;
-                            container.appendChild(item);
-
-                            cellsdata.value[cellsToAdd[i].index] = {
-                                id: cellsToAdd[i].id,
-                                item: item
-                            };
-
                             indexForward++;
                             indexLeftForward++;
 
                             if (indexLeftForward > cellsNumberOriented - 1) {
                                 indexLeftForward = 0;
                                 indexRowForward++;
+
+                                // Create Row
+                                CreateRow(topval);
                             }
+
+                            cellsdata.value[cellsToAdd[i].index] = {
+                                id: cellsToAdd[i].id
+                            };
+
+                            CreateCell(cellsToAdd[i].index, topval, leftval);
                         }
                     }
 
+                    let rowRemoved = false;
                     for (var i = 0; i < cellsToAdd.length; i++) {
                         var _cell = cellsdata.value[indexBackward];
-                        container.removeChild(_cell.item);
+                        //container.removeChild(_cell.item);
                         delete cellsdata.value[indexBackward];
                         indexBackward++;
                         indexCacheBackward++;
+
+                        if (!rowRemoved) {
+                            if (_cell.item) {
+                                if (_cell.item.parentElement.parentElement === container) {
+                                    container.removeChild(_cell.item.parentElement);
+                                }
+                            } else {
+                                console.log("!!!! _cell: ", _cell);
+                            }
+
+                            rowRemoved = true;
+                        }
                     }
 
                     indexRowBackward++;
@@ -455,7 +697,7 @@ export default defineComponent({
                     cellsToAdd = [];
                 } else {
                     // Add Items Backward
-                    //console.log("Add Cells Backward");
+                    console.log("Add Cells Backward");
                     var cellsToAdd = [];
                     for (var i = 1; i <= cellsNumberOriented; i++) {
                         var cachecell = scrollercache[indexBackward - i];
@@ -466,55 +708,55 @@ export default defineComponent({
                                     item: null,
                                     index: indexBackward - i
                                 });
-                            }                            
+                            }
                         }
                     }
 
                     if (cellsToAdd.length > 0) {
                         for (var i = 0; i < cellsToAdd.length; i++) {
-                            var leftval =
-                                (cellsNumberOriented - 1 - indexLeftBackward) *
-                                (cellSizeOriented + props.gap * 2);
-                            var topval =
-                                indexRowBackward * (cellSizeOriented + props.gap * 2);
+                            var leftval = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
+                            var topval = indexRowBackward * (cellSizeOriented + props.gap * 2);
 
                             if (props.orientation === "horizontal") {
                                 leftval = indexRowBackward * (cellSizeOriented + props.gap * 2);
-                                topval =
-                                    (cellsNumberOriented - 1 - indexLeftBackward) *
-                                    (cellSizeOriented + props.gap * 2);
+                                topval = (cellsNumberOriented - 1 - indexLeftBackward) * (cellSizeOriented + props.gap * 2);
                             }
-
-                            var item = document.createElement("div");
-                            item.id = "item" + cellsToAdd[i].index;
-                            item.classList.add("scroller-cell-v");
-                            item.style.left = leftval + "px";
-                            item.style.top = topval + "px";
-                            item.style.backgroundColor = "#9eadc7";
-                            item.innerHTML = cellsToAdd[i].id;
-                            container.prepend(item);
-
-                            cellsdata.value[cellsToAdd[i].index] = {
-                                id: cellsToAdd[i].id,
-                                item: item
-                            };
 
                             indexBackward--;
                             indexLeftBackward++;
+
                             if (indexLeftBackward > cellsNumberOriented - 1) {
                                 indexLeftBackward = 0;
                                 indexRowBackward--;
+
+                                // Create Row
+                                CreateRow(topval);
                             }
+
+                            cellsdata.value[cellsToAdd[i].index] = {
+                                id: cellsToAdd[i].id
+                            };
+
+                            CreateCell(cellsToAdd[i].index, topval, leftval);
                         }
                     }
 
+                    let rowRemoved = false;
                     for (var i = 0; i < cellsToAdd.length; i++) {
                         var _cell = cellsdata.value[indexForward - 1];
-                        container.removeChild(_cell.item);
+                        //container.removeChild(_cell.item);
                         delete cellsdata.value[indexForward - 1];
                         indexForward--;
                         indexCacheForward--;
+                        if (!rowRemoved) {
+                            if (_cell.item.parentElement.parentElement === container) {
+                                container.removeChild(_cell.item.parentElement);
+                            }
+                            rowRemoved = true;
+                        }
                     }
+
+                    indexRowForward--;
                     indexCacheRowForward--;
 
                     for (var i = 0; i < cellsToAdd.length; i++) {
@@ -524,19 +766,206 @@ export default defineComponent({
                     cellsToAdd = [];
                 }
             }
+        } */
+
+        function AddRow(_top, _left, _index, isForward) {
+            /* var rowElement = document.createElement("div");
+            rowElement.classList.add("scroller-row-v");
+            rowElement.style.top = _top + "px";
+            rowElement.style.left = "0px";
+            rowElement.style.position = "absolute";
+            rowElement.style.width = "calc(100% - " + 2 * props.gap + "px)";
+            rowElement.style.marginLeft = props.gap + "px";
+            rowElement.style.height = parseInt(cellSizeOriented + props.gap * 2) + "px";
+            rowElement.style.backgroundColor = "#eaeaea";
+            container.appendChild(rowElement);
+            currentRowElement = rowElement; */
+
+            /* var newobj = {
+                index: _index,
+                top: _top + "px",
+                left: "0px",
+                width: "calc(100% - " + 2 * props.gap + "px)",
+                height: parseInt(cellSizeOriented + props.gap * 2) + "px",
+                cells: {}
+            }; */
+
+            /* if(isForward)
+            {
+                alldata.value = {...alldata.value, [index]: newobj};
+            } else {
+                alldata.value = {[index]: newobj, ...alldata.value};
+            } */
+
+            let rowHeight = parseInt(cellSizeOriented + props.gap * 2) + "px";
+            let rowWidth = "calc(100% - " + 2 * props.gap + "px)";
+
+            if (props.orientation === "horizontal") {
+                rowHeight = "calc(100% - " + 2 * props.gap + "px)";
+                rowWidth = parseInt(cellSizeOriented + props.gap * 2) + "px";
+            }
+
+            alldata.value[_index] = {
+                index: _index,
+                top: _top + "px",
+                left: _left + "px",
+                width: rowWidth,
+                height: rowHeight,
+                cells: {}
+            };
+            currentRowElement = alldata.value[_index];
         }
 
+        function AddCell(_top, _left, key) {
+            let cellTop = _top;
+            let cellLeft = _left;
+
+            currentRowElement.cells[key] = {
+                index: cellsdata.value[key].id,
+                id: "item" + cellsdata.value[key].id,
+                left: cellLeft + "px",
+                flexbasis: (100 / cellsNumberOriented) + "%",
+                top: cellTop + "px"
+            };
+        }
+
+        /* function CreateCell(key, _top, _left) {
+            var ComponentApp = createApp(VScrollerCell);
+
+            // inserting to dom
+            const cellElement = document.createElement("div");
+            cellElement.classList.add("scroller-cell-v");
+            cellElement.style.left = _left + "px";
+            cellElement.style.flexBasis = (100 / cellsNumberOriented) + "%"
+            ComponentApp.mount(cellElement);
+
+            currentRowElement.appendChild(cellElement);
+
+            cellsdata.value[key].item = cellElement;
+        } */
+
+        // alldata Way
         function GenerateInitialCells() {
-            // GET indexForward lowest value
             indexForward = Object.keys(cellsdata.value).reduce((key, v) =>
                 cellsdata.value[v] < cellsdata.value[key] ? v : key
             );
+
             indexBackward = indexForward;
             indexRowForward = 0;
             indexRowBackward = -1;
             indexLeftForward = 0;
 
-            cellSizeOriented = ccellHeightVal.value;
+            cellSizeOriented = cellHeightVal.value;
+            cellsNumberOriented = props.numberOfColumns;
+
+            if (props.cellSquared) calculatedRowSize.value = viewport.clientWidth / cellsNumberOriented;
+
+            if (props.orientation === "horizontal") {
+                cellSizeOriented = cellWidthVal.value;
+                cellsNumberOriented = props.numberOfRows;
+                if (props.cellSquared) calculatedRowSize.value = viewport.clientHeight / cellsNumberOriented;
+            }
+
+            // In order have cells visible at the back of the scroller
+            // set Position at the half of the cells size
+            let startPos = parseInt(parseInt(Object.keys(cellsdata.value).length / 2) / cellsNumberOriented) * (cellSizeOriented + props.gap * 2);
+            translatePosition.value -= startPos;
+
+            let isFirstRow = true;
+            for (let key in cellsdata.value) {
+                //let leftval = indexLeftForward * (cellSizeOriented + props.gap * 2);
+                let leftval_row = 0;
+                //let topval = indexRowForward * (cellSizeOriented + props.gap * 2);
+                let topval_row = indexRowForward * calculatedRowSize.value;
+
+                let leftval_cell = indexLeftForward * (cellSizeOriented + props.gap * 2);
+                let topval_cell = 0;
+
+                if (props.orientation === "horizontal") {
+                    leftval_row = indexRowForward * calculatedRowSize.value;
+                    topval_row = 0;
+                    leftval_cell = 0;
+                    topval_cell = indexLeftForward * (cellSizeOriented + props.gap * 2);
+                }
+
+                if (isFirstRow) {
+                    /* alldata.value[indexRowForward] = {
+                        top: topval + "px",
+                        left: "0px",
+                        width: "calc(100% - " + 2 * props.gap + "px)",
+                        height: parseInt(cellSizeOriented + props.gap * 2) + "px",
+                        cells: {}
+                    }; */
+                    AddRow(topval_row, leftval_row, indexRowForward, true);
+                    //currentRowElement = alldata.value[indexRowForward];
+                    //CreateRow(topval);
+                    indexLeftForward = 0;
+                    indexRowForward++;
+                    isFirstRow = false;
+                }
+
+                if (indexLeftForward > cellsNumberOriented - 1) {
+                    //CreateRow(topval);
+                    /* alldata.value[indexRowForward] = {
+                        top: topval + "px",
+                        left: "0px",
+                        width: "calc(100% - " + 2 * props.gap + "px)",
+                        height: parseInt(cellSizeOriented + props.gap * 2) + "px",
+                        cells: {}
+                    }; */
+                    AddRow(topval_row, leftval_row, indexRowForward, true);
+                    //currentRowElement = alldata.value[indexRowForward];
+                    indexLeftForward = 0;
+                    indexRowForward++;
+                }
+
+                //CreateCell(key, topval, leftval);
+
+                if (currentRowElement) {
+                    if (!currentRowElement.cells[key]) {
+                        AddCell(topval_cell, leftval_cell, key);
+                        /* currentRowElement.cells[key] = {
+                            index: cellsdata.value[key].id,
+                            id: "item" + cellsdata.value[key].id,
+                            left: leftval + "px",
+                            flexbasis: (100 / cellsNumberOriented) + "%",
+                            top: topval
+                        }; */
+                    }
+                }
+
+                indexForward++;
+                indexLeftForward++;
+            }
+
+            indexCacheForward = indexForward;
+            indexCacheBackward = indexBackward;
+            indexCacheRowForward = indexRowForward;
+            indexCacheRowBackward = indexRowBackward;
+
+            container.style.transform =
+                "translate" +
+                translatePositionString +
+                "(" +
+                translatePosition.value +
+                "px) ";
+
+            console.log(alldata.value);
+        }
+
+        function GenerateInitialCellsOLD() {
+            // GET indexForward lowest value
+            console.log(cellsdata.value);
+            indexForward = Object.keys(cellsdata.value).reduce((key, v) =>
+                cellsdata.value[v] < cellsdata.value[key] ? v : key
+            );
+
+            indexBackward = indexForward;
+            indexRowForward = 0;
+            indexRowBackward = -1;
+            indexLeftForward = 0;
+
+            cellSizeOriented = cellHeightVal.value;
             cellsNumberOriented = props.numberOfColumns;
 
             if (props.orientation === "horizontal") {
@@ -549,17 +978,8 @@ export default defineComponent({
             let startPos = parseInt(parseInt(Object.keys(cellsdata.value).length / 2) / cellsNumberOriented) * (cellSizeOriented + props.gap * 2);
             translatePosition.value -= startPos;
 
-            console.log("GenerateInitialCells: ", Object.keys(cellsdata.value).length);
-
-            // STEPS TODO
-            // 1. Calculate indexLeftForward, indexRowForward
-            // 2. Add them to cellsdata.value[k] item as parameters
-            // 3. For loop Generate Cells
-
-            //for (let i = 0; i < Object.keys(cellsdata.value).length; i++) {
+            let isFirstRow = true;
             for (let key in cellsdata.value) {
-                //var cell = cellsdata.value[key];
-
                 let leftval = indexLeftForward * (cellSizeOriented + props.gap * 2);
                 let topval = indexRowForward * (cellSizeOriented + props.gap * 2);
 
@@ -568,23 +988,23 @@ export default defineComponent({
                     topval = indexLeftForward * (cellSizeOriented + props.gap * 2);
                 }
 
-                // Add Item
-                var item = document.createElement("div");
-                item.id = "item" + cellsdata.value[key].id;
-                item.classList.add("scroller-cell-v");
-                item.innerHTML = cellsdata.value[key].id;
-                item.style.left = leftval + "px";
-                item.style.top = topval + "px";
-                container.appendChild(item);
+                if (isFirstRow) {
+                    //CreateRow(topval);
+                    indexLeftForward = 0;
+                    indexRowForward++;
+                    isFirstRow = false;
+                }
 
-                cellsdata.value[key].item = item;
-
-                indexForward++;
-                indexLeftForward++;
                 if (indexLeftForward > cellsNumberOriented - 1) {
+                    //CreateRow(topval);
                     indexLeftForward = 0;
                     indexRowForward++;
                 }
+
+                //CreateCell(key, topval, leftval);
+
+                indexForward++;
+                indexLeftForward++;
             }
 
             indexCacheForward = indexForward;
@@ -640,6 +1060,28 @@ export default defineComponent({
         const onCellsDataChanged = () => {
             context.emit("update:modelValue", cellsdata.value);
         };
+
+        window.addEventListener("resize", (e) => {
+            if (props.cellSquared) {
+                // TODO: Redraw table at position
+                // alldata
+                //let copied_alldata = JSON.parse(JSON.stringify(alldata.value));
+                if (Object.keys(alldata.value).length > 0) resizeWindowData = Object.assign({}, alldata.value);
+                alldata.value = {};
+                calculatedRowSize.value = viewport.clientWidth / cellsNumberOriented;
+                if (props.orientation === "horizontal") {
+                    calculatedRowSize.value = viewport.clientHeight / cellsNumberOriented;
+                }
+
+                clearTimeout(resizeWindowTimeout);
+
+                resizeWindowTimeout = setTimeout(() => {
+                    alldata.value = resizeWindowData;
+                    //console.log(resizeWindowData);
+                }, 500);
+
+            }
+        });
 
         // ---- Watchers
         watch(() => props.modelValue, (first, second) => {
@@ -715,13 +1157,15 @@ export default defineComponent({
             containerId,
             viewportId,
             cellWidthVal,
-            ccellHeightVal,
+            cellHeightVal,
             translatePosition,
             cellsdata,
+            alldata,
             cells,
             divs,
-            viewportWidth,
             scrollbarPosition,
+            calculatedRowSize,
+            renderKey,
 
             // Methods Public
             GetContainerHeight,
@@ -734,5 +1178,5 @@ export default defineComponent({
 </script>
 
 <style lang="css">
-@import "./scroller.css";
+/* @import "./scroller.css"; */
 </style>

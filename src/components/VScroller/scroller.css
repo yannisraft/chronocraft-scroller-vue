@@ -1,6 +1,5 @@
 .scroller {
     height: 100%;
-    width: 300px;
 }
 
 .scroller-viewport {
@@ -8,7 +7,7 @@
     margin: 0px auto;
     overflow-y: hidden;
     overflow-x: hidden;
-    border: 1px solid #bdbdbd;
+    border: 0px solid #bdbdbd;
     position: relative;
     margin: 0px;
 }
@@ -21,6 +20,7 @@
     flex-wrap: wrap;    
     transition: transform 100ms ease-out;
     will-change: transform, opacity;
+    position: relative;
 }
 
 
@@ -44,19 +44,30 @@
     }
 }
 
+.scroller-row-v {
+    position: absolute;
+    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: space-evenly;
+}
+
 .scroller-cell-v {
-    width: 40px;
-    background-color: #c79e9e;
-    max-width: 20%;
-    height: 40px;
+    background-color: #c79e9e;    
     text-align: center;
     line-height: 40px;
     font-size: 9pt;
     font-family: Arial;
     color: #ffffff;
-    padding: 5px;
-    margin: 5px;
-    position: absolute;    
+    width: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+   height: fit-content;
+    padding: 4px;
+    margin: 3px;
+    
 }
 
 .noselect {

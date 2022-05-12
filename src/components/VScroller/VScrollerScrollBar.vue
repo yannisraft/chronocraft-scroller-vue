@@ -68,7 +68,7 @@ export default defineComponent({
 
         // ---- Reactive Attributes
         let scrollbarThumbPosition = ref(0);
-        const scrollbarId = ref("viewport_" + IDGenerated);
+        const scrollbarId = ref("scrollbar_" + IDGenerated);
 
         // ---- Methods Public
         function ScrollBackwardsClicked() {
@@ -128,8 +128,7 @@ export default defineComponent({
                         scrollbar_size = scrollbar_track.clientHeight;
                     }
 
-                    var viewportWidthInPixels = viewport.clientWidth;
-                    viewport.style.width = viewportWidthInPixels - scrollbar_size + "px";
+                    viewport.style.width = "calc(100% - " + scrollbar_size + "px)";
                     scrollbarThumbPosition.value = scrollbar_up_size;
 
                     if (props.mode === "infinite") SetPercent(50);
