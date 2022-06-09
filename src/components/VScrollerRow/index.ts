@@ -1,2 +1,2 @@
-import VScrollerRow from "./VScrollerRow.vue";
+import VScrollerRow from "../VScroller/VScrollerRow.vue";
 export default VScrollerRow;

@@ -155,6 +155,7 @@ const entriespath = {
   index: "./src/index.ts",
   ...components.reduce((obj, name) => {
     obj[name] = baseFolder + componentsFolder + name + "/index.ts";
+    console.log("obj[name]: ", obj[name]);
     return obj;
   }, {}),
 };

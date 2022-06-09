@@ -287,23 +287,23 @@
         "affectsGlobalScope": false
       },
       "./src/components/VScroller/index.ts": {
-        "version": "17cbcf0e4d4c89ebf54fea7432cd841729e9ca919da6c8f6565fdc1190a32108",
-        "signature": "dca1f88c428a07d9a3786d95f5b2fa6c873f959a484e11432f5331b8d4d817a1",
+        "version": "cd59e330654dd4cdc143a6c029278d9de0e11c3679477527e8f5ab163e3228c9",
+        "signature": "8d639afe7fac20c509e8e37e49966de0e608386dc47fb325b1accaf75f3068bf",
         "affectsGlobalScope": false
       },
       "./src/components/VScrollerScrollBar/index.ts": {
-        "version": "978a5fc9d4e169426f49281b004ccf9d8408f65ddb522a02c0ccf06dff4a0f16",
-        "signature": "f8b839d23bd42eaf35de70bd1f140282c3e50d4e114c2f4b94edba3d09593aa5",
+        "version": "8bd7b09860ad898be6be5281f702b6a705d51cc48aa91b39b12a0d3c0d9ea18c",
+        "signature": "33a2833c943f92bdb3db9acfadc8d8cc20f4b32c16d8e7efc73cf15a9aa01aa7",
         "affectsGlobalScope": false
       },
       "./src/components/VScrollerRow/index.ts": {
-        "version": "a8ed425218df34828969fb09c78699dd7c655fe9f1170dc1e544789e39d17fcf",
-        "signature": "45d9636856d3fb23e5a2253a7080739130ed31e84121201351e0082f7c1db3ca",
+        "version": "679487bc5f1d0c59a68e19603d220f1dc5288afd9c92173964d7ead79cd4197b",
+        "signature": "60dace994e044f9ecd1013a190c6865ee843a9ae82d816bacd0ebf6a6892fbfe",
         "affectsGlobalScope": false
       },
       "./src/components/index.ts": {
-        "version": "27464ba7dee1893ba78c8377d3808dea0a209bc9ba905869752cc5af8efd8284",
-        "signature": "529435d958b417830eb339d40d5153ceb1150d8936e6dc875ba88462b3b7f30c",
+        "version": "866c1cd504927f76c5dd7f76683e8e2a0caa34a9d2f5706f06034e9591264a05",
+        "signature": "994994074328957de8fdb5f27d7abf18c665f04e25f791c6fd8203e05f7d826c",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
@@ -744,7 +744,7 @@
         "./src/shims-vue.d.ts"
       ],
       "./src/components/VScroller/index.ts": [
-        "./src/shims-vue.d.ts"
+        "./node_modules/vue/dist/vue.d.ts"
       ],
       "./src/components/VScrollerRow/index.ts": [
         "./src/shims-vue.d.ts"

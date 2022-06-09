@@ -44,17 +44,20 @@ if(process.env.NODE_ENV)
 } */
 
 // TESTING
-//import VScrollerScrollBar from "./../VScrollerScrollBar/VScrollerScrollBar";
-//import VScrollerRow from "VScrollerRow";
+import VScrollerScrollBar from "./VScrollerScrollBar.vue";
+import VScrollerRow from "./VScrollerRow.vue";
 
 //import VScrollerScrollBar from "./VScrollerScrollBar";
-//import VScrollerRow from "./VScrollerRow";
+//import _VScrollerRow from "@/components/VScrollerRow";
 
 // BUILD
 /* import VScrollerScrollBar from "VScrollerScrollBar";
 import VScrollerRow from "VScrollerRow"; */
 
-console.log(process.env.NODE_ENV);
+//console.log(process.env.NODE_ENV);
+
+//export let VScrollerRow = _VScrollerRow;
+//export let VScrollerScrollBar = _VScrollerScrollBar;
 
 export default defineComponent({
     name: "VScroller",

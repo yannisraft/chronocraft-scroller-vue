@@ -52,11 +52,9 @@
 <script>
 import {
     defineComponent,
-    ref,
-    reactive,
+    ref,    
     onBeforeMount,
-    onMounted,
-    onActivated,
+    onMounted,    
     onUpdated,
     watch
 } from "vue";

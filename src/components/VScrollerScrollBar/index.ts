@@ -1,2 +1,2 @@
-import VScrollerScrollBar from "./VScrollerScrollBar.vue";
+import VScrollerScrollBar from "../VScroller/VScrollerScrollBar.vue";
 export default VScrollerScrollBar;

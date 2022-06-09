@@ -1,6 +1,6 @@
 {
   "name": "chronocraft-scroller-vue",
-  "version": "0.1.14",
+  "version": "0.1.18",
   "private": false,
   "description": "A Vue 3 Dynamic and Versatile High Performance Infinite Scroller Component",
   "scripts": {
