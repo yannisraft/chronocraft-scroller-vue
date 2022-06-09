@@ -16,6 +16,7 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-unused-vars": "off",
     "no-empty": "off",
+    "no-undef": "off",
     "no-redeclare": "off",
     "no-empty-functio": "off",
     "vue/no-unused-components":"off",
@@ -25,6 +26,7 @@ module.exports = {
     "vue/no-setup-props-destructure": "off",
     "comma-dangle": ["error", "never"],
     "prettier/prettier": "off",
+    "@typescript-eslint/no-var-requires": "off"
   },
   overrides: [
     {

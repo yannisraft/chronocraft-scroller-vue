@@ -237,8 +237,8 @@
         "affectsGlobalScope": false
       },
       "./node_modules/@babel/parser/typings/babel-parser.d.ts": {
-        "version": "1a7cc144992d79b062c22ac0309c6624dbb0d49bbddff7ea3b9daa0c17bcac0a",
-        "signature": "1a7cc144992d79b062c22ac0309c6624dbb0d49bbddff7ea3b9daa0c17bcac0a",
+        "version": "29afd3970c68fdcbf3168de0f855d7cd84135c436050793b0584e1a904affe2d",
+        "signature": "29afd3970c68fdcbf3168de0f855d7cd84135c436050793b0584e1a904affe2d",
         "affectsGlobalScope": false
       },
       "./node_modules/@vue/compiler-core/node_modules/source-map/source-map.d.ts": {
@@ -282,33 +282,43 @@
         "affectsGlobalScope": false
       },
       "./src/components/Scroller/index.ts": {
-        "version": "25db72edd651f2ea64130cfd3e2084981f260fb2f1984e58b78dcfa91d60f6e2",
+        "version": "b1891a714ee2d312ebd61ecb98e516455f9531ec4452f7c95cdad1a484ee211e",
         "signature": "25db72edd651f2ea64130cfd3e2084981f260fb2f1984e58b78dcfa91d60f6e2",
         "affectsGlobalScope": false
       },
+      "./src/components/VScroller/index.ts": {
+        "version": "17cbcf0e4d4c89ebf54fea7432cd841729e9ca919da6c8f6565fdc1190a32108",
+        "signature": "dca1f88c428a07d9a3786d95f5b2fa6c873f959a484e11432f5331b8d4d817a1",
+        "affectsGlobalScope": false
+      },
+      "./src/components/VScrollerScrollBar/index.ts": {
+        "version": "978a5fc9d4e169426f49281b004ccf9d8408f65ddb522a02c0ccf06dff4a0f16",
+        "signature": "f8b839d23bd42eaf35de70bd1f140282c3e50d4e114c2f4b94edba3d09593aa5",
+        "affectsGlobalScope": false
+      },
+      "./src/components/VScrollerRow/index.ts": {
+        "version": "a8ed425218df34828969fb09c78699dd7c655fe9f1170dc1e544789e39d17fcf",
+        "signature": "45d9636856d3fb23e5a2253a7080739130ed31e84121201351e0082f7c1db3ca",
+        "affectsGlobalScope": false
+      },
       "./src/components/index.ts": {
-        "version": "e91e628c6ea7430cf137b148e2ce58c9297e602493a605cdc1bd7019dd8f564e",
-        "signature": "e91e628c6ea7430cf137b148e2ce58c9297e602493a605cdc1bd7019dd8f564e",
+        "version": "27464ba7dee1893ba78c8377d3808dea0a209bc9ba905869752cc5af8efd8284",
+        "signature": "529435d958b417830eb339d40d5153ceb1150d8936e6dc875ba88462b3b7f30c",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "825c61ce46faf76ac0bc583d0a761bc69bdde88266d97f48600d5b75564bd6ac",
+        "version": "19de4a4706bd6eb69f1255304c6693ae8779164c8b7864ebd214a6ec4c15f03e",
         "signature": "b6f8c412d3e3bd082b7bd9c4af62ed3efc234e98da5a84736ed305c59dcb574f",
         "affectsGlobalScope": false
       },
       "./src/main.ts": {
-        "version": "47e56c0fce47e381544d2efcb2f4bb23b8a311a4197873da8f85a19d249e9979",
+        "version": "39b83f33328f39886d91c70bc9ed0272bef6fd33b2e916a94aec30d72f0d69b5",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
       "./src/shims-vue.d.ts": {
-        "version": "36eed4536b37a2a01ac240ce30db05a93e627178689414935b23a7bad525a57c",
-        "signature": "36eed4536b37a2a01ac240ce30db05a93e627178689414935b23a7bad525a57c",
-        "affectsGlobalScope": false
-      },
-      "./src/components/VScroller/index.ts": {
-        "version": "d8cbe899d26b80568a99b4a7999250e5b4cc32c8f36594b981f29abbaa3f2b5d",
-        "signature": "d8cbe899d26b80568a99b4a7999250e5b4cc32c8f36594b981f29abbaa3f2b5d",
+        "version": "34ad86c5e067c3c4f8d152ae81ea03d1cdb37d27cacb6b37a495cc0aa8c3fa05",
+        "signature": "34ad86c5e067c3c4f8d152ae81ea03d1cdb37d27cacb6b37a495cc0aa8c3fa05",
         "affectsGlobalScope": false
       },
       "./node_modules/@vue/test-utils/dist/types.d.ts": {
@@ -382,7 +392,7 @@
         "affectsGlobalScope": false
       },
       "./tests/unit/example.spec.ts": {
-        "version": "bfa322060a54934311d30fbae1bf29d660553a4a5dc580c64a3c1f49cda95fa5",
+        "version": "62afeea642799265253354bc6fcd6c6e3d0b2a1b3a3da7d30a5349f9d670907c",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
@@ -463,7 +473,7 @@
         "lib.scripthost.d.ts"
       ],
       "inlineSourceMap": false,
-      "pathsBasePath": "F:/DEVELOPMENT/ChronoCraft/Scroller/chronocraft-scroller-vue",
+      "pathsBasePath": "D:/INHOUSE/ChronoCraft/Scroller/chronocraft-scroller-vue",
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
@@ -587,8 +597,17 @@
       "./src/components/VScroller/index.ts": [
         "./src/shims-vue.d.ts"
       ],
+      "./src/components/VScrollerRow/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
+      "./src/components/VScrollerScrollBar/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
       "./src/components/index.ts": [
-        "./src/components/Scroller/index.ts"
+        "./src/components/Scroller/index.ts",
+        "./src/components/VScroller/index.ts",
+        "./src/components/VScrollerRow/index.ts",
+        "./src/components/VScrollerScrollBar/index.ts"
       ],
       "./src/index.ts": [
         "./node_modules/vue/dist/vue.d.ts",
@@ -727,8 +746,14 @@
       "./src/components/VScroller/index.ts": [
         "./src/shims-vue.d.ts"
       ],
+      "./src/components/VScrollerRow/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
+      "./src/components/VScrollerScrollBar/index.ts": [
+        "./src/shims-vue.d.ts"
+      ],
       "./src/components/index.ts": [
-        "./src/components/Scroller/index.ts"
+        "./node_modules/vue/dist/vue.d.ts"
       ],
       "./src/index.ts": [
         "./node_modules/vue/dist/vue.d.ts",
@@ -820,6 +845,8 @@
       "./node_modules/vue/dist/vue.d.ts",
       "./src/components/Scroller/index.ts",
       "./src/components/VScroller/index.ts",
+      "./src/components/VScrollerRow/index.ts",
+      "./src/components/VScrollerScrollBar/index.ts",
       "./src/components/index.ts",
       "./src/index.ts",
       "./src/main.ts",
@@ -889,6 +916,10 @@
       ],
       [
         "./src/index.ts",
+        0
+      ],
+      [
+        "./src/main.ts",
         0
       ]
     ]

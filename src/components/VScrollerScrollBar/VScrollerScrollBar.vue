@@ -1,9 +1,9 @@
 <template>
-<div :id="scrollbarId" v-if="active" class="scroller-scrollbar">
-    <div class="scroller-scrollbar-track"></div>
-    <div class="scroller-scrollbar-thumb" :style="'top: ' + scrollbarThumbPosition + 'px'"></div>
-    <div class="scroller-scrollbar-up" @click="ScrollBackwardsClicked()" style="height: 12px"></div>
-    <div class="scroller-scrollbar-down" @click="ScrollForwardClicked()" style="height: 12px"></div>
+<div :id="scrollbarId" v-if="active" class="scroller-scrollbar" :style="[orientation === 'vertical' ? {'width': trackWidth+'px', 'height':'100%', 'top': '0px', 'right': '0px'} : {'width':'100%','height': trackWidth+'px', 'bottom': '0px', 'right': '0px', 'top': 'unset'}]">
+    <div class="scroller-scrollbar-track"  :style="[orientation === 'vertical' ? {'width': trackWidth+'px', 'height':'100%', 'top': '0px', 'right': '0px'} : {'width':'100%','height': trackWidth+'px', 'bottom': '0px', 'right': '0px', 'top': 'unset'}]"></div>
+    <div class="scroller-scrollbar-thumb" :style="[orientation === 'vertical' ? {'width': '100%', 'height':'30px', 'top': scrollbarThumbPosition+'px', 'right': '0px'} : {'width':'30px','height': '100%', 'bottom': '0px', 'right': scrollbarThumbPosition+'px', 'top': 'unset'}]"></div>
+    <div class="scroller-scrollbar-up" @click="ScrollBackwardsClicked()" :style="[orientation === 'vertical' ? {'height': trackWidth+'px', 'width': '100%', 'top': '0px', 'right': '0px'} : {'width': trackWidth+'px', 'height': '100%', 'bottom':'0px', 'top': 'unset', 'left': '0px','right': 'unset'}]"></div>
+    <div class="scroller-scrollbar-down" @click="ScrollForwardClicked()"  :style="[orientation === 'vertical' ? {'height': trackWidth+'px', 'width': '100%'} : {'width': trackWidth+'px', 'height': '100%'}]"></div>
 </div>
 </template>
 
@@ -11,14 +11,7 @@
 import {
     defineComponent,
     ref,
-    reactive,
-    onBeforeUpdate,
-    onBeforeMount,
-    onMounted,
-    onCreate,
-    onActivated,
-    onUpdated,
-    watch
+    onMounted
 } from "vue";
 
 export default defineComponent({
@@ -46,6 +39,10 @@ export default defineComponent({
         mode: {
             type: String,
             default: "normal"
+        },
+        trackWidth: {
+            type: Number,
+            default: 12
         }
     },
     setup(props, context) {
@@ -85,7 +82,6 @@ export default defineComponent({
 
         // ---- Methods Private
         function SetPosition(position) {
-            // Clamp new Value
             var newValue = Math.max(scrollbar_min, Math.min(position, scrollbar_max));
             scrollbarThumbPosition.value = newValue;
             UpdatePercent();
@@ -93,8 +89,7 @@ export default defineComponent({
 
         function SetPercent(percent) {
             scrollbarPercent = percent;
-            scrollbarThumbPosition.value =
-                (scrollbarPercent * (scrollbar_max - scrollbar_min)) / 100;
+            scrollbarThumbPosition.value = (scrollbarPercent * (scrollbar_max - scrollbar_min)) / 100;
             previousMovePosition = -100000;
             context.emit("on-change", scrollbarPercent);
         }
@@ -118,21 +113,24 @@ export default defineComponent({
                     scrollbar_thumb_size = scrollbar_thumb.clientHeight;
                     scrollbar_up_size = scrollbar_up.clientHeight;
 
-                    scrollbar_min = scrollbar_up_size;
-                    scrollbar_max = scrollbar_track_size - scrollbar_up_size - scrollbar_thumb_size;
-
                     if (props.orientation === "horizontal") {
                         scrollbar_track_size = scrollbar_track.clientWidth;
                         scrollbar_thumb_size = scrollbar_thumb.clientWidth;
                         scrollbar_up_size = scrollbar_up.clientWidth;
                         scrollbar_size = scrollbar_track.clientHeight;
+                        viewport.style.height = "calc(100% - " + scrollbar_size + "px)";
+                    } else {
+                        viewport.style.width = "calc(100% - " + scrollbar_size + "px)";
                     }
 
-                    viewport.style.width = "calc(100% - " + scrollbar_size + "px)";
+                    scrollbar_min = scrollbar_up_size;
+                    scrollbar_max = scrollbar_track_size - scrollbar_up_size - scrollbar_thumb_size;                    
                     scrollbarThumbPosition.value = scrollbar_up_size;
 
+                    // In Infinite mode the scrollbar thumb returns to middle
                     if (props.mode === "infinite") SetPercent(50);
 
+                    // Setup Events
                     scrollbar_thumb.addEventListener("mousedown", (e) => {
                         scrollbarButtonDown = true;
                     });
@@ -143,10 +141,20 @@ export default defineComponent({
 
                         if (previousMovePosition !== -100000) {
                             var diff = e.clientY - previousMovePosition;
-                            SetPosition(scrollbarThumbPosition.value + diff);
+                            if (props.orientation === "horizontal") 
+                            {
+                                diff = e.clientX - previousMovePosition;   
+                                SetPosition(scrollbarThumbPosition.value - diff);                             
+                            } else {
+                                SetPosition(scrollbarThumbPosition.value + diff);
+                            }
+                            
                         }
 
                         previousMovePosition = e.clientY;
+                        if (props.orientation === "horizontal") {
+                            previousMovePosition = e.clientX;
+                        }
                     });
 
                     document.addEventListener("mouseup", (e) => {
@@ -179,5 +187,5 @@ export default defineComponent({
 </script>
 
 <style lang="css">
-@import "./scroller.css";
+@import "./../VScroller/scroller.css";
 </style>

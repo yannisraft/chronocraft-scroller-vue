@@ -6,7 +6,7 @@ const Plugin: Plugin = {
     Object.entries(components).forEach(([componentName, component]) => {
       app.component(componentName, component);
     });
-  },
+  }
 };
 
 export default Plugin;

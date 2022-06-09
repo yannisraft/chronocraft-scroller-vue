@@ -18,7 +18,7 @@
     justify-content: start;
     flex-direction: row;
     flex-wrap: wrap;    
-    transition: transform 100ms ease-out;
+    /* transition: transform 100ms ease-out; */
     will-change: transform, opacity;
     position: relative;
 }
@@ -55,7 +55,7 @@
 }
 
 .scroller-cell-v {
-    background-color: #c79e9e;    
+    background-color: #9abacc;    
     text-align: center;
     line-height: 40px;
     font-size: 9pt;
