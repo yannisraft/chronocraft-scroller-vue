@@ -4,5 +4,5 @@ declare const ChronoCraftScroller: Exclude<Plugin["install"], undefined>;
 
 export default ChronoCraftScroller;
 
-export const Scroller: Exclude<Plugin["install"], undefined> | DefineComponent;
+//export const Scroller: Exclude<Plugin["install"], undefined> | DefineComponent;
 export const VScroller: Exclude<Plugin["install"], undefined> | DefineComponent;
