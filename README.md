@@ -96,12 +96,13 @@ Total Required Initial Data Length = ( Total visible cells ) + ( New cells added
 This is calculated automatically and an alert screen appears when more data is required.
 
 ## Support Us
-By using Scroller in one of our projects, we have created the Aeroscroll Gallery plugin for Wordpress.
+By using **Scroller** in one of our projects, we have created the Aeroscroll Gallery plugin for Wordpress.
+
+![Aeroscroll Logo!](https://www.aeroscroll.com/wp-content/uploads/2023/07/cropped-cropped-cropped-aeroscroll_logo_251x50.png)
+
 
 ## Aeroscroll Gallery - An Infinite Photo Gallery Plugin for Wordpress
----
-
-Aeroscroll Gallery is a premium WordPress plugin designed to transform the visual experience of your website. 
+**Aeroscroll Gallery** is a premium WordPress plugin designed to transform the visual experience of your website. 
 
 With seamless endless scrolling, stunning layouts, and customizable features, it empowers you to showcase your content with unparalleled elegance. Whether you're a seasoned web professional or a passionate enthusiast, Aeroscroll Gallery is your key to creating visually captivating and engaging online narratives. Elevate your website's appeal and leave a lasting impression on your audience. Try Aeroscroll Gallery today and bring your visual storytelling to new heights.
 
